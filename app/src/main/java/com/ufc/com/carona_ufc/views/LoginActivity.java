@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ufc.com.carona_ufc.R;
 
 public class LoginActivity extends AppCompatActivity {
-TextView criarConta;
+Button criarConta;
 Button btnEntrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ Button btnEntrar;
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
-        criarConta = findViewById(R.id.txtNãoTemConta);
+        criarConta = findViewById(R.id.btnCriarConta);
         btnEntrar = findViewById(R.id.btnEntrar);
 
         criarConta.setOnClickListener(new View.OnClickListener() {

@@ -23,7 +23,7 @@
         android:background="@drawable/text_redondo"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="250dp"
         android:ems="13"
         android:hint="@string/email"
         android:layout_centerHorizontal="true"/>
@@ -63,43 +63,55 @@
         android:background="@drawable/button_redondo"
         android:textColor="@color/colorBranco"
         android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/txtNãoTemConta"
+    <Button
+        android:id="@+id/btnCriarConta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/btnEntrar"
         android:layout_marginTop="32dp"
+        android:ems="13"
+        android:text="@string/criar_conta"
+        android:textStyle="bold"
+        android:background="@drawable/button_redondo_branco"
+        android:textColor="@color/colorLilas"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/tvEsqueceuASenha"
+        android:layout_below="@+id/btnCriarConta"
+        android:layout_marginTop="32dp"
         android:textSize="17sp"
-        android:textColor="#2BC2C5"
+        android:textColor="@color/colorBranco"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/n_o_tem_conta_crie_uma_aqui"/>
+        android:text="@string/esqueceu_a_senha"/>
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="40dp"
         android:src="@drawable/img_pessoa_01"
-        android:layout_below="@id/txtNãoTemConta"/>
+        android:layout_below="@id/tvEsqueceuASenha"/>
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="15dp"
         android:src="@drawable/img_pessoa_02"
-        android:layout_below="@id/txtNãoTemConta"/>
+        android:layout_below="@id/tvEsqueceuASenha"/>
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/img_pessoa_03"
-        android:layout_below="@+id/txtNãoTemConta"
+        android:layout_below="@+id/tvEsqueceuASenha"
         android:layout_marginStart="-10dp" />
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/mulher_carro"
         android:scaleType="fitXY"
-        android:layout_below="@+id/txtNãoTemConta"
+        android:layout_below="@+id/tvEsqueceuASenha"
         android:layout_marginStart="200dp" />
 
 
