@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.LoginActivity"
+    android:background="@drawable/fundo">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/btn_foto_arredondada"
+        android:src="@drawable/undraw_order_ride_xjs4"/>
+
+
+    <EditText
+        android:id="@+id/email"
+        android:inputType="textEmailAddress"
+        android:backgroundTint="@color/colorBranco"
+        android:background="@drawable/text_redondo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="300dp"
+        android:ems="13"
+        android:hint="@string/email"
+        android:layout_centerHorizontal="true"/>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/password_til"
+        android:layout_below="@+id/email"
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"
+        app:passwordToggleEnabled="true"
+        app:counterEnabled="true">
+
+        <EditText
+            android:id="@+id/senhaNovo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:inputType="textPassword"
+            android:backgroundTint="@color/colorBranco"
+            android:background="@drawable/text_redondo"
+            android:ems="13"
+            android:hint="@string/senha"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnEntrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_til"
+        android:layout_marginTop="32dp"
+        android:ems="13"
+        android:text="@string/entrar"
+        android:textStyle="bold"
+        android:background="@drawable/button_redondo"
+        android:textColor="@color/colorBranco"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/txtNãoTemConta"
+        android:layout_below="@+id/btnEntrar"
+        android:layout_marginTop="32dp"
+        android:textSize="17sp"
+        android:textColor="#2BC2C5"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/n_o_tem_conta_crie_uma_aqui"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="40dp"
+        android:src="@drawable/img_pessoa_01"
+        android:layout_below="@id/txtNãoTemConta"/>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/img_pessoa_02"
+        android:layout_below="@id/txtNãoTemConta"/>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/img_pessoa_03"
+        android:layout_below="@+id/txtNãoTemConta"
+        android:layout_marginStart="-10dp" />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/mulher_carro"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/txtNãoTemConta"
+        android:layout_marginStart="200dp" />
+
+
+
+</RelativeLayout>

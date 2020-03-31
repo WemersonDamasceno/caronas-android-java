@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.RegisterActivity"
+    android:background="@drawable/fundo">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgEscolherFoto"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="220dp"
+        android:layout_height="200dp"
+        android:src="@drawable/foto_carregar"/>
+
+
+    <EditText
+        android:id="@+id/nomeNovo"
+        android:background="@drawable/text_redondo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:backgroundTint="#FFFFFF"
+        android:layout_marginTop="250dp"
+        android:ems="13"
+        android:hint="@string/nome"
+        android:layout_centerHorizontal="true"/>
+
+
+    <EditText
+        android:id="@+id/emailNovo"
+        android:backgroundTint="#FFFFFF"
+        android:layout_below="@+id/nomeNovo"
+        android:background="@drawable/text_redondo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="32dp"
+        android:ems="13"
+        android:hint="@string/email"
+        android:layout_centerHorizontal="true"/>
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/password_til"
+        android:layout_below="@+id/emailNovo"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        app:passwordToggleEnabled="true"
+        app:counterEnabled="true">
+
+        <EditText
+            android:id="@+id/senhaNovo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:inputType="textPassword"
+            android:backgroundTint="#FFFFFF"
+            android:background="@drawable/text_redondo"
+            android:ems="13"
+            android:hint="@string/senha"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+    <Button
+        android:id="@+id/btEntrarNovo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_til"
+        android:layout_marginTop="32dp"
+        android:ems="13"
+        android:text="@string/entrar"
+        android:textStyle="bold"
+        android:background="@drawable/button_redondo"
+        android:textColor="#F2F2F5"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

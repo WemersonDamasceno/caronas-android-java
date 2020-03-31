@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fundo"
+    android:orientation="vertical"
+    tools:context=".views.MainActivity">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img"
+        android:layout_marginTop="30dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_foto_arredondada"
+        android:src="@drawable/mulher">
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+
+    <Button
+        android:id="@+id/btnOferecerCarona"
+        android:layout_below="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_redondo"
+        android:ems="13"
+        android:text="@string/oferecer_carona"
+        android:textColor="@color/colorBranco" />
+
+    <Button
+        android:id="@+id/btnProcurarCarona"
+        android:layout_below="@+id/btnOferecerCarona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_redondo_branco"
+        android:ems="13"
+        android:text="@string/procurar_carona"
+        android:textColor="@color/colorLilas" />
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:background="#0FFFFFFF"
+        android:layout_below="@+id/btnProcurarCarona"
+        android:src="@drawable/mulher_e_o_carro"
+        android:contentDescription="@string/todo" />
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="40dp"
+        android:src="@drawable/img_pessoa_01"
+        android:layout_below="@id/btnProcurarCarona"
+        android:contentDescription="@string/todo" />
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/img_pessoa_02"
+        android:layout_below="@id/btnProcurarCarona"
+        android:contentDescription="@string/todo" />
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/img_pessoa_03"
+        android:layout_below="@+id/btnProcurarCarona"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="150dp"
+        android:contentDescription="@string/todo"/>
+
+
+</RelativeLayout>

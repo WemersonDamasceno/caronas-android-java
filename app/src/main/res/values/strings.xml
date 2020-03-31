@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Carona UFC</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="n_o_tem_conta_crie_uma_aqui">Não tem conta ? Crie uma aqui</string>
+    <string name="foto">Foto</string>
+    <string name="nome">Nome</string>
+    <string name="oferecer_carona">Oferecer Carona</string>
+    <string name="procurar_carona">Procurar Carona</string>
+    <string name="title_activity_initial">InitialActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_header_nome_perfil">Nome Perfil</string>
+    <string name="nav_header_email_perfil">email_usuario@android.com</string>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Configurações</string>
+    <string name="action_logout">Sair</string>
+
+    <string name="menu_inicial">Pagina Inicial</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Compartilhar</string>
+    <string name="menu_send">Enviar Feedback</string>
+    <string name="caronas_favoritas">Caronas Favoritas</string>
+    <string name="feedback">Feedback</string>
+    <string name="historico_de_caronas">Historico de Caronas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="todo">TODO</string>
+</resources>
