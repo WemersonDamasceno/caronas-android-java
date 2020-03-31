@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fundo"
+    android:background="#A4BCA3D6"
     android:orientation="vertical"
     tools:context=".views.MainActivity">
 
@@ -16,7 +16,7 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_foto_arredondada"
-        android:src="@drawable/mulher">
+        android:src="@drawable/carros_pessoas">
     </de.hdodenhof.circleimageview.CircleImageView>
 
 
@@ -51,7 +51,7 @@
         android:layout_marginTop="30dp"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:background="#0FFFFFFF"
+        android:background="#00FFFFFF"
         android:layout_below="@+id/btnProcurarCarona"
         android:src="@drawable/mulher_e_o_carro"
         android:contentDescription="@string/todo" />

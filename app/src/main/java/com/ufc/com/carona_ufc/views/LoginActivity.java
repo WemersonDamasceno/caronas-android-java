@@ -1,11 +1,14 @@
 package com.ufc.com.carona_ufc.views;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ufc.com.carona_ufc.R;
@@ -17,6 +20,9 @@ Button btnEntrar;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
         criarConta = findViewById(R.id.txtNãoTemConta);
         btnEntrar = findViewById(R.id.btnEntrar);
