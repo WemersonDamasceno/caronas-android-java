@@ -41,4 +41,5 @@
     <string name="horario_de_saida">Horario de saida</string>
     <string name="local_de_sa_da">Local de saída:</string>
     <string name="local_de_chegada">Local de chegada:</string>
+    <string name="quantidade_de_vagas">Vagas:</string>
 </resources>
