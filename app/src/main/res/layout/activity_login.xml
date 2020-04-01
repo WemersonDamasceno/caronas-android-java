@@ -1,54 +1,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".views.LoginActivity"
-    android:background="#A4BCA3D6">
+    android:background="#A4BCA3D6"
+    tools:context=".views.LoginActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btn_foto_arredondada"
-        android:src="@drawable/undraw_order_ride_xjs4"/>
+        android:src="@drawable/undraw_order_ride_xjs4" />
 
 
     <EditText
         android:id="@+id/email"
-        android:inputType="textEmailAddress"
-        android:backgroundTint="@color/colorBranco"
-        android:background="@drawable/text_redondo"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="250dp"
+        android:background="@drawable/text_redondo"
+        android:backgroundTint="@color/colorBranco"
         android:ems="13"
         android:hint="@string/email"
-        android:layout_centerHorizontal="true"/>
-
+        android:inputType="textEmailAddress" />
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
         android:id="@+id/password_til"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/email"
-        android:layout_marginTop="32dp"
         android:layout_centerHorizontal="true"
-        app:passwordToggleEnabled="true"
-        app:counterEnabled="true">
+        android:layout_marginTop="32dp"
+        app:counterEnabled="true"
+        app:passwordToggleEnabled="true">
 
         <EditText
             android:id="@+id/senhaNovo"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:inputType="textPassword"
-            android:backgroundTint="@color/colorBranco"
             android:background="@drawable/text_redondo"
+            android:backgroundTint="@color/colorBranco"
             android:ems="13"
-            android:hint="@string/senha"/>
+            android:hint="@string/senha"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -56,64 +55,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/password_til"
-        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_redondo"
         android:ems="13"
         android:text="@string/entrar"
-        android:textStyle="bold"
-        android:background="@drawable/button_redondo"
         android:textColor="@color/colorBranco"
-        android:layout_centerHorizontal="true"/>
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/btnCriarConta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnEntrar"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
+        android:background="@drawable/button_redondo_branco"
         android:ems="13"
         android:text="@string/criar_conta"
-        android:textStyle="bold"
-        android:background="@drawable/button_redondo_branco"
         android:textColor="@color/colorLilas"
-        android:layout_centerHorizontal="true"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvEsqueceuASenha"
-        android:layout_below="@+id/btnCriarConta"
-        android:layout_marginTop="32dp"
-        android:textSize="17sp"
-        android:textColor="@color/colorBranco"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/esqueceu_a_senha"/>
+        android:layout_below="@+id/btnCriarConta"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="@string/esqueceu_a_senha"
+        android:textColor="@color/colorLilas"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_below="@id/tvEsqueceuASenha"
         android:layout_marginStart="40dp"
-        android:src="@drawable/img_pessoa_01"
-        android:layout_below="@id/tvEsqueceuASenha"/>
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/img_pessoa_02"
-        android:layout_below="@id/tvEsqueceuASenha"/>
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/img_pessoa_03"
-        android:layout_below="@+id/tvEsqueceuASenha"
-        android:layout_marginStart="-10dp" />
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/mulher_carro"
-        android:scaleType="fitXY"
-        android:layout_below="@+id/tvEsqueceuASenha"
-        android:layout_marginStart="200dp" />
+        android:src="@drawable/img_pessoa_01" />
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/tvEsqueceuASenha"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/img_pessoa_02" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/tvEsqueceuASenha"
+        android:layout_marginStart="-10dp"
+        android:src="@drawable/img_pessoa_03" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/tvEsqueceuASenha"
+        android:layout_marginStart="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/mulher_carro" />
 
 
 </RelativeLayout>

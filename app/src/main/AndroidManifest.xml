@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ufc.com.carona_ufc">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Internet -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".OferecerCaronaActivity"></activity>
         <activity android:name=".views.RegisterActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -30,9 +30,6 @@
         <activity
             android:name=".views.MainActivity"
             android:label="Pagina Inicial" />
-
-
-
     </application>
 
 </manifest>
