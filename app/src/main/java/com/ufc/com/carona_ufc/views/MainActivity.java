@@ -11,11 +11,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ufc.com.carona_ufc.OferecerCaronaActivity;
+import com.ufc.com.carona_ufc.ProcurarCaronaActivity;
 import com.ufc.com.carona_ufc.R;
 
 
 public class MainActivity extends AppCompatActivity {
 Button btnOferecerCarona;
+Button btnProcurarCarona;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,15 +27,22 @@ Button btnOferecerCarona;
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
         btnOferecerCarona = findViewById(R.id.btnOferecerCarona);
-
-
-
+        btnProcurarCarona = findViewById(R.id.btnProcurarCarona);
 
 
         btnOferecerCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), OferecerCaronaActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnProcurarCarona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
                 startActivity(intent);
             }
         });

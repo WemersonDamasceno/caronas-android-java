@@ -39,4 +39,6 @@
     <string name="criar_carona">Criar Carona</string>
     <string name="endere_o">Endereço</string>
     <string name="horario_de_saida">Horario de saida</string>
+    <string name="local_de_sa_da">Local de saída:</string>
+    <string name="local_de_chegada">Local de chegada:</string>
 </resources>
