@@ -35,7 +35,6 @@ Button btnProcurarCarona;
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), OferecerCaronaActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
