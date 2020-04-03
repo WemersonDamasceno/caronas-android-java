@@ -12,3 +12,7 @@ Esse é um app de caronas para universidades e empresas
 ## Tela Principal
 
 ![print3](https://user-images.githubusercontent.com/37156004/78049139-0f08c680-7351-11ea-9d6e-0d3386f6329c.jpeg)
+
+## Tela de Oferecer Carona
+
+![6264e42f-438e-43d2-9ce7-9e62927fe04e](https://user-images.githubusercontent.com/37156004/78406936-1bec1b00-75da-11ea-8a36-c65b07595229.jpg
