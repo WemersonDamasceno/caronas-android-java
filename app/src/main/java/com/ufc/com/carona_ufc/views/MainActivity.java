@@ -10,8 +10,6 @@ import android.widget.Button;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ufc.com.carona_ufc.OferecerCaronaActivity;
-import com.ufc.com.carona_ufc.ProcurarCaronaActivity;
 import com.ufc.com.carona_ufc.R;
 
 
