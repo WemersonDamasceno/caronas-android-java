@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorFundo"
+    tools:context=".views.OferecerCaronaActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_foto_arredondada"
+                android:src="@drawable/mulher_localizacao" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img"
+                android:layout_centerHorizontal="true">
+
+                <AutoCompleteTextView
+                    android:id="@+id/localSaida"
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/text_redondo"
+                    android:backgroundTint="@color/colorBranco"
+                    android:ems="11"
+                    android:hint="@string/local_de_sa_da"
+                    android:textSize="17sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <ImageView
+                android:id="@+id/ivUseMyLocation"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/img"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/input1"
+                android:src="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/tvSaida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input1"
+                android:layout_centerHorizontal="true" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/localDeChegada"
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/text_redondo"
+                    android:backgroundTint="@color/colorBranco"
+                    android:ems="13"
+                    android:hint="@string/local_de_chegada"
+                    android:textColor="@color/colorLilas"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/tvChegada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input2"
+                android:layout_centerHorizontal="true" />
+
+
+            <LinearLayout
+                android:id="@+id/dataHora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivRelogioCarona"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/btn_foto_arredondada"
+                        android:ems="6"
+                        android:hint="@string/horario_de_saida"
+                        android:src="@drawable/ic_relogio" />
+
+                    <ImageView
+                        android:id="@+id/ivDataCarona"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="100dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/btn_foto_arredondada"
+                        android:ems="6"
+                        android:src="@drawable/ic_data" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_Hora"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="1dp"
+                        android:text="@string/hora_xx_xx"
+                        android:textColor="@color/colorPreto"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_Data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="1dp"
+                        android:text="@string/data_xx_xx_xxxx"
+                        android:textColor="@color/colorPreto"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_Vagas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dataHora"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:text="@string/quantidade_vagas"
+                android:textColor="@color/colorPreto"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etVagas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dataHora"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/tv_Vagas"
+                android:ems="2"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:text="@string/passageiros"
+                android:textColor="@color/colorLilas"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/cbPaga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etVagas"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/preciso_de_ajuda_r_2_00"
+                android:textColor="@color/colorPreto"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/btnCriarCarona"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cbPaga"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_redondo"
+                android:ems="13"
+                android:text="@string/criar_carona"
+                android:textColor="@color/colorBranco" />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
