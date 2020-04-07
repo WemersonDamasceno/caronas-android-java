@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -9,12 +10,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.ufc.com.carona_ufc.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    //para desenhar no mapa
+    Polyline drawPolyline;
     private GoogleMap mMap;
 
     @Override
@@ -56,7 +61,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng positionDestino = new LatLng(latChegada, lngChegada);
         mMap.addMarker(new MarkerOptions().position(positionDestino).title("Posicao Destino"));
         //Zomm do Mapa
-        float zoomLevel = 16.0f;
+        float zoomLevel = 15.0f;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, zoomLevel));
+        //tracar uma linha entre os dois pontos
+        mMap.addPolyline(
+                new PolylineOptions().add(myPosition).add(positionDestino)
+                        .color(Color.RED)
+                        .width(2f)
+        );
+        //Adicionar um circulo em minha posição
+        mMap.addCircle(new CircleOptions().center(myPosition).radius(50).strokeWidth(3f)
+                .strokeColor(Color.RED).fillColor(Color.argb(70, 150, 50, 50)));
+
+
+
     }
 }
