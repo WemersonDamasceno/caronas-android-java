@@ -141,7 +141,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_marginTop="1dp"
                         android:text="@string/hora_xx_xx"
-                        android:textColor="@color/colorPreto"
+                        android:textColor="@color/colorLilas"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -152,7 +152,7 @@
                         android:layout_marginStart="50dp"
                         android:layout_marginTop="1dp"
                         android:text="@string/data_xx_xx_xxxx"
-                        android:textColor="@color/colorPreto"
+                        android:textColor="@color/colorLilas"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -198,7 +198,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="@string/preciso_de_ajuda_r_2_00"
-                android:textColor="@color/colorPreto"
+                android:textColor="@color/colorLilas"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 

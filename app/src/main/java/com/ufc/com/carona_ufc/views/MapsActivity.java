@@ -1,5 +1,6 @@
-package com.ufc.com.carona_ufc;
+package com.ufc.com.carona_ufc.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -10,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ufc.com.carona_ufc.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,11 +40,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.setMaxZoomPreference(16);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("latlng");
+        double latSaida, lngSaida, latChegada, lngChegada;
+        //saida
+        latSaida = bundle.getDouble("latSaida");
+        lngSaida = bundle.getDouble("lngSaida");
+        //destino
+        latChegada = bundle.getDouble("latChegada");
+        lngChegada = bundle.getDouble("lngChegada");
+        // Add a marker in myPosition
+        LatLng myPosition = new LatLng(latSaida, lngSaida);
+        mMap.addMarker(new MarkerOptions().position(myPosition).title("Minha Posição"));
+        // Add a maker in PositionDestino
+        LatLng positionDestino = new LatLng(latChegada, lngChegada);
+        mMap.addMarker(new MarkerOptions().position(positionDestino).title("Posicao Destino"));
+        //Zomm do Mapa
+        float zoomLevel = 16.0f;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, zoomLevel));
     }
 }

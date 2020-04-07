@@ -37,28 +37,32 @@ import com.ufc.com.carona_ufc.adapters.PlaceAutoSuggestAdapter;
 import com.ufc.com.carona_ufc.fragments.DatePickerFragment;
 import com.ufc.com.carona_ufc.fragments.TimePickerFragment;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, LocationListener {
-    Button btnCriarCarona;
 
+    Button btnCriarCarona;
+    //autoComplete dos endereços
     AutoCompleteTextView etLocalSaida;
     AutoCompleteTextView etLocalChegada;
-
-    ImageView ivRelogio;
-    ImageView ivData;
-    TextView tvHora;
-    ImageView ivUseMyLocation;
-    TextView tvData;
-    EditText etVagas;
     //teste
     TextView tvSaida;
     TextView tvChegada;
-    //fim teste
+    //Hora e Data
+    ImageView ivRelogio;
+    ImageView ivData;
+    TextView tvHora;
+    TextView tvData;
+    //icone da mylocation
+    ImageView ivUseMyLocation;
     //myLOCATION
     LocationManager locationManager;
+    EditText etVagas;
+    //Tranferir as LatLng para a proxima tela
+    Bundle bundleLatLng;
 
 
     @Override
@@ -77,15 +81,16 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         tvHora = findViewById(R.id.tv_Hora);
         etVagas = findViewById(R.id.etVagas);
         ivUseMyLocation = findViewById(R.id.ivUseMyLocation);
+        bundleLatLng = new Bundle();
 
         tvSaida = findViewById(R.id.tvSaida);
         tvChegada = findViewById(R.id.tvChegada);
 
-
+        //autoComplete dos enderecos
         etLocalSaida.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
         etLocalChegada.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
 
-
+        //Criar carona e pegar a latlng para mostrar no mapa
         btnCriarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,18 +100,17 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         || tvData.getVisibility() == View.INVISIBLE
                         || etVagas.getText().toString().equals("")) {
                     Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+
+                } else {
                     //teste
                     pegarLatLngSaidaChegada();
-                } else {
-
                     Toast.makeText(OferecerCaronaActivity.this, "Carona Criada Com Sucesso", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                    Intent intent = new Intent(v.getContext(), MapsActivity.class);
+                    intent.putExtra("latlng", bundleLatLng);
                     startActivity(intent);
                 }
             }
         });
-
-
         //pegar a localização da pessoa;
         ivUseMyLocation.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -124,7 +128,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                 onLocationChanged(location);
             }
         });
-
+        //Relógio
         ivRelogio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +137,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                 tvHora.setVisibility(View.VISIBLE);
             }
         });
-
+        //Data
         ivData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +152,25 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
 
     //pegar a latlng dos endereços digitados
     private void pegarLatLngSaidaChegada() {
-
+        Geocoder geocoder = new Geocoder(OferecerCaronaActivity.this, Locale.getDefault());
+        try {
+            List addressList = geocoder.getFromLocationName(etLocalSaida.getText().toString(), 1);
+            if (addressList != null && addressList.size() > 0) {
+                Address address = (Address) addressList.get(0);
+                bundleLatLng.putDouble("latSaida", address.getLatitude());
+                bundleLatLng.putDouble("lngSaida", address.getLongitude());
+                tvSaida.setText("" + address.getLatitude() + "," + address.getLongitude());
+            }
+            List addressList1 = geocoder.getFromLocationName(etLocalChegada.getText().toString(), 1);
+            if (addressList1 != null && addressList1.size() > 0) {
+                Address address1 = (Address) addressList1.get(0);
+                bundleLatLng.putDouble("latChegada", address1.getLatitude());
+                bundleLatLng.putDouble("lngChegada", address1.getLongitude());
+                tvChegada.setText("" + address1.getLatitude() + ", " + address1.getLongitude());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -198,16 +220,16 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             return;
         }
     }
-
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-        //Salvar essas coordenadas para mostrar no mapa
-        //converter a LatLgn em endereço
+        //armazenar as coordenadas para mostrar no mapa
+        bundleLatLng.putDouble("latSaida", latitude);
+        bundleLatLng.putDouble("lngSaida", longitude);
+        //converter a LatLgn em endereço com o getEnderecoWithLatLng
         etLocalSaida.setText(getEnderecoWithLatLng(latitude, longitude));
     }
-
     //CONVERTER LATLNG EM UM ENDEREÇO
     private String getEnderecoWithLatLng(double latitude, double longitude) {
         String endereco = "Falha";
@@ -230,6 +252,4 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
         return endereco;
     }
-
-
 }
