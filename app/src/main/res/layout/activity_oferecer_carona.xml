@@ -29,11 +29,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img"
-                android:layout_centerHorizontal="true">
+                android:layout_marginStart="30dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/localSaida"
-                    android:layout_width="300dp"
+                    android:layout_width="250dp"
                     android:layout_height="40dp"
                     android:background="@drawable/text_redondo"
                     android:backgroundTint="@color/colorBranco"
@@ -45,8 +45,8 @@
 
             <ImageView
                 android:id="@+id/ivUseMyLocation"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_below="@+id/img"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/input1"
-                android:layout_centerHorizontal="true"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp">
 
                 <AutoCompleteTextView

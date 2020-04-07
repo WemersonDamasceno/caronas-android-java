@@ -3,10 +3,16 @@ package com.ufc.com.carona_ufc.views;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -18,18 +24,24 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.location.LocationListener;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.PlaceAutoSuggestAdapter;
 import com.ufc.com.carona_ufc.fragments.DatePickerFragment;
 import com.ufc.com.carona_ufc.fragments.TimePickerFragment;
 
-public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+import java.util.List;
+import java.util.Locale;
+
+public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener, LocationListener {
     Button btnCriarCarona;
 
     AutoCompleteTextView etLocalSaida;
@@ -45,6 +57,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     TextView tvSaida;
     TextView tvChegada;
     //fim teste
+    //myLOCATION
+    LocationManager locationManager;
 
 
     @Override
@@ -92,11 +106,22 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             }
         });
 
+
         //pegar a localização da pessoa;
         ivUseMyLocation.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 checarPermissaoClient();
+                //pegar a localização da pessoa
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                //chegar permissão da internet
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+                onLocationChanged(location);
             }
         });
 
@@ -121,11 +146,10 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
 
     }
 
+    //pegar a latlng dos endereços digitados
     private void pegarLatLngSaidaChegada() {
 
     }
-
-
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String minuto = minute + "";
@@ -134,7 +158,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
         tvHora.setText("Hora: " + hourOfDay + ":" + minuto);
     }
-
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month++;
@@ -148,7 +171,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
         tvData.setText("Data: " + dia + "/" + mes + "/" + year);
     }
-
     //Faz a pergunta para o usuario da PERMISSAO
     private void checarPermissaoClient() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -161,23 +183,52 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         0);
             }
         }
+        Toast.makeText(this, "Aceite a permissão para uma localização mais precisa !", Toast.LENGTH_LONG).show();
     }
-
     //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // A permissão foi concedida. Pode continuar
                 Toast.makeText(this, "Sucess | Permissão concedida", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Fail | Aceite a permissão para usar o app", Toast.LENGTH_LONG).show();
-                //O programa necessita disso
-                checarPermissaoClient();
+                Toast.makeText(this, "Fail | Aceite a permissão para usar sua localização!", Toast.LENGTH_LONG).show();
                 // A permissão foi negada. Precisa ver o que deve ser desabilitado
             }
             return;
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        //Salvar essas coordenadas para mostrar no mapa
+        //converter a LatLgn em endereço
+        etLocalSaida.setText(getEnderecoWithLatLng(latitude, longitude));
+    }
+
+    //CONVERTER LATLNG EM UM ENDEREÇO
+    private String getEnderecoWithLatLng(double latitude, double longitude) {
+        String endereco = "Falha";
+        Geocoder geocoder = new Geocoder(OferecerCaronaActivity.this, Locale.getDefault());
+        try {
+            List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addressList != null) {
+                Address returnAddress = addressList.get(0);
+                StringBuilder stringBuilder = new StringBuilder("");
+
+                for (int i = 0; i <= returnAddress.getMaxAddressLineIndex(); i++) {
+                    stringBuilder.append(returnAddress.getAddressLine(i)).append("\n");
+                }
+                endereco = stringBuilder.toString();
+            } else {
+                Toast.makeText(this, "Fail | Endereço não encontrado!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+        }
+        return endereco;
     }
 
 
