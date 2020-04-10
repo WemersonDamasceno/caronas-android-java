@@ -15,6 +15,7 @@
         tools:context=".views.MapsActivity" />
 
     <TextView
+        android:id="@+id/tvDurationKm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mapa Rocheda Aqui mostrando os dois pontos"

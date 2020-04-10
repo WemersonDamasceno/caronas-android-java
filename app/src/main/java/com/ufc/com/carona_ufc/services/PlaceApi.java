@@ -21,7 +21,7 @@ public class PlaceApi {
 
         try {
             StringBuilder stringBuilder = new StringBuilder(linkAPI);
-            stringBuilder.append("input=BRAZIL=" + input);
+            stringBuilder.append("input=" + input);
             stringBuilder.append("&key=" + keyAPI);
             URL url = new URL(stringBuilder.toString());
 

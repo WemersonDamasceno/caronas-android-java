@@ -1,26 +1,38 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.services.DirectionApi;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    //para desenhar no mapa
-    Polyline drawPolyline;
-    private GoogleMap mMap;
+    private static final int LOCATION_REQUEST = 500;
+    ArrayList<LatLng> arrayPoints;
+    TextView etDurationKm;
+    private List<Polyline> polylines;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,50 +42,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        etDurationKm = findViewById(R.id.tvDurationKm);
+        arrayPoints = new ArrayList<>();
+        polylines = new ArrayList<>();
+
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.setMyLocationEnabled(true);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("latlng");
         double latSaida, lngSaida, latChegada, lngChegada;
-        //saida
+
+        //LatLng Saida
         latSaida = bundle.getDouble("latSaida");
         lngSaida = bundle.getDouble("lngSaida");
-        //destino
+        //LatLng Destino
         latChegada = bundle.getDouble("latChegada");
         lngChegada = bundle.getDouble("lngChegada");
+
         // Add a marker in myPosition
-        LatLng myPosition = new LatLng(latSaida, lngSaida);
-        mMap.addMarker(new MarkerOptions().position(myPosition).title("Minha Posição"));
+        LatLng startPosition = new LatLng(latSaida, lngSaida);
+        googleMap.addMarker(new MarkerOptions().position(startPosition).title("Minha Posição"));
+
         // Add a maker in PositionDestino
-        LatLng positionDestino = new LatLng(latChegada, lngChegada);
-        mMap.addMarker(new MarkerOptions().position(positionDestino).title("Posicao Destino"));
-        //Zomm do Mapa
-        float zoomLevel = 15.0f;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, zoomLevel));
-        //tracar uma linha entre os dois pontos
-        mMap.addPolyline(
-                new PolylineOptions().add(myPosition).add(positionDestino)
-                        .color(Color.RED)
-                        .width(2f)
-        );
+        LatLng stopPosition = new LatLng(latChegada, lngChegada);
+        Marker posicao_destino = googleMap.addMarker(new MarkerOptions().position(stopPosition).
+                title("Posicao Destino").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+
         //Adicionar um circulo em minha posição
-        mMap.addCircle(new CircleOptions().center(myPosition).radius(50).strokeWidth(3f)
+        googleMap.addCircle(new CircleOptions().center(startPosition).radius(50).strokeWidth(3f)
                 .strokeColor(Color.RED).fillColor(Color.argb(70, 150, 50, 50)));
 
+        //Verificar a permissão
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
 
+        //Tracando a rota
+        DirectionApi directionApi = new DirectionApi(polylines, googleMap, etDurationKm);
+        directionApi.drawRoute(startPosition, stopPosition);
+
+        //Regular o zoom nos dois ponto
+        LatLngBounds.Builder mLatLngBuilder = new LatLngBounds.Builder();
+        mLatLngBuilder.include(startPosition);
+        mLatLngBuilder.include(stopPosition);
+        LatLngBounds mLatLngBounds = mLatLngBuilder.build();
+        LatLng latLng = mLatLngBounds.getCenter();
+        //Zoom do Mapa
+        float zoomLevel = 9.80f;
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
 
     }
+
+
 }

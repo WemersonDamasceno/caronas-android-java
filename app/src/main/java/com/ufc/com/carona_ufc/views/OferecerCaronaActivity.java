@@ -107,6 +107,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     Toast.makeText(OferecerCaronaActivity.this, "Carona Criada Com Sucesso", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(v.getContext(), MapsActivity.class);
                     intent.putExtra("latlng", bundleLatLng);
+                    intent.putExtra("origem", etLocalSaida.getText().toString());
+                    intent.putExtra("destino", etLocalChegada.getText().toString());
                     startActivity(intent);
                 }
             }
@@ -159,6 +161,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                 Address address = (Address) addressList.get(0);
                 bundleLatLng.putDouble("latSaida", address.getLatitude());
                 bundleLatLng.putDouble("lngSaida", address.getLongitude());
+                bundleLatLng.putString("origem", etLocalSaida.getText().toString());
                 tvSaida.setText("" + address.getLatitude() + "," + address.getLongitude());
             }
             List addressList1 = geocoder.getFromLocationName(etLocalChegada.getText().toString(), 1);
@@ -166,6 +169,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                 Address address1 = (Address) addressList1.get(0);
                 bundleLatLng.putDouble("latChegada", address1.getLatitude());
                 bundleLatLng.putDouble("lngChegada", address1.getLongitude());
+                bundleLatLng.putString("chegada", etLocalChegada.getText().toString());
                 tvChegada.setText("" + address1.getLatitude() + ", " + address1.getLongitude());
             }
         } catch (IOException e) {
