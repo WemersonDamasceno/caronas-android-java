@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,7 +19,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.ufc.com.carona_ufc.R;
@@ -67,12 +67,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in myPosition
         LatLng startPosition = new LatLng(latSaida, lngSaida);
-        googleMap.addMarker(new MarkerOptions().position(startPosition).title("Minha Posição"));
+        MarkerOptions marker_start = new MarkerOptions();
+        marker_start.position(startPosition).title("Minha posição");
+        googleMap.addMarker(marker_start);
 
         // Add a maker in PositionDestino
         LatLng stopPosition = new LatLng(latChegada, lngChegada);
-        Marker posicao_destino = googleMap.addMarker(new MarkerOptions().position(stopPosition).
-                title("Posicao Destino").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+        MarkerOptions marker_stop = new MarkerOptions();
+        marker_stop.title("Posição Destino").position(stopPosition)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+        googleMap.addMarker(marker_stop);
 
         //Adicionar um circulo em minha posição
         googleMap.addCircle(new CircleOptions().center(startPosition).radius(50).strokeWidth(3f)
@@ -80,7 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Verificar a permissão
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
             return;
@@ -91,14 +97,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         directionApi.drawRoute(startPosition, stopPosition);
 
         //Regular o zoom nos dois ponto
-        LatLngBounds.Builder mLatLngBuilder = new LatLngBounds.Builder();
-        mLatLngBuilder.include(startPosition);
-        mLatLngBuilder.include(stopPosition);
-        LatLngBounds mLatLngBounds = mLatLngBuilder.build();
-        LatLng latLng = mLatLngBounds.getCenter();
-        //Zoom do Mapa
-        float zoomLevel = 9.80f;
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        ArrayList<MarkerOptions> markers = new ArrayList<>();
+        markers.add(marker_start);
+        markers.add(marker_stop);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (MarkerOptions marker : markers) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        //limitar que o usuario mova o mapa para fora da visao
+        googleMap.setLatLngBoundsForCameraTarget(bounds);
+        int padding = 80;
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cu);
 
     }
 
