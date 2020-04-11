@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -67,6 +69,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     Bundle bundleLatLng;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +92,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         tvSaida = findViewById(R.id.tvSaida);
         tvChegada = findViewById(R.id.tvChegada);
 
+
         //autoComplete dos enderecos
         etLocalSaida.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
         etLocalChegada.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
@@ -99,20 +103,33 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             public void onClick(View v) {
                 if (etLocalSaida.getText().toString().equals("")
                         || etLocalChegada.getText().toString().equals("")
-                        || tvHora.getVisibility() == View.INVISIBLE
-                        || tvData.getVisibility() == View.INVISIBLE
+                        || tvHora.getText().toString().equals("")
+                        || tvData.getText().toString().equals("")
                         || etVagas.getText().toString().equals("")) {
                     Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
+
                 } else {
-                    //teste
+
+                    final ProgressButton progressButton = new ProgressButton(OferecerCaronaActivity.this);
+                    progressButton.buttonAtivo();
                     pegarLatLngSaidaChegada();
+                    Handler thread = new Handler();
+                    thread.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressButton.buttonDesativo();
+                        }
+                    }, 2000);
+
+
                     Intent intent = new Intent(v.getContext(), MapsActivity.class);
                     bundleLatLng.putString("qtdVagas", etVagas.getText().toString());
                     bundleLatLng.putBoolean("check", checkBoxHelp.isChecked());
                     intent.putExtra("latlng", bundleLatLng);
                     intent.putExtra("origem", etLocalSaida.getText().toString());
                     intent.putExtra("destino", etLocalChegada.getText().toString());
+
                     startActivity(intent);
                 }
             }
@@ -179,7 +196,10 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Toast.makeText(this, "Pocessamento completado com sucesso!", Toast.LENGTH_SHORT).show();
     }
+
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String minuto = minute + "";
@@ -262,4 +282,27 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
         return endereco;
     }
+
+    public class ProgressButton {
+        private CardView cardView;
+
+        public ProgressButton(Context context) {
+            cardView = findViewById(R.id.cardView);
+        }
+
+        void buttonAtivo() {
+            cardView.setVisibility(View.VISIBLE);
+            btnCriarCarona.setVisibility(View.INVISIBLE);
+        }
+
+        void buttonDesativo() {
+            cardView.setVisibility(View.INVISIBLE);
+            btnCriarCarona.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+
+
+
 }

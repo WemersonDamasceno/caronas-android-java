@@ -43,9 +43,7 @@
     <string name="quantidade_vagas">Vagas:</string>
     <string name="title_activity_maps">Confirme Os Dados</string>
     <string name="preciso_de_ajuda_r_2_00">Preciso de ajuda (R$ 2,00)</string>
-    <string name="data_xx_xx_xxxx">Data: xx/xx/xxxx</string>
-    <string name="hora_xx_xx">Hora: xx:xx</string>
     <string name="passageiros">1</string>
     <string name="tempo_m_dio">Tempo médio:</string>
-    <string name="distancia">Distancia:</string>
+    <string name="distancia">Kms:</string>
 </resources>

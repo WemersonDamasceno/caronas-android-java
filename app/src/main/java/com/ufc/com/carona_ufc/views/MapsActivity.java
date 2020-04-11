@@ -92,7 +92,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
 
-
         double latSaida, lngSaida, latChegada, lngChegada;
 
         //LatLng Saida
@@ -101,6 +100,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //LatLng Destino
         latChegada = bundle.getDouble("latChegada");
         lngChegada = bundle.getDouble("lngChegada");
+        //String origem e destino
+        String origem = bundle.getString("origem");
+        String destino = bundle.getString("destino");
 
         //Pegar os dados para confirmar
         tvHoraConfirm.setText(bundle.getString("hora"));
