@@ -1,165 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorFundo">
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgPerfil"
-        android:layout_width="100dp"
-        android:layout_height="90dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:src="@drawable/foto_carregar" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/nomeMotorista"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgPerfil"
-        android:layout_marginStart="10dp"
-        android:text="Maria Batista"
-        android:textColor="@color/colorLilas"
-        android:textSize="17sp"
-        android:textStyle="bold" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgPerfilLista"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/foto_carregar" />
 
-    <TextView
-        android:id="@+id/txtEndSaida"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/imgPerfil"
-        android:text="@string/local_de_sa_da"
-        android:textColor="@color/colorBranco"
-        android:textSize="17sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvNomeMotoristaLista"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgPerfilLista"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="Maria Batista"
+            android:textColor="@color/colorPreto"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/endSaida"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/txtEndSaida"
-        android:text=" Praça do Leão"
-        android:textColor="@color/colorLilas"
-        android:textSize="17sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtEndSaida"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/imgPerfilLista"
+            android:text="@string/local_de_sa_da"
+            android:textColor="@color/colorLilas"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-
-    <TextView
-        android:id="@+id/txtEndChegada"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endSaida"
-        android:layout_marginTop="2dp"
-        android:layout_toEndOf="@+id/imgPerfil"
-        android:text="@string/local_de_chegada"
-        android:textColor="@color/colorBranco"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/endChegada"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endSaida"
-        android:layout_marginTop="2dp"
-        android:layout_toEndOf="@+id/txtEndChegada"
-        android:text=" UFC"
-        android:textColor="@color/colorLilas"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/txtHorario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endChegada"
-        android:layout_toEndOf="@+id/imgPerfil"
-        android:text="Horário de saída: "
-        android:textColor="@color/colorBranco"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/horarioSaida"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endChegada"
-        android:layout_toEndOf="@+id/txtHorario"
-        android:text="10:00"
-        android:textColor="@color/colorLilas"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/estrelas"
-        android:layout_width="100dp"
-        android:layout_height="15dp"
-        android:layout_below="@+id/endChegada"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_toEndOf="@+id/nomeMotorista"
-        android:background="#91BCA3D6"
-        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvEndSaidaLista"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/txtEndSaida"
+            android:text=" Praça do Leão"
+            android:textColor="@color/colorPreto"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/estrela1"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_star" />
-
-        <ImageView
-            android:id="@+id/estrela2"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_star" />
-
-        <ImageView
-            android:id="@+id/estrela3"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_star" />
-
-        <ImageView
-            android:id="@+id/estrela4"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_star" />
-
-        <ImageView
-            android:id="@+id/estrela5"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_star" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtVagas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endChegada"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/estrelas"
-        android:text="@string/quantidade_vagas"
-        android:textColor="@color/colorBranco"
-        android:textSize="17sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/vagasCarro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/endChegada"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/txtVagas"
-        android:text="3"
-        android:textColor="@color/colorLilas"
-        android:textSize="17sp"
-        android:textStyle="bold" />
+            android:id="@+id/btnNotify"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/tvEndSaidaLista"
+            android:src="@drawable/ic_notify_none" />
 
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/txtEndChegada"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEndSaidaLista"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/imgPerfilLista"
+            android:text="@string/local_de_chegada"
+            android:textColor="@color/colorLilas"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvEndChegadaLista"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEndSaidaLista"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/txtEndChegada"
+            android:text=" UFC"
+            android:textColor="@color/colorPreto"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/txtHorario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEndChegadaLista"
+            android:layout_toEndOf="@+id/imgPerfilLista"
+            android:text="Horário: "
+            android:textColor="@color/colorLilas"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvHorarioSaidaLista"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEndChegadaLista"
+            android:layout_toEndOf="@+id/txtHorario"
+            android:text="10:00"
+            android:textColor="@color/colorPreto"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEndChegadaLista"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/tvHorarioSaidaLista"
+            android:text="Data: "
+            android:textColor="@color/colorLilas"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDataSaidaLista"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEndChegadaLista"
+            android:layout_toEndOf="@+id/txtData"
+            android:text="20/02/2020"
+            android:textColor="@color/colorPreto"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:id="@+id/estrelas"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/tvHorarioSaidaLista"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/tvNomeMotoristaLista"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/estrela1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/estrela2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/estrela3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/estrela4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star" />
+
+            <ImageView
+                android:id="@+id/estrela5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_star" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtVagas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHorarioSaidaLista"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/estrelas"
+            android:text="@string/quantidade_vagas"
+            android:textColor="@color/colorLilas"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvQtdVagasLista"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHorarioSaidaLista"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/txtVagas"
+            android:text="3"
+            android:textColor="@color/colorPreto"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</LinearLayout>

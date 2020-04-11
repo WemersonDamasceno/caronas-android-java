@@ -30,7 +30,11 @@
 
         <activity
             android:name=".views.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.OferecerCaronaActivity" />
+        </activity>
         <activity
             android:name=".views.ProcurarCaronaActivity"
             android:label="Procurar Carona">
@@ -41,12 +45,6 @@
         <activity
             android:name=".views.OferecerCaronaActivity"
             android:label="Oferecer Carona">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.MainActivity" />
@@ -63,7 +61,12 @@
             android:label="Carona UFC"></activity>
         <activity
             android:name=".views.MainActivity"
-            android:label="Pagina Inicial" />
+            android:label="Pagina Inicial">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -4,11 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,11 +32,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int LOCATION_REQUEST = 500;
     ArrayList<LatLng> arrayPoints;
-    TextView etDurationKm;
     private List<Polyline> polylines;
+    //MostrarDados
+    TextView tvDistanciaConfirm;
+    TextView tvDataConfirm;
+    TextView tvHoraConfirm;
+    TextView tvQtdVagasConfirm;
+    TextView tvCheckBoxHelp;
+    TextView tvDuracaoConfirm;
+    Button btnCaronaConfirm;
+    Bundle bundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +55,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
-        etDurationKm = findViewById(R.id.tvDurationKm);
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
+
+
+        tvDistanciaConfirm = findViewById(R.id.tvDistanciaConfirm);
+        tvDuracaoConfirm = findViewById(R.id.tvDuracaoConfirm);
+        tvDataConfirm = findViewById(R.id.tvDataConfirm);
+        tvHoraConfirm = findViewById(R.id.tvHoraConfirm);
+        tvQtdVagasConfirm = findViewById(R.id.tvQtdVagasConfirm);
+        tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelp);
+        btnCaronaConfirm = findViewById(R.id.btnCaronaConfirm);
+        Intent intent = getIntent();
+        bundle = intent.getBundleExtra("latlng");
+
+        //Enviar dados para confirmar
+        btnCaronaConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //salvar no banco e seguir para a tela principal
+                Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
+                intent.putExtra("dados", bundle);
+                startActivity(intent);
+
+
+            }
+        });
 
     }
 
@@ -54,8 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("latlng");
+
         double latSaida, lngSaida, latChegada, lngChegada;
 
         //LatLng Saida
@@ -64,6 +101,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //LatLng Destino
         latChegada = bundle.getDouble("latChegada");
         lngChegada = bundle.getDouble("lngChegada");
+
+        //Pegar os dados para confirmar
+        tvHoraConfirm.setText(bundle.getString("hora"));
+        tvDataConfirm.setText(bundle.getString("data"));
+        tvQtdVagasConfirm.setText(bundle.getString("qtdVagas"));
+        boolean checkBox = bundle.getBoolean("check");
+        if (checkBox) {
+            tvCheckBoxHelp.setText("Precisa de ajuda ( X ) Sim Não ( )");
+        } else {
+            tvCheckBoxHelp.setText("Precisa de ajuda ( ) Sim Não ( X )");
+        }
 
         // Add a marker in myPosition
         LatLng startPosition = new LatLng(latSaida, lngSaida);
@@ -93,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //Tracando a rota
-        DirectionApi directionApi = new DirectionApi(polylines, googleMap, etDurationKm);
+        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaConfirm, tvDuracaoConfirm);
         directionApi.drawRoute(startPosition, stopPosition);
 
         //Regular o zoom nos dois ponto
@@ -107,9 +155,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLngBounds bounds = builder.build();
         //limitar que o usuario mova o mapa para fora da visao
         googleMap.setLatLngBoundsForCameraTarget(bounds);
-        int padding = 80;
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cu);
+        int padding = 90;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cameraUpdate);
+
 
     }
 

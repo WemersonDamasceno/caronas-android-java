@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ import java.util.Locale;
 public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, LocationListener {
 
+    CheckBox checkBoxHelp;
     Button btnCriarCarona;
     //autoComplete dos endereços
     AutoCompleteTextView etLocalSaida;
@@ -72,6 +74,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
+        checkBoxHelp = findViewById(R.id.cbPaga);
         etLocalSaida = findViewById(R.id.localSaida);
         etLocalChegada = findViewById(R.id.localDeChegada);
         btnCriarCarona = findViewById(R.id.btnCriarCarona);
@@ -104,8 +107,9 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                 } else {
                     //teste
                     pegarLatLngSaidaChegada();
-                    Toast.makeText(OferecerCaronaActivity.this, "Carona Criada Com Sucesso", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(v.getContext(), MapsActivity.class);
+                    bundleLatLng.putString("qtdVagas", etVagas.getText().toString());
+                    bundleLatLng.putBoolean("check", checkBoxHelp.isChecked());
                     intent.putExtra("latlng", bundleLatLng);
                     intent.putExtra("origem", etLocalSaida.getText().toString());
                     intent.putExtra("destino", etLocalChegada.getText().toString());
@@ -182,7 +186,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         if (minute < 10) {
             minuto = "0" + minute;
         }
-        tvHora.setText("Hora: " + hourOfDay + ":" + minuto);
+        bundleLatLng.putString("hora", hourOfDay + ":" + minuto);
+        tvHora.setText(hourOfDay + ":" + minuto);
     }
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -195,7 +200,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         if (dayOfMonth < 10) {
             dia = "0" + dayOfMonth;
         }
-        tvData.setText("Data: " + dia + "/" + mes + "/" + year);
+        bundleLatLng.putString("data", dia + "/" + mes + "/" + year);
+        tvData.setText(dia + "/" + mes + "/" + year);
     }
     //Faz a pergunta para o usuario da PERMISSAO
     private void checarPermissaoClient() {
