@@ -107,8 +107,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         || tvData.getText().toString().equals("")
                         || etVagas.getText().toString().equals("")) {
                     Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-
-
                 } else {
 
                     final ProgressButton progressButton = new ProgressButton(OferecerCaronaActivity.this);
@@ -126,10 +124,9 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     Intent intent = new Intent(v.getContext(), MapsActivity.class);
                     bundleLatLng.putString("qtdVagas", etVagas.getText().toString());
                     bundleLatLng.putBoolean("check", checkBoxHelp.isChecked());
+                    bundleLatLng.putString("origem", etLocalSaida.getText().toString());
+                    bundleLatLng.putString("destino", etLocalChegada.getText().toString());
                     intent.putExtra("latlng", bundleLatLng);
-                    intent.putExtra("origem", etLocalSaida.getText().toString());
-                    intent.putExtra("destino", etLocalChegada.getText().toString());
-
                     startActivity(intent);
                 }
             }
@@ -235,7 +232,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         0);
             }
         }
-        Toast.makeText(this, "Aceite a permissão para uma localização mais precisa !", Toast.LENGTH_LONG).show();
     }
     //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
     @Override

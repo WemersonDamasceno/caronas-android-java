@@ -69,6 +69,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         tvQtdVagasConfirm = findViewById(R.id.tvQtdVagasConfirm);
         tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelp);
         btnCaronaConfirm = findViewById(R.id.btnCaronaConfirm);
+
+        //pegando osdados da outra activity
         Intent intent = getIntent();
         bundle = intent.getBundleExtra("latlng");
 
@@ -80,8 +82,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
                 intent.putExtra("dados", bundle);
                 startActivity(intent);
-
-
             }
         });
 

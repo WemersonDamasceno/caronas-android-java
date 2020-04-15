@@ -43,7 +43,7 @@
         <TextView
             android:id="@+id/tvEndSaidaLista"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/txtEndSaida"
@@ -77,7 +77,7 @@
         <TextView
             android:id="@+id/tvEndChegadaLista"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_below="@+id/tvEndSaidaLista"
             android:layout_marginStart="5dp"
             android:layout_marginTop="2dp"
@@ -140,7 +140,7 @@
             android:layout_height="20dp"
             android:layout_below="@+id/tvHorarioSaidaLista"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/tvNomeMotoristaLista"
             android:orientation="horizontal">
 
@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvHorarioSaidaLista"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/estrelas"
             android:text="@string/quantidade_vagas"
             android:textColor="@color/colorLilas"
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvHorarioSaidaLista"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/txtVagas"
             android:text="3"
             android:textColor="@color/colorPreto"

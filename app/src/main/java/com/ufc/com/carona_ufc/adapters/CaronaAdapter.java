@@ -63,18 +63,18 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         }
 
         public void setDados(Carona carona) {
-            tvNomeMotorista.setText(carona.getNomeMotorista());
+            tvNomeMotorista.setText(carona.getIdMotorista());
             tvEndSaida.setText(carona.getEnderecoSaida());
             tvEndChegada.setText(carona.getEnderecoChegada());
             tvData.setText(carona.getData());
             tvHora.setText(carona.getHora());
             tvQtdVagas.setText("" + carona.getQtdVagas());
 
-            if (carona.getNomeMotorista().equals("Jose Maria")) {
+            if (carona.getIdMotorista().equals("Jose Maria")) {
                 Picasso.get().load(R.drawable.img_pessoa_01).into(imgPerfil);
-            } else if (carona.getNomeMotorista().equals("Lucia Cruz")) {
+            } else if (carona.getIdMotorista().equals("Lucia Cruz")) {
                 Picasso.get().load(R.drawable.img_pessoa_02).into(imgPerfil);
-            } else if (carona.getNomeMotorista().equals("Manuela Bu.")) {
+            } else if (carona.getIdMotorista().equals("Manuela Bu.")) {
                 Picasso.get().load(R.drawable.img_pessoa_03).into(imgPerfil);
             }
 

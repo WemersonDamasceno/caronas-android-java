@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,19 +50,33 @@ public class CaronasGratisFragment extends Fragment {
 
         ArrayList<Carona> listCaronas = new ArrayList<>();
 
-        Carona c1 = new Carona("UFC", "UECE", "05/05/2020", "11:00", 1, true, "Lucia Cruz");
-        Carona c2 = new Carona("Quixeramobim", "Fortaleza", "05/05/2020", "10:00", 3, true, "Manuela Bu.");
-        Carona c3 = new Carona("Quixadá", "Paus Brancos", "05/05/2020", "8:00", 2, true, "Jose Maria");
-        Carona c4 = new Carona("Praça do Leão", "UECE", "05/05/2020", "16:00", 4, true, "Osvaldo");
-        Carona c5 = new Carona("Praça do Leão", "UFC", "05/05/2020", "10:00", 3, true, "Osvaldo");
-        Carona c6 = new Carona("UFC", "UECE", "05/05/2020", "12:00", 3, true, "Osvaldo");
-        Carona c7 = new Carona("UFC", "Centro", "05/05/2020", "10:00", 3, true, "Osvaldo");
-        Carona c8 = new Carona("UFC", "Rodoviária", "05/05/2020", "10:00", 3, true, "Osvaldo");
-        Carona c9 = new Carona("UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo");
-        Carona c10 = new Carona("UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo");
-        Carona c11 = new Carona("UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo");
+        Carona c2 = new Carona("11201", "Quixeramobim", "Fortaleza", "05/05/2020", "10:00", 3, true, "Manuela Bu.");
+        Carona c3 = new Carona("25054", "Quixadá", "Paus Brancos", "05/05/2020", "8:00", 2, true, "Jose Maria");
+        Carona c4 = new Carona("25032", "Praça do Leão", "UECE", "05/05/2020", "16:00", 4, true, "Osvaldo");
+        Carona c5 = new Carona("250589", "Praça do Leão", "UFC", "05/05/2020", "10:00", 3, true, "Osvaldo");
+        Carona c6 = new Carona("250577", "UFC", "UECE", "05/05/2020", "12:00", 3, true, "Osvaldo");
+        Carona c7 = new Carona("250588", "UFC", "Centro", "05/05/2020", "10:00", 3, true, "Osvaldo");
+        Carona c8 = new Carona("250563", "UFC", "Rodoviária", "05/05/2020", "10:00", 3, true, "Osvaldo");
+        Carona c9 = new Carona("250512", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo");
+        Carona c10 = new Carona("250500", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo");
+        Carona c11 = new Carona("250525", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo");
 
-        listCaronas.add(c1);
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("dados");
+        if (bundle != null) {
+            //Pegar somente o endereço separado pela ','
+            String ori = bundle.getString("origem");
+            String[] origem = ori.split(",");
+            String des = bundle.getString("destino");
+            String[] destino = des.split(",");
+
+
+            Carona c1 = new Carona("14725", origem[0], destino[0],
+                    bundle.getString("hora"), bundle.getString("data"),
+                    Integer.valueOf(bundle.getString("qtdVagas")), false, "Wemerson");
+            listCaronas.add(c1);
+
+        }
         listCaronas.add(c2);
         listCaronas.add(c3);
         listCaronas.add(c4);
@@ -72,6 +87,7 @@ public class CaronasGratisFragment extends Fragment {
         listCaronas.add(c9);
         listCaronas.add(c10);
         listCaronas.add(c11);
+
 
         CaronaAdapter adapter = new CaronaAdapter(listCaronas);
         recyclerView.setAdapter(adapter);

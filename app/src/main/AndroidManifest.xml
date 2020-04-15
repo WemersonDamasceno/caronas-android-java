@@ -58,15 +58,15 @@
         </activity>
         <activity
             android:name=".views.LoginActivity"
-            android:label="Carona UFC"></activity>
-        <activity
-            android:name=".views.MainActivity"
-            android:label="Pagina Inicial">
+            android:label="Carona UFC">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.MainActivity"
+            android:label="Pagina Inicial"></activity>
     </application>
 
 </manifest>

@@ -1,33 +1,43 @@
 package com.ufc.com.carona_ufc.models;
 
 public class Carona {
+    private String id;
     private String enderecoSaida;
     private String enderecoChegada;
     private String data;
     private String hora;
     private int qtdVagas;
     private boolean checkBoxHelp;
-    private String nomeMotorista;
+    private String idMotorista;
 
 
-    public Carona(String enderecoSaida, String enderecoChegada, String data, String hora, int qtdVagas, boolean checkBoxHelp, String nomeMotorista) {
+    public Carona(String id, String enderecoSaida, String enderecoChegada, String data,
+                  String hora, int qtdVagas, boolean checkBoxHelp, String idMotorista) {
+        this.id = id;
         this.enderecoSaida = enderecoSaida;
         this.enderecoChegada = enderecoChegada;
         this.data = data;
         this.hora = hora;
         this.qtdVagas = qtdVagas;
         this.checkBoxHelp = checkBoxHelp;
-        this.nomeMotorista = nomeMotorista;
+        this.idMotorista = idMotorista;
     }
 
-    public String getNomeMotorista() {
-        return nomeMotorista;
+    public String getId() {
+        return id;
     }
 
-    public void setNomeMotorista(String nomeMotorista) {
-        this.nomeMotorista = nomeMotorista;
+    public void setId(String id) {
+        this.id = id;
     }
 
+    public String getIdMotorista() {
+        return idMotorista;
+    }
+
+    public void setIdMotorista(String idMotorista) {
+        this.idMotorista = idMotorista;
+    }
     public String getEnderecoSaida() {
         return enderecoSaida;
     }
