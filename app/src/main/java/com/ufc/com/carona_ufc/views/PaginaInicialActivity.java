@@ -62,7 +62,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         //primeira pagina a ser exibida
         Fragment fragment = new Pg_Inicial_Fragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
 
 
         final ActionBar bar = getSupportActionBar();
@@ -132,7 +132,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         }
         // Inserir o fragment no local dele na main activity
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         menuItem.setChecked(true);
         // Fechar o navigation drawer
         drawer.closeDrawers();
@@ -149,7 +149,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.flContent);
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainer);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
