@@ -1,0 +1,176 @@
+package com.ufc.com.carona_ufc.views;
+
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.fragments.ui.HistoricoCaronasFragment;
+import com.ufc.com.carona_ufc.fragments.ui.Pg_Inicial_Fragment;
+import com.ufc.com.carona_ufc.fragments.ui.ToolsFragment;
+
+public class PaginaInicialActivity extends AppCompatActivity {
+    DrawerLayout drawer;
+    Toolbar toolbar;
+    NavigationView navigationView;
+    NavController navController;
+    private ActionBarDrawerToggle drawerToggle;
+    private AppBarConfiguration mAppBarConfiguration;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pagina_inicial);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        drawer = findViewById(R.id.drawer_layout);
+        drawerToggle = setupDrawerToggle();
+
+        // Setup toggle to display hamburger icon with nice animation
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerToggle.syncState();
+
+        // Tie DrawerLayout events to the ActionBarToggle
+        drawer.addDrawerListener(drawerToggle);
+
+        navigationView = findViewById(R.id.nav_view);
+
+        setupDrawerContent(navigationView);
+        //primeira pagina a ser exibida
+        Fragment fragment = new Pg_Inicial_Fragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+
+        final ActionBar bar = getSupportActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+
+        //Verificar se o usuario já esta autenticado
+        if (FirebaseAuth.getInstance().getUid() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+
+
+    }
+
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        Fragment fragment = null;
+        Class fragmentClass = Pg_Inicial_Fragment.class;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_pagInicial:
+                setTitle(menuItem.getTitle());
+                fragmentClass = Pg_Inicial_Fragment.class;
+                break;
+            case R.id.nav_OferecerCarona:
+                Intent intent = new Intent(this, OferecerCaronaActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_procurarcarona:
+                Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.nav_historicocarona:
+                setTitle(menuItem.getTitle());
+                fragmentClass = HistoricoCaronasFragment.class;
+                break;
+            case R.id.nav_tools:
+                setTitle(menuItem.getTitle());
+                fragmentClass = ToolsFragment.class;
+                break;
+            case R.id.nav_share:
+                Toast.makeText(this, "Compartilhar......", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_sair:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent2 = new Intent(this, LoginActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.nav_send:
+                Toast.makeText(this, "Enviar.......", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Inserir o fragment no local dele na main activity
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        menuItem.setChecked(true);
+        // Fechar o navigation drawer
+        drawer.closeDrawers();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.flContent);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
+        // and will not render the hamburger icon without it.
+        return new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+    }
+}

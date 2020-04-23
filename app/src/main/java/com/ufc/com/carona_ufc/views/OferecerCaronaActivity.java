@@ -286,12 +286,12 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             cardView = findViewById(R.id.cardView);
         }
 
-        void buttonAtivo() {
+        public void buttonAtivo() {
             cardView.setVisibility(View.VISIBLE);
             btnCriarCarona.setVisibility(View.INVISIBLE);
         }
 
-        void buttonDesativo() {
+        public void buttonDesativo() {
             cardView.setVisibility(View.INVISIBLE);
             btnCriarCarona.setVisibility(View.VISIBLE);
         }

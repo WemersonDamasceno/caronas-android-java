@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "98921034180",
+    "firebase_url": "https://caronas-ufc.firebaseio.com",
+    "project_id": "caronas-ufc",
+    "storage_bucket": "caronas-ufc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98921034180:android:56490f703545c5ecac7491",
+        "android_client_info": {
+          "package_name": "com.ufc.com.carona_ufc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98921034180-b8fp5slrt3rgaslirnf15b1kuifup5tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ufc.com.carona_ufc",
+            "certificate_hash": "465a88a4ac7bc2679e000d850fb7358cb0058c98"
+          }
+        },
+        {
+          "client_id": "98921034180-ill1239dbh66q3v5s98mdcie98gltabi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeshz56iuD3xuW3YV7vjF0dg3JYHQ_ugE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98921034180-ill1239dbh66q3v5s98mdcie98gltabi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,12 +17,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ufc.com.carona_ufc.R;
 
 import java.util.List;
@@ -49,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     LocationManager locationManager;
     //Galeria
     ImageView imgEscolherFotoPerfil;
+    //Autentificacao
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +74,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         edEmail = findViewById(R.id.edEmail);
         edSenhaNovo = findViewById(R.id.edSenhaNovo);
         btEntrarNovo = findViewById(R.id.btEntrarNovo);
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         //checar permissao para a galeria
         if (ContextCompat.checkSelfPermission(this,
@@ -106,9 +118,46 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             }
         });
 
+        btEntrarNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = edEmail.getText().toString();
+                String senha = edSenhaNovo.getText().toString();
+                if (!email.equals("") || !senha.equals("")) {
+                    creatNewUser(email, senha);
+                }
+
+            }
+        });
 
     }
 
+    private void creatNewUser(String email, String senha) {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.i("teste", "sucesso da autentificacao");
+                            Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("teste", "erro na autentificacao");
+                    }
+                });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
 
     //PERMISSAO DA GALERIA
     private boolean checarPermissaoGaleria() {

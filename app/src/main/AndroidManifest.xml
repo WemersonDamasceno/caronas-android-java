@@ -4,13 +4,11 @@
     package="com.ufc.com.carona_ufc">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Internet -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-permission-sdk-23 android:name="android.permission.LOCATION_HARDWARE" />
-    <!-- Maps API needs OpenGL ES 2.0. -->
+    <uses-permission-sdk-23 android:name="android.permission.LOCATION_HARDWARE" /> <!-- Maps API needs OpenGL ES 2.0. -->
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -23,6 +21,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".views.RecuperarSenhaUserActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".views.PaginaInicialActivity"
+            android:label="@string/title_activity_pagina_inicial"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -40,33 +52,25 @@
             android:label="Procurar Carona">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
+                android:value=".views.PaginaInicialActivity" />
         </activity>
         <activity
             android:name=".views.OferecerCaronaActivity"
             android:label="Oferecer Carona">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
+                android:value=".views.PaginaInicialActivity" />
         </activity>
         <activity
             android:name=".views.RegisterActivity"
             android:label="Criar Conta">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
+                android:value=".views.LoginActivity" />
         </activity>
         <activity
             android:name=".views.LoginActivity"
-            android:label="Carona UFC">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".views.MainActivity"
-            android:label="Pagina Inicial"></activity>
+            android:label="Carona UFC" />
     </application>
 
 </manifest>

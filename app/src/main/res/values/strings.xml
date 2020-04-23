@@ -13,9 +13,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="nav_header_nome_perfil">Nome Perfil</string>
-    <string name="nav_header_email_perfil">email_usuario@android.com</string>
-
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Configurações</string>
     <string name="action_logout">Sair</string>
@@ -23,7 +20,6 @@
     <string name="menu_inicial">Pagina Inicial</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
     <string name="menu_share">Compartilhar</string>
     <string name="menu_send">Enviar Feedback</string>
     <string name="caronas_favoritas">Caronas Favoritas</string>
@@ -42,8 +38,22 @@
     <string name="data">Data: </string>
     <string name="quantidade_vagas">Vagas:</string>
     <string name="title_activity_maps">Confirme Os Dados</string>
-    <string name="preciso_de_ajuda_r_2_00">Preciso de ajuda (R$ 2,00)</string>
+    <string name="preciso_de_ajuda_r_2_00">Preciso de ajuda</string>
     <string name="passageiros">1</string>
     <string name="tempo_m_dio">Tempo médio:</string>
     <string name="distancia">Kms:</string>
+    <string name="title_activity_pagina_inicial">Pagina Inicial</string>
+    <string name="nav_header_title">Wemerson Monteiro</string>
+    <string name="nav_header_subtitle">wemerson.monteiro@android.com</string>
+    <string name="historico_caronas">Historico Caronas</string>
+    <string name="title_activity_recuperar_senha">Recuperar sua senha</string>
+    <string name="confirmar">confirmar</string>
+    <string name="texto_redefinir_senha">Para redefinir sua senha, informe o email cadastrado na sua conta que enviaremos um link com as instruções.</string>
+    <string name="digite_seu_email">Digite seu email</string>
+
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+
 </resources>

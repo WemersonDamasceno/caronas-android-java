@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_pagInicial"
+            android:icon="@drawable/ic_pg_inicial"
+            android:title="@string/title_activity_pagina_inicial" />
+        <item
+            android:id="@+id/nav_OferecerCarona"
+            android:icon="@drawable/ic_car"
+            android:title="@string/oferecer_carona" />
+        <item
+            android:id="@+id/nav_procurarcarona"
+            android:icon="@drawable/ic_lupa"
+            android:title="@string/procurar_carona" />
+        <item
+            android:id="@+id/nav_historicocarona"
+            android:icon="@drawable/ic_historico"
+            android:title="@string/historico_caronas" />
+        <item
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/action_settings" />
+    </group>
+
+    <item android:title="Entre em contato">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/menu_send" />
+        </menu>
+    </item>
+    <item android:title="Sair">
+        <menu>
+            <item
+                android:id="@+id/nav_sair"
+                android:icon="@drawable/ic_sair"
+                android:title="@string/action_logout" />
+        </menu>
+    </item>
+
+</menu>
