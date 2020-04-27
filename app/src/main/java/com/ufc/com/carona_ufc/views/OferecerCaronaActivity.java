@@ -69,7 +69,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     Bundle bundleLatLng;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

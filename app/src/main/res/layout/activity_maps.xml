@@ -144,7 +144,7 @@
 
 
         <TextView
-            android:id="@+id/tvCheckBoxHelp"
+            android:id="@+id/tvCheckBoxHelpConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvQtdVagasConfirm"
@@ -158,7 +158,7 @@
         <ImageView
             android:layout_width="300dp"
             android:layout_height="150dp"
-            android:layout_below="@+id/tvCheckBoxHelp"
+            android:layout_below="@+id/tvCheckBoxHelpConfirm"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
@@ -175,7 +175,7 @@
         android:layout_gravity="center"
         android:background="@color/colorLilas"
         android:ems="10"
-        android:text="Confirmar Carona"
+        android:text="Criar Carona"
         android:textColor="@color/colorBranco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

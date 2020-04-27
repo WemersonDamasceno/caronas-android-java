@@ -54,9 +54,9 @@
 
         <ImageView
             android:id="@+id/btnNotify"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="5dp"
+            android:layout_width="40dp"
+            android:layout_height="34dp"
+            android:scaleType="fitXY"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/tvEndSaidaLista"
             android:src="@drawable/ic_notify_none" />
@@ -167,13 +167,11 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_star" />
-
             <ImageView
                 android:id="@+id/estrela5"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_star" />
-
         </LinearLayout>
 
         <TextView

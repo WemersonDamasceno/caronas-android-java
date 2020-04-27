@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.adapters;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 
 import java.util.ArrayList;
 
 public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolderCaronas> {
     private ArrayList<Carona> listCaronas;
+    private static ItemClickListener itemClickListener;
+
+    public void setOnItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     public CaronaAdapter(ArrayList<Carona> listCaronas) {
         this.listCaronas = listCaronas;
@@ -41,7 +48,8 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         return listCaronas.size();
     }
 
-    public class ViewHolderCaronas extends RecyclerView.ViewHolder {
+
+    public class ViewHolderCaronas extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvNomeMotorista;
         TextView tvEndSaida;
         TextView tvEndChegada;
@@ -49,7 +57,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         TextView tvHora;
         TextView tvQtdVagas;
         ImageView imgPerfil;
-
+        ImageView btnNotify;
 
         public ViewHolderCaronas(@NonNull View itemView) {
             super(itemView);
@@ -60,8 +68,30 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             tvQtdVagas = itemView.findViewById(R.id.tvQtdVagasLista);
             tvHora = itemView.findViewById(R.id.tvHorarioSaidaLista);
             imgPerfil = itemView.findViewById(R.id.imgPerfilLista);
+            btnNotify = itemView.findViewById(R.id.btnNotify);
+
+
+            itemView.setOnClickListener(this);
+
+            //notificar o usuario quando faltar 5 min.
+            btnNotify.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnNotify.setImageResource(R.drawable.ic_notify_on);
+                }
+            });
+
+
         }
 
+        @Override
+        public void onClick(View v) {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(getAdapterPosition());
+            }
+
+            Log.i("teste", "Elemento position: " + getAdapterPosition());
+        }
         public void setDados(Carona carona) {
             tvNomeMotorista.setText(carona.getIdMotorista());
             tvEndSaida.setText(carona.getEnderecoSaida());
@@ -79,5 +109,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             }
 
         }
+
+
     }
 }

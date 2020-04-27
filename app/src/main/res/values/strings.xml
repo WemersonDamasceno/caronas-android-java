@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Carona UFC</string>
+    <string name="app_name">Caronas</string>
     <string name="email">Email</string>
     <string name="senha">Senha</string>
     <string name="entrar">Entrar</string>
@@ -54,6 +54,7 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="ainda_n_o_foi_oferecida_nenhuma_carona_ncompartilhe_e_indique_o_app_para_seus_amigos">Ainda não foi oferecida nenhuma carona. Compartilhe e indique o app para seus amigos</string>
 
 
 </resources>

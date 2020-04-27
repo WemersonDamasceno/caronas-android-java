@@ -42,6 +42,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pagina_inicial);
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Pagina Inicial");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

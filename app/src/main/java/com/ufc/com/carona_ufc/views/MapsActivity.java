@@ -67,7 +67,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         tvDataConfirm = findViewById(R.id.tvDataConfirm);
         tvHoraConfirm = findViewById(R.id.tvHoraConfirm);
         tvQtdVagasConfirm = findViewById(R.id.tvQtdVagasConfirm);
-        tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelp);
+        tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelpConfirm);
         btnCaronaConfirm = findViewById(R.id.btnCaronaConfirm);
 
         //pegando osdados da outra activity
