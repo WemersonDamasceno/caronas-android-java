@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,8 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     TextView tvQtdVagasCarona;
     TextView tvCheckBoxHelpCarona;
     Button btnPegarCarona;
+    ImageView btnWhatsApp;
+
     Carona carona;
     private List<Polyline> polylines;
 
@@ -73,6 +76,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvQtdVagasCarona = findViewById(R.id.tvQtdVagasCarona);
         tvCheckBoxHelpCarona = findViewById(R.id.tvCheckBoxHelpCarona);
         btnPegarCarona = findViewById(R.id.btnPegarCarona);
+        btnWhatsApp = findViewById(R.id.btnWhatsApp);
 
         carona = getIntent().getExtras().getParcelable("carona");
         tvnomeMotoristaCarona.setText(carona.getIdMotorista());
@@ -86,7 +90,15 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PegarCaronaActivity.this, "Olha ai mermão", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PegarCaronaActivity.this, "Quase la :)", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //abrir whatsapp com numero e uma mensagem pré pronta
+        btnWhatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PegarCaronaActivity.this, "WhatsApp!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -97,12 +109,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
-
-        if (carona.isCheckBoxHelp()) {
-            tvCheckBoxHelpCarona.setText("Precisa de ajuda ( X ) Sim Não ( )");
-        } else {
-            tvCheckBoxHelpCarona.setText("Precisa de ajuda ( ) Sim Não ( X )");
-        }
 
 
         // Add a marker in myPosition

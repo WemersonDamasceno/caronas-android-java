@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorLilas">#7E5DCA</color>
-    <color name="colorBranco">#FFFFFF</color>
-    <color name="colorFundo">#F3EDFF</color>
+    <color name="colorBranco">#F0EEEE</color>
+    <color name="colorFundo">#FFFFFF</color>
     <color name="colorPreto">#000000</color>
+    <color name="colorFundoCardView">#D1CECE</color>
 </resources>
