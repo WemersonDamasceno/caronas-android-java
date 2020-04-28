@@ -119,17 +119,18 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         }
                     }, 2000);
 
-
                     Intent intent = new Intent(v.getContext(), MapsActivity.class);
                     bundleLatLng.putString("qtdVagas", etVagas.getText().toString());
                     bundleLatLng.putBoolean("check", checkBoxHelp.isChecked());
                     bundleLatLng.putString("origem", etLocalSaida.getText().toString());
                     bundleLatLng.putString("destino", etLocalChegada.getText().toString());
+
                     intent.putExtra("latlng", bundleLatLng);
                     startActivity(intent);
                 }
             }
         });
+
         //pegar a localização da pessoa;
         ivUseMyLocation.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)

@@ -21,7 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".views.ConfirmarCaronaActivity"></activity>
+        <activity android:name=".views.ConfirmarCaronaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.ProcurarCaronaActivity" />
+        </activity>
         <activity android:name=".views.RecuperarSenhaUserActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

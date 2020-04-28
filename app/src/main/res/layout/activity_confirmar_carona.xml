@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorFundo"
     tools:context=".views.ConfirmarCaronaActivity">
 
     <ScrollView
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fotoMotoristaCarona"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
