@@ -1,18 +1,16 @@
 package com.ufc.com.carona_ufc.views;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,64 +24,72 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class PegarCaronaActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int LOCATION_REQUEST = 500;
     ArrayList<LatLng> arrayPoints;
+    TextView tvnomeMotoristaCarona;
+    TextView tvTelefone;
+    TextView tvCaronasOferecidas;
+    LinearLayout llEstrelas;
+    TextView tvDuracaoCarona;
+    TextView tvDistanciaCarona;
+    TextView tvDataCarona;
+    TextView tvHoraCarona;
+    TextView tvQtdVagasCarona;
+    TextView tvCheckBoxHelpCarona;
+    Button btnPegarCarona;
+    Carona carona;
     private List<Polyline> polylines;
-    //MostrarDados
-    TextView tvDistanciaConfirm;
-    TextView tvDataConfirm;
-    TextView tvHoraConfirm;
-    TextView tvQtdVagasConfirm;
-    TextView tvCheckBoxHelp;
-    TextView tvDuracaoConfirm;
-    Button btnCaronaConfirm;
-    Bundle bundle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_pegar_carona);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapCarona);
         mapFragment.getMapAsync(this);
+
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
-
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
 
 
-        tvDistanciaConfirm = findViewById(R.id.tvDistanciaConfirm);
-        tvDuracaoConfirm = findViewById(R.id.tvDuracaoConfirm);
-        tvDataConfirm = findViewById(R.id.tvDataConfirm);
-        tvHoraConfirm = findViewById(R.id.tvHoraConfirm);
-        tvQtdVagasConfirm = findViewById(R.id.tvQtdVagasConfirm);
-        tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelpConfirm);
-        btnCaronaConfirm = findViewById(R.id.btnCaronaConfirm);
+        tvnomeMotoristaCarona = findViewById(R.id.tvNomeMotoristaCarona);
+        tvTelefone = findViewById(R.id.tvTelefone);
+        tvCaronasOferecidas = findViewById(R.id.tvCaronasOferecidas);
+        llEstrelas = findViewById(R.id.llEstrelas);
+        tvDuracaoCarona = findViewById(R.id.tvDuracaoCarona);
+        tvDistanciaCarona = findViewById(R.id.tvDistanciaCarona);
+        tvDataCarona = findViewById(R.id.tvDataCarona);
+        tvHoraCarona = findViewById(R.id.tvHoraCarona);
+        tvQtdVagasCarona = findViewById(R.id.tvQtdVagasCarona);
+        tvCheckBoxHelpCarona = findViewById(R.id.tvCheckBoxHelpCarona);
+        btnPegarCarona = findViewById(R.id.btnPegarCarona);
 
-        //pegando osdados da outra activity
-        Intent intent = getIntent();
-        bundle = intent.getBundleExtra("latlng");
+        carona = getIntent().getExtras().getParcelable("carona");
+        tvnomeMotoristaCarona.setText(carona.getIdMotorista());
+        //tvTelefone.setText(pessoa.getTelefone);
+        // tvCaronasOferecidas.setText(pessoa.getQtdCaronasOferecidas);
+        tvDataCarona.setText(carona.getData());
+        tvHoraCarona.setText(carona.getHora());
+        tvQtdVagasCarona.setText(carona.getQtdVagas() + "");
 
-        //Enviar dados para confirmar
-        btnCaronaConfirm.setOnClickListener(new View.OnClickListener() {
+
+        btnPegarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //salvar no banco e seguir para a tela principal
-                Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
-                intent.putExtra("dados", bundle);
-                startActivity(intent);
+                Toast.makeText(PegarCaronaActivity.this, "Olha ai mermão", Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 
@@ -92,37 +98,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
 
-        double latSaida, lngSaida, latChegada, lngChegada;
-
-        //LatLng Saida
-        latSaida = bundle.getDouble("latSaida");
-        lngSaida = bundle.getDouble("lngSaida");
-        //LatLng Destino
-        latChegada = bundle.getDouble("latChegada");
-        lngChegada = bundle.getDouble("lngChegada");
-        //String origem e destino
-        String origem = bundle.getString("origem");
-        String destino = bundle.getString("destino");
-
-        //Pegar os dados para confirmar
-        tvHoraConfirm.setText(bundle.getString("hora"));
-        tvDataConfirm.setText(bundle.getString("data"));
-        tvQtdVagasConfirm.setText(bundle.getString("qtdVagas"));
-        boolean checkBox = bundle.getBoolean("check");
-        if (checkBox) {
-            tvCheckBoxHelp.setText("Precisa de ajuda ( X ) Sim Não ( )");
+        if (carona.isCheckBoxHelp()) {
+            tvCheckBoxHelpCarona.setText("Precisa de ajuda ( X ) Sim Não ( )");
         } else {
-            tvCheckBoxHelp.setText("Precisa de ajuda ( ) Sim Não ( X )");
+            tvCheckBoxHelpCarona.setText("Precisa de ajuda ( ) Sim Não ( X )");
         }
 
+
         // Add a marker in myPosition
-        LatLng startPosition = new LatLng(latSaida, lngSaida);
+        LatLng startPosition = new LatLng(carona.getLatLngOrigem().latitude, carona.getLatLngOrigem().longitude);
         MarkerOptions marker_start = new MarkerOptions();
         marker_start.position(startPosition).title("Minha posição");
         googleMap.addMarker(marker_start);
 
         // Add a maker in PositionDestino
-        LatLng stopPosition = new LatLng(latChegada, lngChegada);
+        LatLng stopPosition = new LatLng(carona.getLatLngDestino().latitude, carona.getLatLngDestino().longitude);
         MarkerOptions marker_stop = new MarkerOptions();
         marker_stop.title("Posição Destino").position(stopPosition)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
@@ -132,18 +122,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         googleMap.addCircle(new CircleOptions().center(startPosition).radius(50).strokeWidth(3f)
                 .strokeColor(Color.RED).fillColor(Color.argb(70, 150, 50, 50)));
 
-        //Verificar a permissão
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
-            return;
-        }
-
         //Tracando a rota
-        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaConfirm, tvDuracaoConfirm);
+        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaCarona, tvDuracaoCarona);
         directionApi.drawRoute(startPosition, stopPosition);
 
         //Regular o zoom nos dois ponto

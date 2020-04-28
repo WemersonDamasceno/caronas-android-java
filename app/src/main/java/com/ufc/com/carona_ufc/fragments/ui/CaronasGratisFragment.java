@@ -21,7 +21,7 @@ import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
 import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
-import com.ufc.com.carona_ufc.views.ConfirmarCaronaActivity;
+import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 
 import java.util.ArrayList;
 
@@ -59,16 +59,17 @@ public class CaronasGratisFragment extends Fragment {
         final ArrayList<Carona> listCaronas = new ArrayList<>();
 
         LatLng latLng = new LatLng(-5.418525, -39.452424);
-        Carona c2 = new Carona("11201", "Quixeramobim", "Fortaleza", "05/05/2020", "10:00", 3, true, "Manuela Bu.", latLng, latLng);
-        Carona c3 = new Carona("25054", "Quixadá", "Paus Brancos", "05/05/2020", "8:00", 2, true, "Jose Maria", latLng, latLng);
-        Carona c4 = new Carona("25032", "Praça do Leão", "UECE", "05/05/2020", "16:00", 4, true, "Osvaldo", latLng, latLng);
-        Carona c5 = new Carona("250589", "Praça do Leão", "UFC", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng);
-        Carona c6 = new Carona("250577", "UFC", "UECE", "05/05/2020", "12:00", 3, true, "Osvaldo", latLng, latLng);
-        Carona c7 = new Carona("250588", "UFC", "Centro", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng);
-        Carona c8 = new Carona("250563", "UFC", "Rodoviária", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng);
-        Carona c9 = new Carona("250512", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng);
-        Carona c10 = new Carona("250500", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng);
-        Carona c11 = new Carona("250525", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng);
+        LatLng latLng1 = new LatLng(-5.191954, -39.293724);
+        Carona c2 = new Carona("11201", "Paus Brancos", "Quixeramobim", "05/05/2020", "10:00", 3, true, "Manuela Bu.", latLng, latLng1);
+        Carona c3 = new Carona("25054", "Quixeramobim", "Paus Brancos", "05/05/2020", "8:00", 2, true, "Jose Maria", latLng1, latLng);
+        Carona c4 = new Carona("25032", "Praça do Leão", "UECE", "05/05/2020", "16:00", 4, true, "Osvaldo", latLng1, latLng);
+        Carona c5 = new Carona("250589", "Praça do Leão", "UFC", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng1);
+        Carona c6 = new Carona("250577", "UFC", "UECE", "05/05/2020", "12:00", 3, true, "Osvaldo", latLng, latLng1);
+        Carona c7 = new Carona("250588", "UFC", "Centro", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng1);
+        Carona c8 = new Carona("250563", "UFC", "Rodoviária", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng1);
+        Carona c9 = new Carona("250512", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng1);
+        Carona c10 = new Carona("250500", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng1);
+        Carona c11 = new Carona("250525", "UFC", "UECE", "05/05/2020", "10:00", 3, true, "Osvaldo", latLng, latLng1);
 
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("dados");
@@ -79,12 +80,10 @@ public class CaronasGratisFragment extends Fragment {
             String des = bundle.getString("destino");
             String[] destino = des.split(",");
 
-
-            Carona c1 = new Carona("14725", origem[0], destino[0],
-                    bundle.getString("hora"), bundle.getString("data"),
-                    Integer.valueOf(bundle.getString("qtdVagas")), false, "Wemerson", latLng, latLng);
+            Carona c1 = bundle.getParcelable("carona");
+            c1.setEnderecoSaida(origem[0]);
+            c1.setEnderecoChegada(destino[0]);
             listCaronas.add(c1);
-
         }
         listCaronas.add(c2);
         listCaronas.add(c3);
@@ -118,7 +117,7 @@ public class CaronasGratisFragment extends Fragment {
             public void onItemClick(int position) {
                 Carona carona = listCaronas.get(position);
                 Toast.makeText(getContext(), carona.getIdMotorista(), Toast.LENGTH_SHORT).show();
-                Intent intent1 = new Intent(getContext(), ConfirmarCaronaActivity.class);
+                Intent intent1 = new Intent(getContext(), PegarCaronaActivity.class);
                 intent1.putExtra("carona", carona);
                 startActivity(intent1);
             }

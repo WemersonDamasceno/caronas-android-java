@@ -119,7 +119,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         }
                     }, 2000);
 
-                    Intent intent = new Intent(v.getContext(), MapsActivity.class);
+                    Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
                     bundleLatLng.putString("qtdVagas", etVagas.getText().toString());
                     bundleLatLng.putBoolean("check", checkBoxHelp.isChecked());
                     bundleLatLng.putString("origem", etLocalSaida.getText().toString());

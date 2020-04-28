@@ -14,6 +14,8 @@ public class Carona implements Parcelable {
     private int qtdVagas;
     private boolean checkBoxHelp;
     private String idMotorista;
+
+
     public static final Creator<Carona> CREATOR = new Creator<Carona>() {
         @Override
         public Carona createFromParcel(Parcel in) {

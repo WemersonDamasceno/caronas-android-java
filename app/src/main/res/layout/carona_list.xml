@@ -135,7 +135,7 @@
 
 
         <LinearLayout
-            android:id="@+id/estrelas"
+            android:id="@+id/llEstrelas"
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_below="@+id/tvHorarioSaidaLista"
@@ -181,7 +181,7 @@
             android:layout_below="@+id/tvHorarioSaidaLista"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/estrelas"
+            android:layout_toEndOf="@+id/llEstrelas"
             android:text="@string/quantidade_vagas"
             android:textColor="@color/colorLilas"
             android:textSize="17sp"
