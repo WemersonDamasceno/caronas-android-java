@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -51,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         btnCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), RegisterActivity.class);
+                Intent intent = new Intent(v.getContext(), CriarContaActivity.class);
                 startActivity(intent);
             }
         });
@@ -64,10 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                 String senha1 = senha.getText().toString();
 
                 if (email1.equals("")) {
-                    Toast.makeText(LoginActivity.this, "O email não pode ser vazio!", Toast.LENGTH_SHORT).show();
+                    email.setError("O campo de email é obrigatório!");
                 }
                 if (senha1.equals("")) {
-                    Toast.makeText(LoginActivity.this, "A senha não pode ser vazio!", Toast.LENGTH_SHORT).show();
+                    senha.setError("O campo de senha é obrigatório!");
                 } else {
                     fazerLogin(email1, senha1);
                 }

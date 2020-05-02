@@ -13,13 +13,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_foto_arredondada"
-        android:src="@drawable/undraw_order_ride_xjs4" />
+        android:src="@drawable/img_login" />
 
 
     <EditText
         android:id="@+id/emailLogin"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="24dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="250dp"
         android:background="@drawable/text_redondo"

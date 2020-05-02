@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@drawable/fundo_car_carona" />
+        android:src="@drawable/mulher_e_o_carro" />
 
     <Button
         android:id="@+id/btnOferecerCarona"
@@ -36,6 +35,4 @@
         android:ems="13"
         android:text="@string/procurar_carona"
         android:textColor="@color/colorLilas" />
-
-
 </LinearLayout>

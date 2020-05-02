@@ -40,6 +40,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.santalu.maskedittext.MaskEditText;
 import com.ufc.com.carona_ufc.R;
 
 import java.io.IOException;
@@ -48,15 +49,16 @@ import java.util.Locale;
 import java.util.UUID;
 
 
-public class RegisterActivity extends AppCompatActivity implements LocationListener {
+public class CriarContaActivity extends AppCompatActivity implements LocationListener {
     final int GALERIA_IMAGENS = 1;
     final int PERMISSAO_REQUEST = 2;
     EditText edNomeNovo;
     EditText edEnderecoNovo;
     ImageView useMyLocation;
-    EditText edEmail;
+    EditText edEmailNovo;
     EditText edSenhaNovo;
     Button btEntrarNovo;
+    MaskEditText edTelefoneNovo;
     //myLOCATION
     LocationManager locationManager;
     //Galeria
@@ -69,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_criar_conta);
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
@@ -77,9 +79,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         edNomeNovo = findViewById(R.id.edNomeNovo);
         edEnderecoNovo = findViewById(R.id.edEnderecoNovo);
         useMyLocation = findViewById(R.id.useMyLocation);
-        edEmail = findViewById(R.id.edEmail);
+        edEmailNovo = findViewById(R.id.edEmail);
         edSenhaNovo = findViewById(R.id.edSenhaNovo);
         btEntrarNovo = findViewById(R.id.btEntrarNovo);
+        edTelefoneNovo = findViewById(R.id.edTelefoneNovo);
         selectedImage = null;
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -88,10 +91,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(CriarContaActivity.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
             } else {
-                ActivityCompat.requestPermissions(RegisterActivity.this,
+                ActivityCompat.requestPermissions(CriarContaActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         PERMISSAO_REQUEST);
             }
@@ -128,12 +131,19 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         btEntrarNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = edEmail.getText().toString();
+                String email = edEmailNovo.getText().toString();
                 String senha = edSenhaNovo.getText().toString();
-                if (!email.equals("") || !senha.equals("")) {
+                String nome = edNomeNovo.getText().toString();
+                if (email.equals("") || senha.equals("") || nome.equals("")) {
+                    if (email.equals(""))
+                        edEmailNovo.setError("O campo email é obrigatório!");
+                    if (senha.equals(""))
+                        edSenhaNovo.setError("O campo email é obrigatório!");
+                    if (nome.equals(""))
+                        edNomeNovo.setError("O campo nome é obrigatório!");
+                } else {
                     creatNewUser(email, senha);
                 }
-
             }
         });
 
@@ -182,6 +192,16 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.i("teste", "erro na autentificacao: " + e.getMessage());
+                        if (e.getMessage().equals("The email address is already in use by another account.")) {
+                            edEmailNovo.setError("O email ja está sendo utilizado!");
+                        }
+                        if (e.getMessage().equals("The given password is invalid. [ Password should be at least 6 characters ]")) {
+                            edSenhaNovo.setError("A senha deve no minímo 6 caracteres");
+                        }
+                        if (e.getMessage().equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
+                            Toast.makeText(CriarContaActivity.this, "Falha ao conectar-se com a internet", Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 });
     }
@@ -198,11 +218,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(CriarContaActivity.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 return true;
             } else {
-                ActivityCompat.requestPermissions(RegisterActivity.this,
+                ActivityCompat.requestPermissions(CriarContaActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         PERMISSAO_REQUEST);
                 return true;
@@ -267,7 +287,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     //CONVERTER LATLNG EM UM ENDEREÇO
     private String getEnderecoWithLatLng(double latitude, double longitude) {
         String endereco = "Falha";
-        Geocoder geocoder = new Geocoder(RegisterActivity.this, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(CriarContaActivity.this, Locale.getDefault());
         try {
             List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
             if (addressList != null) {

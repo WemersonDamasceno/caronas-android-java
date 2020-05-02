@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFundo"
-    tools:context=".views.RegisterActivity">
+    tools:context=".views.CriarContaActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,9 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="250dp"
+            android:layout_below="@+id/imgEscolherFoto"
+            android:layout_marginTop="20dp"
             android:background="@drawable/text_redondo"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="#E9E6E6"
             android:ems="13"
             android:hint="@string/nome" />
 
@@ -36,12 +37,12 @@
         <EditText
             android:id="@+id/edEnderecoNovo"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="26dp"
             android:layout_below="@+id/edNomeNovo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/text_redondo"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="#E9E6E6"
             android:ems="13"
             android:hint="@string/endere_o" />
 
@@ -51,7 +52,7 @@
             android:layout_height="30dp"
             android:layout_below="@+id/edNomeNovo"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/edEnderecoNovo"
             android:src="@drawable/ic_location" />
 
@@ -62,14 +63,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/edEnderecoNovo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="20dp">
 
             <EditText
                 android:id="@+id/edEmail"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="26dp"
                 android:background="@drawable/text_redondo"
-                android:backgroundTint="#FFFFFF"
+                android:backgroundTint="#E9E6E6"
                 android:ems="13"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/email"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             app:counterEnabled="true"
             app:passwordToggleEnabled="true">
 
@@ -90,12 +91,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@drawable/text_redondo"
-                android:backgroundTint="#FFFFFF"
+                android:backgroundTint="#E9E6E6"
                 android:ems="13"
                 android:hint="@string/senha"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.santalu.maskedittext.MaskEditText
+            android:id="@+id/edTelefoneNovo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/password_til"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/text_redondo"
+            android:backgroundTint="#E9E6E6"
+            android:ems="13"
+            android:hint="@string/telefone"
+            android:inputType="phone"
+            app:met_mask="(##) # ####-####" />
 
     </RelativeLayout>
 
