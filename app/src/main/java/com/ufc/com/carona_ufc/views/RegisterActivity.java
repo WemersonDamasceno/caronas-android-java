@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
@@ -34,14 +32,20 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ufc.com.carona_ufc.R;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 
 public class RegisterActivity extends AppCompatActivity implements LocationListener {
@@ -59,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     ImageView imgEscolherFotoPerfil;
     //Autentificacao
     private FirebaseAuth mAuth;
+    //Foto
+    Uri selectedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         edEmail = findViewById(R.id.edEmail);
         edSenhaNovo = findViewById(R.id.edSenhaNovo);
         btEntrarNovo = findViewById(R.id.btEntrarNovo);
+        selectedImage = null;
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -132,12 +139,39 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
     }
 
+    private void uploadFoto() {
+        //salvar imagem no banco
+        String fileName = UUID.randomUUID().toString();
+        final StorageReference ref = FirebaseStorage.getInstance().getReference("/images/" + fileName);
+        ref.putFile(selectedImage)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                //URL da minha imagem;
+                                Log.i("teste", "URL da imagem: " + uri.toString());
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("teste", "Falha ao fazer upload da foto: " + e.getMessage());
+            }
+        });
+
+    }
+
     private void creatNewUser(String email, String senha) {
+        //criar novo usuario
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            uploadFoto();
                             Log.i("teste", "sucesso da autentificacao");
                             Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
                             startActivity(intent);
@@ -147,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.i("teste", "erro na autentificacao");
+                        Log.i("teste", "erro na autentificacao: " + e.getMessage());
                     }
                 });
     }
@@ -183,17 +217,14 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         super.onActivityResult(requestCode, resultCode, data);
         //acessar galeria
         if (resultCode == RESULT_OK && requestCode == GALERIA_IMAGENS) {
-            Uri selectedImage = data.getData();
-            String[] filePath = {MediaStore.Images.Media.DATA};
-            assert selectedImage != null;
-            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-            assert c != null;
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePath[0]);
-            String picturePath = c.getString(columnIndex);
-            c.close();
-            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-            imgEscolherFotoPerfil.setImageBitmap(thumbnail);
+            selectedImage = data.getData();
+            Bitmap thumbnail;
+            try {
+                thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                imgEscolherFotoPerfil.setImageBitmap(thumbnail);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
