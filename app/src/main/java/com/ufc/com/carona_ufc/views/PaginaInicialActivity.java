@@ -5,10 +5,13 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +26,21 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.fragments.ui.HistoricoCaronasFragment;
 import com.ufc.com.carona_ufc.fragments.ui.Pg_Inicial_Fragment;
 import com.ufc.com.carona_ufc.fragments.ui.ToolsFragment;
+import com.ufc.com.carona_ufc.models.Usuario;
+
+import java.util.List;
 
 public class PaginaInicialActivity extends AppCompatActivity {
     DrawerLayout drawer;
@@ -35,11 +49,20 @@ public class PaginaInicialActivity extends AppCompatActivity {
     NavController navController;
     private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
+    ImageView imgPerfilDrawer;
+
+    FirebaseFirestore firebaseFirestore;
+
+    //imagem BD
+    FirebaseStorage fireBaseStorage;
+    StorageReference storageReference;
+    Usuario usuarioRetornado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagina_inicial);
+
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Pagina Inicial");
@@ -56,10 +79,12 @@ public class PaginaInicialActivity extends AppCompatActivity {
 
         // Tie DrawerLayout events to the ActionBarToggle
         drawer.addDrawerListener(drawerToggle);
-
         navigationView = findViewById(R.id.nav_view);
 
         setupDrawerContent(navigationView);
+        imgPerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.imagePerfilMenu);
+
+
         //primeira pagina a ser exibida
         Fragment fragment = new Pg_Inicial_Fragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -75,6 +100,40 @@ public class PaginaInicialActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        //
+        usuarioRetornado = new Usuario();
+        Usuario usuario;
+        usuario = getUser(FirebaseAuth.getInstance().getUid());
+        Log.i("teste", "nome: " + usuario.getNomeUser());
+        //Picasso.get().load(usuario.getUrlFotoUser()).into(imgPerfilDrawer);
+
+    }
+
+    private Usuario getUser(final String uid) {
+        FirebaseFirestore.getInstance().collection("/users")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.i("teste", "erro em buscar no bd: " + e.getMessage());
+                        } else {
+                            List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot doc : docs) {
+                                Usuario user = doc.toObject(Usuario.class);
+                                Log.i("teste", "Usuarios do banco: " + user.getNomeUser());
+                                if (user.getIdUser().equals(uid)) {
+                                    Log.i("teste", "Achou");
+                                    //Encontrou o usuario, mas não consigo retornar os dados dele nesse metodo
+                                    Picasso.get().load(user.getUrlFotoUser()).into(imgPerfilDrawer);
+                                    usuarioRetornado = user;
+                                }
+                            }
+                        }
+                    }
+                });
+
+        Log.i("teste", "nomeDAO: " + usuarioRetornado.getNomeUser());
+        return usuarioRetornado;
 
     }
 

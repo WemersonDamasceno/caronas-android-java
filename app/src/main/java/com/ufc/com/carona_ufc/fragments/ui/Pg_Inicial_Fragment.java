@@ -21,7 +21,6 @@ public class Pg_Inicial_Fragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_pg_inicial, container, false);
 
-
         Button btnOferecerCarona = root.findViewById(R.id.btnOferecerCarona);
         Button btnProcurarCarona = root.findViewById(R.id.btnProcurarCarona);
 

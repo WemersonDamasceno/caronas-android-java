@@ -19,19 +19,18 @@
     <EditText
         android:id="@+id/emailLogin"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
         android:background="@drawable/text_redondo"
         android:backgroundTint="@color/colorBranco"
         android:ems="13"
         android:hint="@string/email" />
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_til"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:layout_below="@+id/emailLogin"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"

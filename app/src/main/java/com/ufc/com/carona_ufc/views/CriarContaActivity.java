@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.views;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,11 +38,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.santalu.maskedittext.MaskEditText;
 import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.models.Usuario;
 
 import java.io.IOException;
 import java.util.List;
@@ -67,6 +72,9 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     private FirebaseAuth mAuth;
     //Foto
     Uri selectedImage;
+    //Usuario
+    Usuario user;
+    Uri urlFoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +92,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         btEntrarNovo = findViewById(R.id.btEntrarNovo);
         edTelefoneNovo = findViewById(R.id.edTelefoneNovo);
         selectedImage = null;
+        user = new Usuario();
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -150,6 +159,10 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     }
 
     private void uploadFoto() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
         //salvar imagem no banco
         String fileName = UUID.randomUUID().toString();
         final StorageReference ref = FirebaseStorage.getInstance().getReference("/images/" + fileName);
@@ -160,15 +173,35 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
+                                progressDialog.dismiss();
                                 //URL da minha imagem;
+                                urlFoto = uri;
+                                user.setUrlFotoUser(uri.toString());
+                                //criar novo usuario
+                                criarNovoUsuario();
                                 Log.i("teste", "URL da imagem: " + uri.toString());
+                                //abrir a tela inicial
+                                Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
+                                Log.i("teste", "sucesso da autentificacao, idUser: " + FirebaseAuth.getInstance().getUid());
+                                startActivity(intent);
                             }
                         });
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                })
+                .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
                 Log.i("teste", "Falha ao fazer upload da foto: " + e.getMessage());
+                if (e.getMessage().equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
+                    Toast.makeText(CriarContaActivity.this, "Falha ao conectar-se com a internet", Toast.LENGTH_LONG).show();
+                }
+            }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                progressDialog.setTitle("Uploaded " + (int) progress + "%");
             }
         });
 
@@ -181,10 +214,9 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            uploadFoto();
-                            Log.i("teste", "sucesso da autentificacao");
-                            Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
-                            startActivity(intent);
+                            if (selectedImage != null) {
+                                uploadFoto();
+                            }
                         }
                     }
                 })
@@ -201,9 +233,45 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                         if (e.getMessage().equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
                             Toast.makeText(CriarContaActivity.this, "Falha ao conectar-se com a internet", Toast.LENGTH_LONG).show();
                         }
-
+                        if (e.getMessage().equals("The email address is badly formatted.")) {
+                            Toast.makeText(CriarContaActivity.this, "O email esta em um formato válido", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
+    }
+
+    private void criarNovoUsuario() {
+        //povoar o usuario
+        user.setNomeUser(edNomeNovo.getText().toString());
+        user.setEmailUser(edEmailNovo.getText().toString());
+        user.setSenhaUser(edSenhaNovo.getText().toString());
+        user.setIdUser(FirebaseAuth.getInstance().getUid());
+        if (urlFoto != null) {
+            user.setUrlFotoUser(urlFoto.toString());
+        }
+
+        if (!edEnderecoNovo.getText().equals("")) {
+            user.setEnderecoUser(edEnderecoNovo.getText().toString());
+        }
+        if (!edTelefoneNovo.getText().equals("")) {
+            user.setTelefoneUser(edTelefoneNovo.getText().toString());
+        }
+        //salvar o usuario no banco de dados
+        FirebaseFirestore.getInstance().collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.i("teste", "sucesso ao add o novo usuario" + documentReference.getId());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("teste", "falha ao add o novo usuario: " + e.getMessage());
+            }
+        });
+
+
     }
 
     @Override
@@ -212,7 +280,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
-
     //PERMISSAO DA GALERIA
     private boolean checarPermissaoGaleria() {
         if (ContextCompat.checkSelfPermission(this,
@@ -230,7 +297,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         }
         return false;
     }
-
     //PEGAR A FOTO DA GALERIA E COLOCAR NA IMAGEVIEW
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -247,7 +313,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             }
         }
     }
-
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
@@ -255,7 +320,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         //converter a LatLgn em endereço com o getEnderecoWithLatLng
         edEnderecoNovo.setText(getEnderecoWithLatLng(latitude, longitude));
     }
-
     //Faz a pergunta para o usuario da PERMISSAO SOBRE A LOCALIZAÇÃO
     private void checarPermissaoClient() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -269,7 +333,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             }
         }
     }
-
     //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
