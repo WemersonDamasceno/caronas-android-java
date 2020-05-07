@@ -3,8 +3,6 @@ package com.ufc.com.carona_ufc.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.gms.maps.model.LatLng;
-
 public class Carona implements Parcelable {
     private String id;
     private String enderecoSaida;
@@ -14,7 +12,6 @@ public class Carona implements Parcelable {
     private int qtdVagas;
     private boolean checkBoxHelp;
     private String idMotorista;
-
 
     public static final Creator<Carona> CREATOR = new Creator<Carona>() {
         @Override
@@ -27,11 +24,16 @@ public class Carona implements Parcelable {
             return new Carona[size];
         }
     };
-    private LatLng latLngOrigem;
-    private LatLng latLngDestino;
+    private double latOrigem;
+    private double lngOrigem;
+    private double latDestino;
+    private double lngDestino;
 
-    public Carona(String id, String enderecoSaida, String enderecoChegada, String data, String hora, int qtdVagas,
-                  boolean checkBoxHelp, String idMotorista, LatLng latLngOrigem, LatLng latLngDestino) {
+
+    public Carona() {
+    }
+
+    public Carona(String id, String enderecoSaida, String enderecoChegada, String data, String hora, int qtdVagas, boolean checkBoxHelp, String idMotorista, double latOrigem, double lngOrigem, double latDestino, double lngDestino) {
         this.id = id;
         this.enderecoSaida = enderecoSaida;
         this.enderecoChegada = enderecoChegada;
@@ -40,8 +42,10 @@ public class Carona implements Parcelable {
         this.qtdVagas = qtdVagas;
         this.checkBoxHelp = checkBoxHelp;
         this.idMotorista = idMotorista;
-        this.latLngOrigem = latLngOrigem;
-        this.latLngDestino = latLngDestino;
+        this.latOrigem = latOrigem;
+        this.lngOrigem = lngOrigem;
+        this.latDestino = latDestino;
+        this.lngDestino = lngDestino;
     }
 
     protected Carona(Parcel in) {
@@ -53,12 +57,10 @@ public class Carona implements Parcelable {
         qtdVagas = in.readInt();
         checkBoxHelp = in.readByte() != 0;
         idMotorista = in.readString();
-        latLngOrigem = in.readParcelable(LatLng.class.getClassLoader());
-        latLngDestino = in.readParcelable(LatLng.class.getClassLoader());
-    }
-
-    public Carona() {
-
+        latOrigem = in.readDouble();
+        lngOrigem = in.readDouble();
+        latDestino = in.readDouble();
+        lngDestino = in.readDouble();
     }
 
     public String getId() {
@@ -125,22 +127,37 @@ public class Carona implements Parcelable {
         this.idMotorista = idMotorista;
     }
 
-    public LatLng getLatLngOrigem() {
-        return latLngOrigem;
+    public double getLatOrigem() {
+        return latOrigem;
     }
 
-    public void setLatLngOrigem(LatLng latLngOrigem) {
-        this.latLngOrigem = latLngOrigem;
+    public void setLatOrigem(double latOrigem) {
+        this.latOrigem = latOrigem;
     }
 
-    public LatLng getLatLngDestino() {
-        return latLngDestino;
+    public double getLngOrigem() {
+        return lngOrigem;
     }
 
-    public void setLatLngDestino(LatLng latLngDestino) {
-        this.latLngDestino = latLngDestino;
+    public void setLngOrigem(double lngOrigem) {
+        this.lngOrigem = lngOrigem;
     }
 
+    public double getLatDestino() {
+        return latDestino;
+    }
+
+    public void setLatDestino(double latDestino) {
+        this.latDestino = latDestino;
+    }
+
+    public double getLngDestino() {
+        return lngDestino;
+    }
+
+    public void setLngDestino(double lngDestino) {
+        this.lngDestino = lngDestino;
+    }
 
     @Override
     public int describeContents() {
@@ -157,7 +174,9 @@ public class Carona implements Parcelable {
         dest.writeInt(qtdVagas);
         dest.writeByte((byte) (checkBoxHelp ? 1 : 0));
         dest.writeString(idMotorista);
-        dest.writeParcelable(latLngOrigem, flags);
-        dest.writeParcelable(latLngDestino, flags);
+        dest.writeDouble(latOrigem);
+        dest.writeDouble(lngOrigem);
+        dest.writeDouble(latDestino);
+        dest.writeDouble(lngDestino);
     }
 }

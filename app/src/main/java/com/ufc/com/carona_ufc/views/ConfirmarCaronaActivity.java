@@ -6,10 +6,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,14 +28,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -62,7 +67,6 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
 
-        carona = new Carona();
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
 
@@ -75,21 +79,51 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelpConfirm);
         btnCaronaConfirm = findViewById(R.id.btnCaronaConfirm);
 
-        //pegando osdados da outra activity
+        //pegando os dados da outra activity
         Intent intent = getIntent();
-        bundle = intent.getBundleExtra("latlng");
+        bundle = intent.getBundleExtra("bundle");
+        carona = bundle.getParcelable("carona");
+
+        Log.i("teste", "carona end Chegada: " + carona.getEnderecoChegada());
+        Log.i("teste", "end saida: " + carona.getEnderecoSaida());
+        Log.i("teste", "lat origem:" + carona.getLatOrigem());
+        Log.i("teste", "lat destino:" + carona.getLngDestino());
+        Log.i("teste", "hora e data:" + carona.getData() + " " + carona.getHora());
+        Log.i("teste", "vagas: " + carona.getQtdVagas());
+        Log.i("teste", "id: " + carona.getId());
+        Log.i("teste", "motorista: " + carona.getIdMotorista());
+
+
+
 
         //Enviar dados para confirmar
         btnCaronaConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //salvar no banco e seguir para a tela principal
-                Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
-                intent.putExtra("dados", bundle);
+                salvarCarona(carona);
+                Toast.makeText(ConfirmarCaronaActivity.this, "Carona criada com sucesso", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(v.getContext(), PaginaInicialActivity.class);
                 startActivity(intent);
             }
         });
 
+    }
+
+    public void salvarCarona(Carona carona) {
+        FirebaseFirestore.getInstance().collection("caronas")
+                .add(carona)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.i("teste", "Sucesso ao add a carona no banco");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("teste", "Falha ao add a carona no banco");
+            }
+        });
     }
 
     @Override
@@ -100,42 +134,29 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         double latSaida, lngSaida, latChegada, lngChegada;
 
         //LatLng Saida
-        latSaida = bundle.getDouble("latSaida");
-        lngSaida = bundle.getDouble("lngSaida");
+        latSaida = carona.getLatOrigem();
+        lngSaida = carona.getLngOrigem();
         LatLng latLngSaida = new LatLng(latSaida, lngSaida);
 
         //LatLng Destino
-        latChegada = bundle.getDouble("latChegada");
-        lngChegada = bundle.getDouble("lngChegada");
+        latChegada = carona.getLatDestino();
+        lngChegada = carona.getLngDestino();
         LatLng latLngChegada = new LatLng(latChegada, lngChegada);
 
         //String origem e destino
-        String origem = bundle.getString("origem");
-        String destino = bundle.getString("destino");
+        String origem = carona.getEnderecoSaida();
+        String destino = carona.getEnderecoChegada();
 
         //Pegar os dados para confirmar
-        tvHoraConfirm.setText(bundle.getString("hora"));
-        tvDataConfirm.setText(bundle.getString("data"));
-        tvQtdVagasConfirm.setText(bundle.getString("qtdVagas"));
-        boolean checkBox = bundle.getBoolean("check");
+        tvHoraConfirm.setText(carona.getHora());
+        tvDataConfirm.setText(carona.getData());
+        tvQtdVagasConfirm.setText(String.valueOf(carona.getQtdVagas()));
+        boolean checkBox = carona.isCheckBoxHelp();
         if (checkBox) {
             tvCheckBoxHelp.setText("Precisa de ajuda ( X ) Sim Não ( )");
         } else {
             tvCheckBoxHelp.setText("Precisa de ajuda ( ) Sim Não ( X )");
         }
-        //Povoar o obj carona
-        carona.setLatLngOrigem(latLngSaida);
-        carona.setLatLngDestino(latLngChegada);
-        carona.setEnderecoSaida(origem);
-        carona.setEnderecoChegada(destino);
-        carona.setHora(bundle.getString("hora"));
-        carona.setData(bundle.getString("data"));
-        carona.setQtdVagas(Integer.valueOf(bundle.getString("qtdVagas")));
-        carona.setCheckBoxHelp(checkBox);
-        //Pegar nome do motorista
-        carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
-        carona.setId(UUID.randomUUID().toString());
-        bundle.putParcelable("carona", carona);
 
 
         // Add a marker in myPosition

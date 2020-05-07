@@ -112,13 +112,13 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
 
         // Add a marker in myPosition
-        LatLng startPosition = new LatLng(carona.getLatLngOrigem().latitude, carona.getLatLngOrigem().longitude);
+        LatLng startPosition = new LatLng(carona.getLatOrigem(), carona.getLngOrigem());
         MarkerOptions marker_start = new MarkerOptions();
         marker_start.position(startPosition).title(carona.getEnderecoSaida());
         googleMap.addMarker(marker_start);
 
         // Add a maker in PositionDestino
-        LatLng stopPosition = new LatLng(carona.getLatLngDestino().latitude, carona.getLatLngDestino().longitude);
+        LatLng stopPosition = new LatLng(carona.getLatDestino(), carona.getLngDestino());
         MarkerOptions marker_stop = new MarkerOptions();
         marker_stop.title(carona.getEnderecoChegada()).position(stopPosition)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));

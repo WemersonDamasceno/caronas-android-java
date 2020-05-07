@@ -38,14 +38,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.santalu.maskedittext.MaskEditText;
 import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.dao.UsuarioFirebaseDAO;
 import com.ufc.com.carona_ufc.models.Usuario;
 
 import java.io.IOException;
@@ -159,7 +158,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     }
 
     private void uploadFoto() {
-
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
@@ -189,19 +187,19 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Log.i("teste", "Falha ao fazer upload da foto: " + e.getMessage());
-                if (e.getMessage().equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
-                    Toast.makeText(CriarContaActivity.this, "Falha ao conectar-se com a internet", Toast.LENGTH_LONG).show();
-                }
-            }
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Log.i("teste", "Falha ao fazer upload da foto: " + e.getMessage());
+                        if (e.getMessage().equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
+                            Toast.makeText(CriarContaActivity.this, "Falha ao conectar-se com a internet", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                progressDialog.setTitle("Uploaded " + (int) progress + "%");
+                progressDialog.setTitle("Enviado " + (int) progress + "% completo");
             }
         });
 
@@ -257,6 +255,9 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             user.setTelefoneUser(edTelefoneNovo.getText().toString());
         }
         //salvar o usuario no banco de dados
+        UsuarioFirebaseDAO usuarioFirebaseDAO = new UsuarioFirebaseDAO();
+        usuarioFirebaseDAO.salvarUsuarioBanco(user);
+        /*
         FirebaseFirestore.getInstance().collection("users")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -270,7 +271,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                 Log.i("teste", "falha ao add o novo usuario: " + e.getMessage());
             }
         });
-
+        */
 
     }
 
@@ -280,6 +281,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
     }
+
     //PERMISSAO DA GALERIA
     private boolean checarPermissaoGaleria() {
         if (ContextCompat.checkSelfPermission(this,
@@ -297,6 +299,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         }
         return false;
     }
+
     //PEGAR A FOTO DA GALERIA E COLOCAR NA IMAGEVIEW
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -313,6 +316,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             }
         }
     }
+
     @Override
     public void onLocationChanged(Location location) {
         double longitude = location.getLongitude();
@@ -320,6 +324,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         //converter a LatLgn em endereço com o getEnderecoWithLatLng
         edEnderecoNovo.setText(getEnderecoWithLatLng(latitude, longitude));
     }
+
     //Faz a pergunta para o usuario da PERMISSAO SOBRE A LOCALIZAÇÃO
     private void checarPermissaoClient() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -333,6 +338,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             }
         }
     }
+
     //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

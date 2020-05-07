@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,14 +50,16 @@ public class PaginaInicialActivity extends AppCompatActivity {
     NavController navController;
     private ActionBarDrawerToggle drawerToggle;
     private AppBarConfiguration mAppBarConfiguration;
+    //perfil drawer
     ImageView imgPerfilDrawer;
-
-    FirebaseFirestore firebaseFirestore;
+    TextView tvNomePerfilDrawer;
+    TextView tvEmailPerfilDrawer;
 
     //imagem BD
+    FirebaseFirestore firebaseFirestore;
     FirebaseStorage fireBaseStorage;
     StorageReference storageReference;
-    Usuario usuarioRetornado;
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +86,8 @@ public class PaginaInicialActivity extends AppCompatActivity {
 
         setupDrawerContent(navigationView);
         imgPerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.imagePerfilMenu);
-
+        tvEmailPerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.tvEmailPerfilDrawer);
+        tvNomePerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.tvNomePerfilDrawer);
 
         //primeira pagina a ser exibida
         Fragment fragment = new Pg_Inicial_Fragment();
@@ -101,15 +105,12 @@ public class PaginaInicialActivity extends AppCompatActivity {
         }
 
         //
-        usuarioRetornado = new Usuario();
-        Usuario usuario;
-        usuario = getUser(FirebaseAuth.getInstance().getUid());
-        Log.i("teste", "nome: " + usuario.getNomeUser());
-        //Picasso.get().load(usuario.getUrlFotoUser()).into(imgPerfilDrawer);
+        getUser(FirebaseAuth.getInstance().getUid());
 
     }
 
-    private Usuario getUser(final String uid) {
+
+    private void getUser(final String uid) {
         FirebaseFirestore.getInstance().collection("/users")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -120,23 +121,16 @@ public class PaginaInicialActivity extends AppCompatActivity {
                             List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot doc : docs) {
                                 Usuario user = doc.toObject(Usuario.class);
-                                Log.i("teste", "Usuarios do banco: " + user.getNomeUser());
                                 if (user.getIdUser().equals(uid)) {
-                                    Log.i("teste", "Achou");
-                                    //Encontrou o usuario, mas não consigo retornar os dados dele nesse metodo
                                     Picasso.get().load(user.getUrlFotoUser()).into(imgPerfilDrawer);
-                                    usuarioRetornado = user;
+                                    tvNomePerfilDrawer.setText(user.getNomeUser());
+                                    tvEmailPerfilDrawer.setText(user.getEmailUser());
                                 }
                             }
                         }
                     }
                 });
-
-        Log.i("teste", "nomeDAO: " + usuarioRetornado.getNomeUser());
-        return usuarioRetornado;
-
     }
-
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -148,7 +142,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
                     }
                 });
     }
-
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass = Pg_Inicial_Fragment.class;
@@ -197,8 +190,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
         // Fechar o navigation drawer
         drawer.closeDrawers();
     }
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -206,28 +197,24 @@ public class PaginaInicialActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainer);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
-
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
     private ActionBarDrawerToggle setupDrawerToggle() {
         // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
         // and will not render the hamburger icon without it.

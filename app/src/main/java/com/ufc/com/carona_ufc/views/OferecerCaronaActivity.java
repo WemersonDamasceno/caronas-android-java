@@ -35,14 +35,17 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.location.LocationListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.PlaceAutoSuggestAdapter;
 import com.ufc.com.carona_ufc.fragments.DatePickerFragment;
 import com.ufc.com.carona_ufc.fragments.TimePickerFragment;
+import com.ufc.com.carona_ufc.models.Carona;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, LocationListener {
@@ -52,9 +55,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     //autoComplete dos endereços
     AutoCompleteTextView etLocalSaida;
     AutoCompleteTextView etLocalChegada;
-    //teste
-    TextView tvSaida;
-    TextView tvChegada;
+
     //Hora e Data
     ImageView ivRelogio;
     ImageView ivData;
@@ -67,6 +68,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     EditText etVagas;
     //Tranferir as LatLng para a proxima tela
     Bundle bundleLatLng;
+    Carona carona;
 
 
     @Override
@@ -86,10 +88,9 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         tvHora = findViewById(R.id.tv_Hora);
         etVagas = findViewById(R.id.etVagas);
         ivUseMyLocation = findViewById(R.id.ivUseMyLocation);
+        carona = new Carona();
         bundleLatLng = new Bundle();
 
-        tvSaida = findViewById(R.id.tvSaida);
-        tvChegada = findViewById(R.id.tvChegada);
 
 
         //autoComplete dos enderecos
@@ -119,13 +120,21 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         }
                     }, 2000);
 
-                    Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
-                    bundleLatLng.putString("qtdVagas", etVagas.getText().toString());
-                    bundleLatLng.putBoolean("check", checkBoxHelp.isChecked());
-                    bundleLatLng.putString("origem", etLocalSaida.getText().toString());
-                    bundleLatLng.putString("destino", etLocalChegada.getText().toString());
 
-                    intent.putExtra("latlng", bundleLatLng);
+                    carona.setEnderecoSaida(etLocalSaida.getText().toString());
+                    carona.setEnderecoChegada(etLocalChegada.getText().toString());
+                    carona.setData(tvData.getText().toString());
+                    carona.setHora(tvHora.getText().toString());
+                    carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
+                    carona.setQtdVagas(1);
+                    carona.setCheckBoxHelp(checkBoxHelp.isChecked());
+                    carona.setId(UUID.randomUUID().toString());
+
+
+                    //abrir nova activity
+                    Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
+                    bundleLatLng.putParcelable("carona", carona);
+                    intent.putExtra("bundle", bundleLatLng);
                     startActivity(intent);
                 }
             }
@@ -177,33 +186,36 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             List addressList = geocoder.getFromLocationName(etLocalSaida.getText().toString(), 1);
             if (addressList != null && addressList.size() > 0) {
                 Address address = (Address) addressList.get(0);
-                bundleLatLng.putDouble("latSaida", address.getLatitude());
-                bundleLatLng.putDouble("lngSaida", address.getLongitude());
-                bundleLatLng.putString("origem", etLocalSaida.getText().toString());
-                tvSaida.setText("" + address.getLatitude() + "," + address.getLongitude());
+                double latOrigem = address.getLatitude();
+                double lngOrigem = address.getLongitude();
+
+                carona.setLatOrigem(latOrigem);
+                carona.setLngOrigem(lngOrigem);
+                bundleLatLng.putParcelable("dados", carona);
             }
             List addressList1 = geocoder.getFromLocationName(etLocalChegada.getText().toString(), 1);
             if (addressList1 != null && addressList1.size() > 0) {
                 Address address1 = (Address) addressList1.get(0);
-                bundleLatLng.putDouble("latChegada", address1.getLatitude());
-                bundleLatLng.putDouble("lngChegada", address1.getLongitude());
-                bundleLatLng.putString("chegada", etLocalChegada.getText().toString());
-                tvChegada.setText("" + address1.getLatitude() + ", " + address1.getLongitude());
+                double latDestino = address1.getLatitude();
+                double lngDestino = address1.getLongitude();
+
+                carona.setLatDestino(latDestino);
+                carona.setLngDestino(lngDestino);
+                bundleLatLng.putParcelable("dados", carona);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         Toast.makeText(this, "Pocessamento completado com sucesso!", Toast.LENGTH_SHORT).show();
     }
-
-
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String minuto = minute + "";
         if (minute < 10) {
             minuto = "0" + minute;
         }
-        bundleLatLng.putString("hora", hourOfDay + ":" + minuto);
+        carona.setHora(hourOfDay + ":" + minuto);
+        bundleLatLng.putParcelable("dados", carona);
         tvHora.setText(hourOfDay + ":" + minuto);
     }
     @Override
@@ -217,7 +229,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         if (dayOfMonth < 10) {
             dia = "0" + dayOfMonth;
         }
-        bundleLatLng.putString("data", dia + "/" + mes + "/" + year);
+        carona.setData(dia + "/" + mes + "/" + year);
+        bundleLatLng.putParcelable("dados", carona);
         tvData.setText(dia + "/" + mes + "/" + year);
     }
     //Faz a pergunta para o usuario da PERMISSAO
@@ -248,13 +261,14 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     }
     @Override
     public void onLocationChanged(Location location) {
+        carona.setLatOrigem(location.getLatitude());
+        carona.setLngOrigem(location.getLongitude());
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
-        //armazenar as coordenadas para mostrar no mapa
-        bundleLatLng.putDouble("latSaida", latitude);
-        bundleLatLng.putDouble("lngSaida", longitude);
         //converter a LatLgn em endereço com o getEnderecoWithLatLng
         etLocalSaida.setText(getEnderecoWithLatLng(latitude, longitude));
+        carona.setEnderecoSaida(etLocalSaida.getText().toString());
+        bundleLatLng.putParcelable("dados", carona);
     }
     //CONVERTER LATLNG EM UM ENDEREÇO
     private String getEnderecoWithLatLng(double latitude, double longitude) {
@@ -265,7 +279,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             if (addressList != null) {
                 Address returnAddress = addressList.get(0);
                 StringBuilder stringBuilder = new StringBuilder("");
-
                 for (int i = 0; i <= returnAddress.getMaxAddressLineIndex(); i++) {
                     stringBuilder.append(returnAddress.getAddressLine(i)).append("\n");
                 }
