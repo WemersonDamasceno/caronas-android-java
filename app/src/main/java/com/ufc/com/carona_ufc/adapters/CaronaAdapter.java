@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -114,7 +113,8 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
 
             Log.i("teste", "Elemento position: " + getAdapterPosition());
         }
-        public void setDados(Carona carona) {
+
+        public void setDados(final Carona carona) {
             FirebaseFirestore.getInstance().collection("/users")
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
@@ -122,25 +122,25 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                             List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot doc : docs) {
                                 Usuario user = doc.toObject(Usuario.class);
-                                if (user.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
+                                if (carona.getIdMotorista().equals(user.getIdUser())) {
+                                    Log.i("teste", "achou o " + user.getIdUser() + " da carona" + carona.getIdMotorista());
                                     tvNomeMotorista.setText(user.getNomeUser());
                                     Picasso.get().load(user.getUrlFotoUser()).into(imgPerfil);
-                                    return;
+                                    tvEndSaida.setText(carona.getEnderecoSaida());
+                                    tvEndChegada.setText(carona.getEnderecoChegada());
+                                    tvData.setText(carona.getData());
+                                    tvHora.setText(carona.getHora());
+                                    tvQtdVagas.setText("" + carona.getQtdVagas());
+                                    tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
                                 }
                             }
                         }
                     });
-
-            tvEndSaida.setText(carona.getEnderecoSaida());
-            tvEndChegada.setText(carona.getEnderecoChegada());
-            tvData.setText(carona.getData());
-            tvHora.setText(carona.getHora());
-            tvQtdVagas.setText("" + carona.getQtdVagas());
-            tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
-
-
         }
 
 
+
     }
+
+
 }
