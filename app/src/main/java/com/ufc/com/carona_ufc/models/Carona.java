@@ -9,10 +9,6 @@ public class Carona implements Parcelable {
     private String enderecoChegada;
     private String data;
     private String hora;
-    private int qtdVagas;
-    private boolean checkBoxHelp;
-    private String idMotorista;
-
     public static final Creator<Carona> CREATOR = new Creator<Carona>() {
         @Override
         public Carona createFromParcel(Parcel in) {
@@ -24,44 +20,18 @@ public class Carona implements Parcelable {
             return new Carona[size];
         }
     };
+    private int qtdVagas;
+    private boolean checkBoxHelp;
+    private String idMotorista;
     private double latOrigem;
     private double lngOrigem;
     private double latDestino;
     private double lngDestino;
 
-
     public Carona() {
     }
 
-    public Carona(String id, String enderecoSaida, String enderecoChegada, String data, String hora, int qtdVagas, boolean checkBoxHelp, String idMotorista, double latOrigem, double lngOrigem, double latDestino, double lngDestino) {
-        this.id = id;
-        this.enderecoSaida = enderecoSaida;
-        this.enderecoChegada = enderecoChegada;
-        this.data = data;
-        this.hora = hora;
-        this.qtdVagas = qtdVagas;
-        this.checkBoxHelp = checkBoxHelp;
-        this.idMotorista = idMotorista;
-        this.latOrigem = latOrigem;
-        this.lngOrigem = lngOrigem;
-        this.latDestino = latDestino;
-        this.lngDestino = lngDestino;
-    }
-
-    protected Carona(Parcel in) {
-        id = in.readString();
-        enderecoSaida = in.readString();
-        enderecoChegada = in.readString();
-        data = in.readString();
-        hora = in.readString();
-        qtdVagas = in.readInt();
-        checkBoxHelp = in.readByte() != 0;
-        idMotorista = in.readString();
-        latOrigem = in.readDouble();
-        lngOrigem = in.readDouble();
-        latDestino = in.readDouble();
-        lngDestino = in.readDouble();
-    }
+    private String horaChegadaprox;
 
     public String getId() {
         return id;
@@ -101,6 +71,39 @@ public class Carona implements Parcelable {
 
     public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    public Carona(String id, String enderecoSaida, String enderecoChegada, String data, String hora, String horaChegadaprox, int qtdVagas, boolean checkBoxHelp, String idMotorista,
+                  double latOrigem, double lngOrigem, double latDestino, double lngDestino) {
+        this.id = id;
+        this.enderecoSaida = enderecoSaida;
+        this.enderecoChegada = enderecoChegada;
+        this.data = data;
+        this.hora = hora;
+        this.horaChegadaprox = horaChegadaprox;
+        this.qtdVagas = qtdVagas;
+        this.checkBoxHelp = checkBoxHelp;
+        this.idMotorista = idMotorista;
+        this.latOrigem = latOrigem;
+        this.lngOrigem = lngOrigem;
+        this.latDestino = latDestino;
+        this.lngDestino = lngDestino;
+    }
+
+    protected Carona(Parcel in) {
+        id = in.readString();
+        enderecoSaida = in.readString();
+        enderecoChegada = in.readString();
+        data = in.readString();
+        hora = in.readString();
+        horaChegadaprox = in.readString();
+        qtdVagas = in.readInt();
+        checkBoxHelp = in.readByte() != 0;
+        idMotorista = in.readString();
+        latOrigem = in.readDouble();
+        lngOrigem = in.readDouble();
+        latDestino = in.readDouble();
+        lngDestino = in.readDouble();
     }
 
     public int getQtdVagas() {
@@ -159,6 +162,18 @@ public class Carona implements Parcelable {
         this.lngDestino = lngDestino;
     }
 
+    public static Creator<Carona> getCREATOR() {
+        return CREATOR;
+    }
+
+    public String getHoraChegadaprox() {
+        return horaChegadaprox;
+    }
+
+    public void setHoraChegadaprox(String horaChegadaprox) {
+        this.horaChegadaprox = horaChegadaprox;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -171,6 +186,7 @@ public class Carona implements Parcelable {
         dest.writeString(enderecoChegada);
         dest.writeString(data);
         dest.writeString(hora);
+        dest.writeString(horaChegadaprox);
         dest.writeInt(qtdVagas);
         dest.writeByte((byte) (checkBoxHelp ? 1 : 0));
         dest.writeString(idMotorista);

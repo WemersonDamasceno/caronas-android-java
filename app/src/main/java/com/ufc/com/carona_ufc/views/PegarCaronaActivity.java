@@ -129,7 +129,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                 .strokeColor(Color.RED).fillColor(Color.argb(70, 150, 50, 50)));
 
         //Tracando a rota
-        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaCarona, tvDuracaoCarona);
+        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaCarona, tvDuracaoCarona, carona);
         directionApi.drawRoute(startPosition, stopPosition);
 
         //Regular o zoom nos dois ponto

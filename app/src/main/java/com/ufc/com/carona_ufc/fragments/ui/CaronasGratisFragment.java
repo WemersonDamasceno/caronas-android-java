@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,7 +49,7 @@ public class CaronasGratisFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        TextView tvHorarioChegadaLista = view.findViewById(R.id.tvHorarioChegadaLista);
         Button btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
         LinearLayout layoutLost = view.findViewById(R.id.layoutLost);
 

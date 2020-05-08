@@ -79,6 +79,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         TextView tvQtdVagas;
         ImageView imgPerfil;
         ImageView btnNotify;
+        TextView tvHorarioChegadaLista;
 
         public ViewHolderCaronas(@NonNull View itemView) {
             super(itemView);
@@ -90,7 +91,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             tvHora = itemView.findViewById(R.id.tvHorarioSaidaLista);
             imgPerfil = itemView.findViewById(R.id.imgPerfilLista);
             btnNotify = itemView.findViewById(R.id.btnNotify);
-
+            tvHorarioChegadaLista = itemView.findViewById(R.id.tvHorarioChegadaLista);
 
             itemView.setOnClickListener(this);
 
@@ -135,6 +136,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             tvData.setText(carona.getData());
             tvHora.setText(carona.getHora());
             tvQtdVagas.setText("" + carona.getQtdVagas());
+            tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
 
 
         }

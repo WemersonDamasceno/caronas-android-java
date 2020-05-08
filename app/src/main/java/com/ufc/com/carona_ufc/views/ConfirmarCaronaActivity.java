@@ -52,6 +52,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
     TextView tvCheckBoxHelp;
     TextView tvDuracaoConfirm;
     Button btnCaronaConfirm;
+
     Bundle bundle;
 
     Carona carona;
@@ -69,7 +70,6 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
 
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
-
 
         tvDistanciaConfirm = findViewById(R.id.tvDistanciaConfirm);
         tvDuracaoConfirm = findViewById(R.id.tvDuracaoConfirm);
@@ -187,7 +187,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         }
 
         //Tracando a rota
-        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaConfirm, tvDuracaoConfirm);
+        DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaConfirm, tvDuracaoConfirm, carona);
         directionApi.drawRoute(startPosition, stopPosition);
 
         //Regular o zoom nos dois ponto

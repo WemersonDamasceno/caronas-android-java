@@ -154,7 +154,7 @@
                     android:id="@+id/ic_carro"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/tvDataSaidaLista"
                     android:src="@drawable/ic_car_lilas" />
@@ -164,7 +164,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_below="@id/ic_data"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="30dp"
                     android:layout_toEndOf="@+id/tvDataSaidaLista"
                     android:text="4"
                     android:textColor="@color/colorPreto"

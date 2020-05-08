@@ -14,8 +14,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.ufc.com.carona_ufc.models.Carona;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class DirectionApi implements RoutingListener {
@@ -23,13 +28,15 @@ public class DirectionApi implements RoutingListener {
     private GoogleMap mMap;
     private TextView tvDistanciaHora;
     private TextView tvHora;
+    private Carona carona;
 
-    public DirectionApi(List<Polyline> polylines, GoogleMap mMap, TextView tvDistanciaHora, TextView tvHora) {
+    public DirectionApi(List<Polyline> polylines, GoogleMap mMap, TextView tvDistanciaHora, TextView tvHora, Carona carona) {
         super();
         this.polylines = polylines;
         this.mMap = mMap;
         this.tvDistanciaHora = tvDistanciaHora;
         this.tvHora = tvHora;
+        this.carona = carona;
     }
 
     public void drawRoute(LatLng startPosition, LatLng stopPostion) {
@@ -77,6 +84,41 @@ public class DirectionApi implements RoutingListener {
             polylines.add(polyline);
             tvDistanciaHora.setText(route.get(i).getDistanceText());
             tvHora.setText(route.get(i).getDurationText());
+
+
+            GregorianCalendar calendar = new GregorianCalendar();
+            int horaStart, minutoStart;
+            horaStart = Integer.parseInt(carona.getHora().substring(0, 2));
+            minutoStart = Integer.parseInt(carona.getHora().substring(3, 5));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
+            Time time = new Time(horaStart, minutoStart, 0);
+            calendar.setTimeInMillis(time.getTime());
+
+            int horaStop, minutoStop, segStop, input;
+            input = route.get(i).getDurationValue();
+            horaStop = input / 3600;
+            minutoStop = (input - (horaStop * 3600)) / 60;
+            segStop = 0;
+
+            Log.i("dur", "hora: " + horaStop + ":" + minutoStop);
+
+
+            calendar.add(Calendar.HOUR, horaStop);
+            calendar.add(Calendar.MINUTE, minutoStop);
+
+            String horaSomada = sdf2.format(calendar.getTime()).substring(0, 2);
+            String minutoSomado = sdf2.format(calendar.getTime()).substring(3, 5);
+
+            String horario = horaSomada + ":" + minutoSomado;
+            carona.setHoraChegadaprox(horario);
+
+
+
+
+
+
         }
     }
 
