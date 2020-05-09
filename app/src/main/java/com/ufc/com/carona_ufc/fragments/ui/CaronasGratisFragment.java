@@ -1,14 +1,15 @@
 package com.ufc.com.carona_ufc.fragments.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
+import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 
 import java.util.List;
 
@@ -60,13 +63,14 @@ public class CaronasGratisFragment extends Fragment {
 
 
         caronaAdapter = new CaronaAdapter();
+        caronaAdapter.getListCaronas().clear();
         recyclerView.setAdapter(caronaAdapter);
         recyclerView.setLayoutManager(layoutManager);
-
+        caronaAdapter.notifyDataSetChanged();
         buscarCaronas();
 
-        /*
-        if (adapter.getItemCount() == 0 || adapter == null) {
+
+        if (caronaAdapter.getItemCount() == 0 || caronaAdapter == null) {
             layoutLost.setVisibility(View.INVISIBLE);
             btnCompartilhar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,25 +81,24 @@ public class CaronasGratisFragment extends Fragment {
 
 
         }
-        */
 
 
-
-        /*adapter.setOnItemClickListener(new ItemClickListener() {
+        caronaAdapter.setOnItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Carona carona = adapter.getListCaronas().get(position);
-                Toast.makeText(getContext(), carona.getIdMotorista(), Toast.LENGTH_SHORT).show();
+                Carona carona = caronaAdapter.getListCaronas().get(position);
+                Toast.makeText(getContext(), "Verifique o endereço", Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getContext(), PegarCaronaActivity.class);
                 intent1.putExtra("carona", carona);
                 startActivity(intent1);
             }
-        });*/
+        });
 
 
     }
 
     private void buscarCaronas() {
+        caronaAdapter.getListCaronas().clear();
         FirebaseFirestore.getInstance().collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -106,10 +109,13 @@ public class CaronasGratisFragment extends Fragment {
                         List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot doc : docs) {
                             Carona car = doc.toObject(Carona.class);
-                            Log.i("rua", car.getEnderecoSaida());
-                            caronaAdapter.add(car);
-                            caronaAdapter.notifyDataSetChanged();
+                            if (!car.isCheckBoxHelp()) {
+                                caronaAdapter.add(car);
+                                caronaAdapter.notifyDataSetChanged();
+                            }
+
                         }
+
                     }
                 });
     }

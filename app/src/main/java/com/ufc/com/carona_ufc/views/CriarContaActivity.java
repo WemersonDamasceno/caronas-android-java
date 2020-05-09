@@ -80,7 +80,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_conta);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
 
         imgEscolherFotoPerfil = findViewById(R.id.imgEscolherFoto);
         edNomeNovo = findViewById(R.id.edNomeNovo);
@@ -257,21 +257,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         //salvar o usuario no banco de dados
         UsuarioFirebaseDAO usuarioFirebaseDAO = new UsuarioFirebaseDAO();
         usuarioFirebaseDAO.salvarUsuarioBanco(user);
-        /*
-        FirebaseFirestore.getInstance().collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.i("teste", "sucesso ao add o novo usuario" + documentReference.getId());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("teste", "falha ao add o novo usuario: " + e.getMessage());
-            }
-        });
-        */
 
     }
 

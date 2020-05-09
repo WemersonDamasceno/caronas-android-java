@@ -1,12 +1,12 @@
 package com.ufc.com.carona_ufc.adapters;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +66,12 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
 
     public void add(Carona carona) {
         listCaronas.add(carona);
+        notifyDataSetChanged();
+    }
+
+    public void delete(final Carona carona) {
+        listCaronas.remove(carona);
+        notifyDataSetChanged();
     }
 
 
@@ -80,7 +86,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         ImageView btnNotify;
         TextView tvHorarioChegadaLista;
 
-        public ViewHolderCaronas(@NonNull View itemView) {
+        ViewHolderCaronas(@NonNull View itemView) {
             super(itemView);
             tvNomeMotorista = itemView.findViewById(R.id.tvNomeMotoristaLista);
             tvEndSaida = itemView.findViewById(R.id.tvEndSaidaLista);
@@ -98,7 +104,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             btnNotify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnNotify.setImageResource(R.drawable.ic_notify_on);
+                    Toast.makeText(v.getContext(), "Notificar", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -110,11 +116,9 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             if (itemClickListener != null) {
                 itemClickListener.onItemClick(getAdapterPosition());
             }
-
-            Log.i("teste", "Elemento position: " + getAdapterPosition());
         }
 
-        public void setDados(final Carona carona) {
+        void setDados(final Carona carona) {
             FirebaseFirestore.getInstance().collection("/users")
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
@@ -123,15 +127,19 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                             for (DocumentSnapshot doc : docs) {
                                 Usuario user = doc.toObject(Usuario.class);
                                 if (carona.getIdMotorista().equals(user.getIdUser())) {
-                                    Log.i("teste", "achou o " + user.getIdUser() + " da carona" + carona.getIdMotorista());
-                                    tvNomeMotorista.setText(user.getNomeUser());
+                                    String[] firstName = user.getNomeUser().split(" ");
+                                    tvNomeMotorista.setText(firstName[0]);
+
                                     Picasso.get().load(user.getUrlFotoUser()).into(imgPerfil);
+
                                     tvEndSaida.setText(carona.getEnderecoSaida());
                                     tvEndChegada.setText(carona.getEnderecoChegada());
                                     tvData.setText(carona.getData());
                                     tvHora.setText(carona.getHora());
-                                    tvQtdVagas.setText("" + carona.getQtdVagas());
+                                    tvQtdVagas.setText(String.valueOf(carona.getQtdVagas()));
                                     tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
+
+
                                 }
                             }
                         }

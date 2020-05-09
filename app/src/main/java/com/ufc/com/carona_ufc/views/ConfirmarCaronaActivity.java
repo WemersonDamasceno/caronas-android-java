@@ -66,7 +66,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
 
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();

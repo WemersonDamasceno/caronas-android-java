@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
 
         //Autentificacao com firebase
         mAuth = FirebaseAuth.getInstance();

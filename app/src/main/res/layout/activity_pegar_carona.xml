@@ -15,14 +15,15 @@
 
 
         <RelativeLayout
+            android:id="@+id/firstLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fotoMotoristaCarona"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/perfil" />
 
 
@@ -51,46 +52,15 @@
                 android:textColor="@color/colorPreto"
                 android:textSize="17sp" />
 
-            <LinearLayout
-                android:id="@+id/llEstrelas"
-                android:layout_width="100dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/tvNomeMotoristaCarona"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/tvAvaliacao"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/estrela1"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star" />
-
-                <ImageView
-                    android:id="@+id/estrela2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star" />
-
-                <ImageView
-                    android:id="@+id/estrela3"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star" />
-
-                <ImageView
-                    android:id="@+id/estrela4"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star" />
-
-                <ImageView
-                    android:id="@+id/estrela5"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_star" />
-            </LinearLayout>
+                android:layout_below="@+id/tvNomeMotoristaCarona"
+                android:layout_marginTop="11dp"
+                android:text="4,9"
+                android:textColor="@color/colorLilas"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/txtWpp"
@@ -112,7 +82,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/txtWpp"
                 android:text="(88) 99709-1133"
-                android:textColor="@color/colorPreto"
+                android:textColor="@color/colorLilas"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -144,7 +114,7 @@
 
 
             <RelativeLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fotoMotoristaCarona"
@@ -317,6 +287,37 @@
 
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/esconderBotoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <Button
+                    android:id="@+id/btnEditarCarona"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/button_redondo"
+                    android:ems="10"
+                    android:text="Editar carona"
+                    android:textColor="@color/colorBranco" />
+
+                <Button
+                    android:id="@+id/btnExcluirCarona"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/button_redondo"
+                    android:ems="10"
+                    android:text="Excluir carona"
+                    android:textColor="@color/colorBranco" />
+
+            </LinearLayout>
+
 
         </RelativeLayout>
     </ScrollView>

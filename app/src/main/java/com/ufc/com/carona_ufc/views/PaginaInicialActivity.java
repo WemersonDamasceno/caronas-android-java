@@ -96,7 +96,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
 
 
         final ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
 
         //Verificar se o usuario já esta autenticado
         if (FirebaseAuth.getInstance().getUid() == null) {

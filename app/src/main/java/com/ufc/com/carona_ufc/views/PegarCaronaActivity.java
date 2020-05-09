@@ -3,6 +3,7 @@ package com.ufc.com.carona_ufc.views;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,8 +27,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
+import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
 import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.models.Usuario;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
 import java.util.ArrayList;
@@ -37,7 +51,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     TextView tvnomeMotoristaCarona;
     TextView tvTelefone;
     TextView tvCaronasOferecidas;
-    LinearLayout llEstrelas;
     TextView tvDuracaoCarona;
     TextView tvDistanciaCarona;
     TextView tvDataCarona;
@@ -46,9 +59,14 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     TextView tvCheckBoxHelpCarona;
     Button btnPegarCarona;
     ImageView btnWhatsApp;
+    ImageView fotoMotorista;
+    LinearLayout esconderbotoes;
 
     Carona carona;
     private List<Polyline> polylines;
+    Button btnEditarCarona;
+    Button btnExcluirCarona;
+    CaronaAdapter caronaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +78,17 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
 
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
+        caronaAdapter = new CaronaAdapter();
 
 
+        esconderbotoes = findViewById(R.id.esconderBotoes);
+        fotoMotorista = findViewById(R.id.fotoMotoristaCarona);
         tvnomeMotoristaCarona = findViewById(R.id.tvNomeMotoristaCarona);
         tvTelefone = findViewById(R.id.tvTelefone);
         tvCaronasOferecidas = findViewById(R.id.tvCaronasOferecidas);
-        llEstrelas = findViewById(R.id.llEstrelas);
         tvDuracaoCarona = findViewById(R.id.tvDuracaoCarona);
         tvDistanciaCarona = findViewById(R.id.tvDistanciaCarona);
         tvDataCarona = findViewById(R.id.tvDataCarona);
@@ -77,14 +97,23 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvCheckBoxHelpCarona = findViewById(R.id.tvCheckBoxHelpCarona);
         btnPegarCarona = findViewById(R.id.btnPegarCarona);
         btnWhatsApp = findViewById(R.id.btnWhatsApp);
+        btnEditarCarona = findViewById(R.id.btnEditarCarona);
+        btnExcluirCarona = findViewById(R.id.btnExcluirCarona);
 
         carona = getIntent().getExtras().getParcelable("carona");
         tvnomeMotoristaCarona.setText(carona.getIdMotorista());
-        //tvTelefone.setText(pessoa.getTelefone);
-        // tvCaronasOferecidas.setText(pessoa.getQtdCaronasOferecidas);
         tvDataCarona.setText(carona.getData());
         tvHoraCarona.setText(carona.getHora());
-        tvQtdVagasCarona.setText(carona.getQtdVagas() + "");
+        tvQtdVagasCarona.setText(String.valueOf(carona.getQtdVagas()));
+
+        setarDadosUser(carona);
+
+        if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
+            mostrarBotoes();
+
+        }
+
+
 
 
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +132,72 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         });
 
 
+    }
+
+    private void mostrarBotoes() {
+        Toast.makeText(this, "Você está oferecendo essa carona", Toast.LENGTH_SHORT).show();
+        esconderbotoes.setVisibility(View.VISIBLE);
+
+
+        btnExcluirCarona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //excluir carona e voltar para a tela de buscar caronas
+                FirebaseFirestore.getInstance().collection("/caronas")
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot doc : docs) {
+                                    Carona car = doc.toObject(Carona.class);
+                                    if (car.getId().equals(carona.getId())) {
+                                        deletarCarona(doc);
+                                    }
+                                }
+                            }
+                        });
+            }
+        });
+
+
+        btnEditarCarona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //pegar a carona e voltar para a tela de oferecer carona
+
+            }
+        });
+
+    }
+
+    private void deletarCarona(DocumentSnapshot doc) {
+        FirebaseFirestore.getInstance().collection("/caronas")
+                .document(doc.getId()).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.i("deletar", "deletado");
+                    }
+                });
+    }
+
+    private void setarDadosUser(final Carona carona) {
+        FirebaseFirestore.getInstance().collection("/users")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot doc : docs) {
+                            Usuario user = doc.toObject(Usuario.class);
+                            if (user.getIdUser().equals(carona.getIdMotorista())) {
+                                Picasso.get().load(user.getUrlFotoUser()).into(fotoMotorista);
+                                tvnomeMotoristaCarona.setText(user.getNomeUser());
+                                tvTelefone.setText(user.getTelefoneUser());
+                                //falta a avaliação e a quantidade de caronas que ele deu.
+                            }
+                        }
+                    }
+                });
     }
 
     @Override

@@ -76,7 +76,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oferecer_carona);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7E5DCA")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
 
         checkBoxHelp = findViewById(R.id.cbPaga);
         etLocalSaida = findViewById(R.id.localSaida);
