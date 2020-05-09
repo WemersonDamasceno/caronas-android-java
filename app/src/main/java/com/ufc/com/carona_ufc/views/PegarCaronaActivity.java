@@ -1,5 +1,6 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,8 +29,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,6 +43,7 @@ import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
 import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.models.CaronasPegas;
 import com.ufc.com.carona_ufc.models.Usuario;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
@@ -109,8 +114,8 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         setarDadosUser(carona);
 
         if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
+            btnPegarCarona.setVisibility(View.INVISIBLE);
             mostrarBotoes();
-
         }
 
 
@@ -119,7 +124,23 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PegarCaronaActivity.this, "Quase la :)", Toast.LENGTH_SHORT).show();
+                CaronasPegas caronasPegas = new CaronasPegas(carona.getIdMotorista(), carona.getId(), FirebaseAuth.getInstance().getUid());
+                FirebaseFirestore.getInstance().collection("/caronasPegas")
+                        .add(caronasPegas)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.i("teste", "carona pega");
+                                carona.setQtdVagas(carona.getQtdVagas() - 1);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("teste", "Falha ao pegar a carona: " + e.getMessage());
+                    }
+                });
+
+
             }
         });
 
@@ -159,15 +180,35 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-
+        //Fazer isso amanha blz bonitão ;)
         btnEditarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //pegar a carona e voltar para a tela de oferecer carona
-
+                FirebaseFirestore.getInstance().collection("/caronas")
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot doc : docs) {
+                                    Carona car = doc.toObject(Carona.class);
+                                    if (car.getId().equals(carona.getId())) {
+                                        editarCarona(doc);
+                                    }
+                                }
+                            }
+                        });
             }
         });
 
+    }
+
+    private void editarCarona(DocumentSnapshot doc) {
+        Intent intent = new Intent(getBaseContext(), OferecerCaronaActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("caronaEditar", carona);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
     }
 
     private void deletarCarona(DocumentSnapshot doc) {
@@ -177,8 +218,16 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Log.i("deletar", "deletado");
+                        Intent intent = new Intent(getBaseContext(), ProcurarCaronaActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i("erro", "Erro ao excluir carona: " + e.getMessage());
+            }
+        });
     }
 
     private void setarDadosUser(final Carona carona) {

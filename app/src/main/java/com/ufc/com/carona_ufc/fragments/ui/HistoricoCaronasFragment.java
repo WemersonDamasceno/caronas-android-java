@@ -16,6 +16,7 @@ public class HistoricoCaronasFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_historico_caronas, container, false);
 
+
         return root;
     }
 }

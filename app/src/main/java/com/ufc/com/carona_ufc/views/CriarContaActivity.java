@@ -1,7 +1,6 @@
 package com.ufc.com.carona_ufc.views;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -74,6 +74,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     //Usuario
     Usuario user;
     Uri urlFoto = null;
+    RelativeLayout progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,8 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         edTelefoneNovo = findViewById(R.id.edTelefoneNovo);
         selectedImage = null;
         user = new Usuario();
+        progressBar = findViewById(R.id.rLProgress);
+        progressBar.setVisibility(View.GONE);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
@@ -112,6 +115,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 checarPermissaoClient();
                 //pegar a localização da pessoa
                 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -122,6 +126,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                 }
                 Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
                 onLocationChanged(location);
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -150,6 +155,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                     if (nome.equals(""))
                         edNomeNovo.setError("O campo nome é obrigatório!");
                 } else {
+                    progressBar.setVisibility(View.VISIBLE);
                     creatNewUser(email, senha);
                 }
             }
@@ -158,9 +164,11 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     }
 
     private void uploadFoto() {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
+        edEmailNovo.setVisibility(View.INVISIBLE);
+        edSenhaNovo.setVisibility(View.INVISIBLE);
+        edTelefoneNovo.setAlpha(0);
+        btEntrarNovo.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         //salvar imagem no banco
         String fileName = UUID.randomUUID().toString();
         final StorageReference ref = FirebaseStorage.getInstance().getReference("/images/" + fileName);
@@ -171,7 +179,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                progressDialog.dismiss();
+                                progressBar.setVisibility(View.GONE);
                                 //URL da minha imagem;
                                 urlFoto = uri;
                                 user.setUrlFotoUser(uri.toString());
@@ -181,6 +189,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                                 //abrir a tela inicial
                                 Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
                                 Log.i("teste", "sucesso da autentificacao, idUser: " + FirebaseAuth.getInstance().getUid());
+                                progressBar.setVisibility(View.GONE);
                                 startActivity(intent);
                             }
                         });
@@ -189,7 +198,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         Log.i("teste", "Falha ao fazer upload da foto: " + e.getMessage());
                         if (e.getMessage().equals("A network error (such as timeout, interrupted connection or unreachable host) has occurred.")) {
                             Toast.makeText(CriarContaActivity.this, "Falha ao conectar-se com a internet", Toast.LENGTH_LONG).show();
@@ -199,7 +208,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                progressDialog.setTitle("Enviado " + (int) progress + "% completo");
+                Toast.makeText(CriarContaActivity.this, "Progress: " + progress, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,12 +23,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.ufc.com.carona_ufc.R;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText email;
-    EditText senha;
+    EditText emailLogin;
+    EditText senhaLogin;
     TextView tvEsqueciSenha;
     Button btnCriarConta;
     Button btnEntrar;
     FirebaseAuth mAuth;
+    private ProgressBar circularBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +41,16 @@ public class LoginActivity extends AppCompatActivity {
 
         //Autentificacao com firebase
         mAuth = FirebaseAuth.getInstance();
-
-        senha = findViewById(R.id.senhaLogin);
-        email = findViewById(R.id.emailLogin);
+        circularBar = findViewById(R.id.circularBar);
+        senhaLogin = findViewById(R.id.senhaLogin);
+        emailLogin = findViewById(R.id.emailLogin);
         btnCriarConta = findViewById(R.id.btnCriarConta);
         btnEntrar = findViewById(R.id.btnEntrar);
         tvEsqueciSenha = findViewById(R.id.tvEsqueceuASenha);
 
+
+        //esconder e com o GONE ele remove
+        circularBar.setVisibility(View.INVISIBLE);
 
         btnCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,19 +63,19 @@ public class LoginActivity extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                circularBar.setVisibility(View.VISIBLE);
                 //Verificar se o usuario ja está no banco
-                String email1 = email.getText().toString();
-                String senha1 = senha.getText().toString();
+                String email1 = emailLogin.getText().toString();
+                String senha1 = senhaLogin.getText().toString();
 
                 if (email1.equals("")) {
-                    email.setError("O campo de email é obrigatório!");
+                    emailLogin.setError("O campo de email é obrigatório!");
                 }
                 if (senha1.equals("")) {
-                    senha.setError("O campo de senha é obrigatório!");
+                    senhaLogin.setError("O campo de senha é obrigatório!");
                 } else {
                     fazerLogin(email1, senha1);
                 }
-
             }
         });
 
@@ -84,12 +89,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void fazerLogin(String email, String password) {
+    private void fazerLogin(final String email, String password) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            circularBar.setVisibility(View.GONE);
                             Log.i("teste", "sucesso ao fazer login");
                             Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
                             startActivity(intent);
@@ -98,7 +104,13 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.i("teste", "erro ao fazer Login");
+                Log.i("teste", "erro ao fazer Login: " + e.getMessage());
+                if (e.getMessage().equals("The password is invalid or the user does not have a password.")) {
+                    senhaLogin.setError("Senha incorreta");
+                }
+                if (e.getMessage().equals("There is no user record corresponding to this identifier. The user may have been deleted.")) {
+                    emailLogin.setError("Não foi encontrado uma conta com esse email :( ");
+                }
             }
         });
     }

@@ -8,4 +8,5 @@
     <color name="colorFundo">#F0EEEE</color>
     <color name="colorPreto">#000000</color>
     <color name="colorFundoCardView">#E2DEDE</color>
+    <color name="colorFundoProgress">#7C8B8B8B</color>
 </resources>

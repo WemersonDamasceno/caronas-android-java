@@ -46,6 +46,25 @@
             android:ems="13"
             android:hint="@string/endere_o" />
 
+        <RelativeLayout
+            android:id="@+id/rLProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorFundoProgress"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/circularBarCriarConta"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp" />
+
+        </RelativeLayout>
+
+
         <ImageView
             android:id="@+id/useMyLocation"
             android:layout_width="30dp"

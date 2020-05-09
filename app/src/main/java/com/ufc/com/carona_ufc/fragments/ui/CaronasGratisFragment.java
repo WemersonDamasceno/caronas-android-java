@@ -98,6 +98,7 @@ public class CaronasGratisFragment extends Fragment {
     }
 
     private void buscarCaronas() {
+
         caronaAdapter.getListCaronas().clear();
         FirebaseFirestore.getInstance().collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
