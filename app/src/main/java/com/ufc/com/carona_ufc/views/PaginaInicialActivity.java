@@ -7,7 +7,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +61,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     FirebaseStorage fireBaseStorage;
     StorageReference storageReference;
+    LinearLayout llMenuFoto;
     //
 
     @Override
@@ -88,6 +91,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         imgPerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.imagePerfilMenu);
         tvEmailPerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.tvEmailPerfilDrawer);
         tvNomePerfilDrawer = navigationView.getHeaderView(0).findViewById(R.id.tvNomePerfilDrawer);
+        llMenuFoto = navigationView.getHeaderView(0).findViewById(R.id.llMenuFoto);
 
         //primeira pagina a ser exibida
         Fragment fragment = new Pg_Inicial_Fragment();
@@ -106,6 +110,30 @@ public class PaginaInicialActivity extends AppCompatActivity {
 
         //
         getUser(FirebaseAuth.getInstance().getUid());
+
+        //abrir o perfil do usuario
+        llMenuFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore.getInstance().collection("/users")
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot doc : docs) {
+                                    Usuario user = doc.toObject(Usuario.class);
+                                    if (user.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
+                                        Intent intent = new Intent(getBaseContext(), PerfilUsuarioActivity.class);
+                                        intent.putExtra("user", user);
+                                        startActivity(intent);
+                                    }
+
+                                }
+                            }
+                        });
+            }
+        });
+
 
     }
 
