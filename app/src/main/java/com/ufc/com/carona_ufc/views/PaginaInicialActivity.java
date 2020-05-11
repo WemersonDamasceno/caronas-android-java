@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.fragments.ui.HistoricoCaronasFragment;
+import com.ufc.com.carona_ufc.fragments.ui.PerfilUsuarioFragment;
 import com.ufc.com.carona_ufc.fragments.ui.Pg_Inicial_Fragment;
 import com.ufc.com.carona_ufc.fragments.ui.ToolsFragment;
 import com.ufc.com.carona_ufc.models.Usuario;
@@ -111,6 +112,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         //
         getUser(FirebaseAuth.getInstance().getUid());
 
+
         //abrir o perfil do usuario
         llMenuFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,11 +125,14 @@ public class PaginaInicialActivity extends AppCompatActivity {
                                 for (DocumentSnapshot doc : docs) {
                                     Usuario user = doc.toObject(Usuario.class);
                                     if (user.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
-                                        Intent intent = new Intent(getBaseContext(), PerfilUsuarioActivity.class);
-                                        intent.putExtra("user", user);
-                                        startActivity(intent);
+                                        setTitle("Perfil");
+                                        Fragment fragment = new PerfilUsuarioFragment(user, bar);
+                                        // Inserir o fragment no local dele na main activity
+                                        FragmentManager fragmentManager = getSupportFragmentManager();
+                                        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+                                        // Fechar o navigation drawer
+                                        drawer.closeDrawers();
                                     }
-
                                 }
                             }
                         });
@@ -171,6 +176,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 });
     }
     public void selectDrawerItem(MenuItem menuItem) {
+
         Fragment fragment = null;
         Class fragmentClass = Pg_Inicial_Fragment.class;
         switch (menuItem.getItemId()) {

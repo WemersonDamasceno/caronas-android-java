@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFundo"
+    android:backgroundTint="@color/colorFundoCardView"
     tools:context=".views.CriarContaActivity">
 
     <RelativeLayout
@@ -29,7 +30,7 @@
             android:layout_below="@+id/imgEscolherFoto"
             android:layout_marginTop="20dp"
             android:background="@drawable/text_redondo"
-            android:backgroundTint="#E9E6E6"
+            android:backgroundTint="#FFFFFF"
             android:ems="13"
             android:hint="@string/nome" />
 
@@ -42,27 +43,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:background="@drawable/text_redondo"
-            android:backgroundTint="#E9E6E6"
+            android:backgroundTint="#FFFFFF"
             android:ems="13"
             android:hint="@string/endere_o" />
 
-        <RelativeLayout
-            android:id="@+id/rLProgress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorFundoProgress"
-            android:orientation="horizontal"
-            android:visibility="gone">
 
-            <ProgressBar
-                android:id="@+id/circularBarCriarConta"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="16dp" />
 
-        </RelativeLayout>
 
 
         <ImageView
@@ -89,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
                 android:background="@drawable/text_redondo"
-                android:backgroundTint="#E9E6E6"
+                android:backgroundTint="#FFFFFF"
                 android:ems="13"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
@@ -110,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@drawable/text_redondo"
-                android:backgroundTint="#E9E6E6"
+                android:backgroundTint="#FFFFFF"
                 android:ems="13"
                 android:hint="@string/senha"
                 android:inputType="textPassword" />
@@ -124,14 +110,13 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:background="@drawable/text_redondo"
-            android:backgroundTint="#E9E6E6"
+            android:backgroundTint="#FFFFFF"
             android:ems="13"
             android:hint="@string/telefone"
             android:inputType="phone"
             app:met_mask="(##) # ####-####" />
 
     </RelativeLayout>
-
 
     <Button
         android:id="@+id/btEntrarNovo"
@@ -140,12 +125,26 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorLilas"
         android:ems="13"
+        android:stateListAnimator="@null"
         android:text="@string/criar_conta"
         android:textColor="#F2F2F5"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/circularBarCriarConta"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.199"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btEntrarNovo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -74,7 +74,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     //Usuario
     Usuario user;
     Uri urlFoto = null;
-    RelativeLayout progressBar;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         edTelefoneNovo = findViewById(R.id.edTelefoneNovo);
         selectedImage = null;
         user = new Usuario();
-        progressBar = findViewById(R.id.rLProgress);
+        progressBar = findViewById(R.id.circularBarCriarConta);
         progressBar.setVisibility(View.GONE);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -147,6 +147,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                 String email = edEmailNovo.getText().toString();
                 String senha = edSenhaNovo.getText().toString();
                 String nome = edNomeNovo.getText().toString();
+
                 if (email.equals("") || senha.equals("") || nome.equals("")) {
                     if (email.equals(""))
                         edEmailNovo.setError("O campo email é obrigatório!");
@@ -155,6 +156,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                     if (nome.equals(""))
                         edNomeNovo.setError("O campo nome é obrigatório!");
                 } else {
+                    btEntrarNovo.setText(" Criando sua conta");
                     progressBar.setVisibility(View.VISIBLE);
                     creatNewUser(email, senha);
                 }
@@ -164,11 +166,13 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     }
 
     private void uploadFoto() {
-        edEmailNovo.setVisibility(View.INVISIBLE);
-        edSenhaNovo.setVisibility(View.INVISIBLE);
-        edTelefoneNovo.setAlpha(0);
-        btEntrarNovo.setVisibility(View.INVISIBLE);
+        if (selectedImage == null) {
+            Toast.makeText(CriarContaActivity.this, "Não quer escolher uma foto ? Clique na imagem", Toast.LENGTH_LONG).show();
+        }
+
+
         progressBar.setVisibility(View.VISIBLE);
+        btEntrarNovo.setText("Criando sua conta");
         //salvar imagem no banco
         String fileName = UUID.randomUUID().toString();
         final StorageReference ref = FirebaseStorage.getInstance().getReference("/images/" + fileName);
@@ -180,6 +184,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                             @Override
                             public void onSuccess(Uri uri) {
                                 progressBar.setVisibility(View.GONE);
+                                btEntrarNovo.setText("Criando sua conta");
                                 //URL da minha imagem;
                                 urlFoto = uri;
                                 user.setUrlFotoUser(uri.toString());
@@ -208,7 +213,8 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                Toast.makeText(CriarContaActivity.this, "Progress: " + progress, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CriarContaActivity.this, "Aguarde um pouco, " + (int) progress + "% completo", Toast.LENGTH_SHORT).show();
+                btEntrarNovo.setText("Criando sua conta");
             }
         });
 

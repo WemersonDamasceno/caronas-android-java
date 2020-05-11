@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ui.PerfilUsuarioFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorFundoCardView"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorFundoCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--Foto Capa -->
+                <ImageView
+                    android:id="@+id/imgCapa"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/gamercapa" />
+
+                <ImageView
+                    android:id="@+id/btnTrocarFotoCapa"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@id/rlPerfil"
+                    android:src="@drawable/ic_camera" />
+
+                <RelativeLayout
+                    android:id="@+id/rlPerfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgPerfilUsuario"
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="40dp"
+                        android:src="@drawable/perfil" />
+
+                    <ImageView
+                        android:id="@+id/btnTrocarFoto"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="-40dp"
+                        android:layout_marginTop="120dp"
+                        android:layout_toEndOf="@id/imgPerfilUsuario"
+                        android:src="@drawable/ic_camera" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlDados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgCapa">
+
+                    <TextView
+                        android:id="@+id/tvNomeUsuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Wemerson Monteiro"
+                        android:textColor="@color/colorLilas"
+                        android:textSize="20sp" />
+
+
+                    <TextView
+                        android:id="@+id/tvEnderecoUsuario"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvNomeUsuario"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="Endereço não informado"
+                        android:textColor="@color/colorLilas"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvAvaliacaoUsuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvEnderecoUsuario"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:text="Avaliação: 4,6"
+                        android:textColor="@color/colorLilas"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tvMiniBio"
+                        android:layout_width="250dp"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/tvAvaliacaoUsuario"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="Sobre mim\nEu gosto de andar de moto e jogar e qlqr coisa ai "
+                        android:textColor="@color/colorPreto"
+                        android:textSize="15sp"
+                        android:textStyle="italic" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llcaronasOferecidas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlDados"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorBranco"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Carona Oferecidas"
+                        android:textColor="@color/colorLilas"
+                        android:textSize="15sp" />
+                    <!--Isso tem q ser feito em um layout em outro XML e usar um recycler view-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCaronasHorinzontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:padding="5dp"></androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llcaronasOferecidas"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorBranco"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/txtCaronasPegas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="Carona Pegas"
+                        android:textColor="@color/colorLilas"
+                        android:textSize="15sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCaronasPegas"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:padding="5dp"></androidx.recyclerview.widget.RecyclerView>
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -22,6 +22,8 @@ public class ProcurarCaronaActivity extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
 
+        //colocar uma lupa no toolbar
+        bar.setLogo(R.drawable.ic_lupa);
 
         viewPager = findViewById(R.id.pager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());

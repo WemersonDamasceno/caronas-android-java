@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".views.PerfilUsuarioActivity"></activity>
         <activity android:name=".views.PegarCaronaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
