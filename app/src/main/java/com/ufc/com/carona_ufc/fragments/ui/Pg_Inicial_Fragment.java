@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.views.OferecerCaronaActivity;
-import com.ufc.com.carona_ufc.views.ProcurarCaronaActivity;
 
 public class Pg_Inicial_Fragment extends Fragment {
 
@@ -28,14 +30,18 @@ public class Pg_Inicial_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), OferecerCaronaActivity.class);
-                startActivity(intent);
+                //abrir activity com animação
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getContext(), R.anim.fade_in, R.anim.fade_out);
+                ActivityCompat.startActivity(getContext(), intent, activityOptionsCompat.toBundle());
             }
         });
         btnProcurarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
-                startActivity(intent);
+                Fragment fragment = new ProcurarCaronaFragment();
+                // Inserir o fragment no local dele na main activity
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
             }
         });
 

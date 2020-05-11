@@ -10,7 +10,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:backgroundTint="@color/colorLilas"
+        android:backgroundTint="@color/colorLilasStart"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints">

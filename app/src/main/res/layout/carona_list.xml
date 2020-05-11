@@ -44,7 +44,7 @@
                     android:layout_below="@+id/tvHorarioSaidaLista"
                     android:layout_marginTop="35dp"
                     android:text="16:20"
-                    android:textColor="@color/colorLilas" />
+                    android:textColor="@color/colorLilasStart" />
 
 
                 <ImageView
@@ -73,7 +73,7 @@
                     android:layout_marginTop="35dp"
                     android:layout_toEndOf="@+id/pontos"
                     android:text="Oiticica, Quixeramobim - CE"
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="15sp" />
 
                 <ImageView

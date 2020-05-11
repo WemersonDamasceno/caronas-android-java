@@ -17,12 +17,14 @@
 
 
     <EditText
+        android:layout_height="40dp"
         android:id="@+id/emailLogin"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/logo"
+        android:background="@drawable/button_redondo"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/text_redondo"
+        android:paddingStart="15dp"
         android:backgroundTint="@color/colorBranco"
         android:ems="13"
         android:hint="@string/email" />
@@ -30,18 +32,20 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_til"
         android:layout_width="wrap_content"
-        android:layout_height="37dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/emailLogin"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         app:counterEnabled="true"
         app:passwordToggleEnabled="true">
 
+
         <EditText
             android:id="@+id/senhaLogin"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/text_redondo"
+            android:layout_height="40dp"
+            android:background="@drawable/button_redondo"
+            android:paddingStart="15dp"
             android:backgroundTint="@color/colorBranco"
             android:ems="13"
             android:hint="@string/senha"
@@ -51,12 +55,12 @@
     <Button
         android:id="@+id/btnEntrar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@+id/password_til"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:background="@drawable/button_redondo"
-        android:ems="13"
+        android:ems="17"
         android:text="@string/entrar"
         android:textColor="@color/colorBranco"
         android:textStyle="bold" />
@@ -64,14 +68,14 @@
     <Button
         android:id="@+id/btnCriarConta"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@+id/btnEntrar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:background="@drawable/button_redondo_branco"
-        android:ems="13"
+        android:ems="17"
         android:text="@string/criar_conta"
-        android:textColor="@color/colorLilas"
+        android:textColor="@color/colorLilasStart"
         android:textStyle="bold" />
 
     <TextView
@@ -82,46 +86,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:text="@string/esqueceu_a_senha"
-        android:textColor="@color/colorLilas"
+        android:textColor="@color/colorLilasStart"
         android:textSize="17sp"
         android:textStyle="bold" />
-
-    <ProgressBar
-        android:id="@+id/circularBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emailLogin"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="16dp" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/tvEsqueceuASenha"
-        android:layout_marginStart="40dp"
-        android:src="@drawable/img_pessoa_01" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/tvEsqueceuASenha"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/img_pessoa_02" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/tvEsqueceuASenha"
-        android:layout_marginStart="-10dp"
-        android:src="@drawable/img_pessoa_03" />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/tvEsqueceuASenha"
-        android:layout_marginStart="200dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/mulher_carro" />
 
 
 </RelativeLayout>

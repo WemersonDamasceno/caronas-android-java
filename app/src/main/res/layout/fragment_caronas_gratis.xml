@@ -36,7 +36,7 @@
                 android:fontFamily="monospace"
                 android:gravity="center"
                 android:text="@string/ainda_n_o_foi_oferecida_nenhuma_carona_ncompartilhe_e_indique_o_app_para_seus_amigos"
-                android:textColor="@color/colorLilas"
+                android:textColor="@color/colorLilasStart"
                 android:textSize="20sp" />
 
             <Button

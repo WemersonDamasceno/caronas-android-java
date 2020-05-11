@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".views.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".views.PegarCaronaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -34,11 +40,7 @@
         <activity
             android:name=".views.PaginaInicialActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -51,13 +53,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.OferecerCaronaActivity" />
-        </activity>
-        <activity
-            android:name=".views.ProcurarCaronaActivity"
-            android:label="Procurar Carona">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.PaginaInicialActivity" />
         </activity>
         <activity
             android:name=".views.OferecerCaronaActivity"

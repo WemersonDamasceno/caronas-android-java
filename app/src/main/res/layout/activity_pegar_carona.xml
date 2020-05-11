@@ -59,7 +59,7 @@
                 android:layout_below="@+id/tvNomeMotoristaCarona"
                 android:layout_marginTop="11dp"
                 android:text="4,9"
-                android:textColor="@color/colorLilas"
+                android:textColor="@color/colorLilasStart"
                 android:textSize="15sp" />
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/txtWpp"
                 android:text="(88) 99709-1133"
-                android:textColor="@color/colorLilas"
+                android:textColor="@color/colorLilasStart"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -137,7 +137,7 @@
                     android:layout_below="@+id/mapCarona"
                     android:layout_marginTop="20dp"
                     android:text="@string/tempo_m_dio"
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -161,7 +161,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/tvDuracaoCarona"
                     android:text="@string/distancia"
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -184,7 +184,7 @@
                     android:layout_below="@+id/tvDuracaoCarona"
                     android:layout_marginTop="20dp"
                     android:text="@string/data"
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -209,7 +209,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/tvDataCarona"
                     android:text="@string/horario_de_saida"
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -233,7 +233,7 @@
                     android:layout_below="@+id/tvHoraConfirm2"
                     android:layout_marginTop="20dp"
                     android:text="Quantidade de vagas disponiveis: "
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -258,7 +258,7 @@
                     android:layout_below="@+id/tvQtdVagasCarona"
                     android:layout_marginTop="20dp"
                     android:text="Fale com o motorista: "
-                    android:textColor="@color/colorLilas"
+                    android:textColor="@color/colorLilasStart"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -327,7 +327,7 @@
         android:id="@+id/btnPegarCarona"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/colorLilas"
+        android:background="@color/colorLilasStart"
         android:text="Contratar Carona"
         android:textColor="@color/colorBranco"
         app:layout_constraintBottom_toBottomOf="parent"

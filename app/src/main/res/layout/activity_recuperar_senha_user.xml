@@ -35,7 +35,7 @@
             android:gravity="center"
             android:padding="15dp"
             android:text="@string/texto_redefinir_senha"
-            android:textColor="@color/colorLilas"
+            android:textColor="@color/colorLilasStart"
             android:textSize="20sp" />
 
 
@@ -60,7 +60,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorLilas"
+        android:background="@color/colorLilasStart"
         android:text="@string/confirmar"
         android:textColor="@color/colorBranco"
         app:layout_constraintBottom_toBottomOf="parent"

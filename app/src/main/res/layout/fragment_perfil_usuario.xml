@@ -74,7 +74,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         android:text="Wemerson Monteiro"
-                        android:textColor="@color/colorLilas"
+                        android:textColor="@color/colorLilasStart"
                         android:textSize="20sp" />
 
 
@@ -86,7 +86,7 @@
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="Endereço não informado"
-                        android:textColor="@color/colorLilas"
+                        android:textColor="@color/colorLilasStart"
                         android:textSize="15sp" />
 
                     <TextView
@@ -97,7 +97,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
                         android:text="Avaliação: 4,6"
-                        android:textColor="@color/colorLilas"
+                        android:textColor="@color/colorLilasStart"
                         android:textSize="17sp" />
 
                     <TextView
@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="Carona Oferecidas"
-                        android:textColor="@color/colorLilas"
+                        android:textColor="@color/colorLilasStart"
                         android:textSize="15sp" />
                     <!--Isso tem q ser feito em um layout em outro XML e usar um recycler view-->
                     <androidx.recyclerview.widget.RecyclerView
@@ -156,7 +156,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="15dp"
                         android:text="Carona Pegas"
-                        android:textColor="@color/colorLilas"
+                        android:textColor="@color/colorLilasStart"
                         android:textSize="15sp" />
 
                     <androidx.recyclerview.widget.RecyclerView

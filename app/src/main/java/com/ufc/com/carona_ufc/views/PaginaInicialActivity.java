@@ -41,6 +41,7 @@ import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.fragments.ui.HistoricoCaronasFragment;
 import com.ufc.com.carona_ufc.fragments.ui.PerfilUsuarioFragment;
 import com.ufc.com.carona_ufc.fragments.ui.Pg_Inicial_Fragment;
+import com.ufc.com.carona_ufc.fragments.ui.ProcurarCaronaFragment;
 import com.ufc.com.carona_ufc.fragments.ui.ToolsFragment;
 import com.ufc.com.carona_ufc.models.Usuario;
 
@@ -185,12 +186,16 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 fragmentClass = Pg_Inicial_Fragment.class;
                 break;
             case R.id.nav_OferecerCarona:
+                setTitle(menuItem.getTitle());
+                //fragmentClass = OferecerCaronaFragment.class;
                 Intent intent = new Intent(this, OferecerCaronaActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_procurarcarona:
-                Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
-                startActivity(intent1);
+                //Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
+                //startActivity(intent1);
+                setTitle(menuItem.getTitle());
+                fragmentClass = ProcurarCaronaFragment.class;
                 break;
             case R.id.nav_historicocarona:
                 setTitle(menuItem.getTitle());

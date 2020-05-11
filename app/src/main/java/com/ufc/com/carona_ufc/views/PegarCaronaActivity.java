@@ -218,7 +218,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Log.i("deletar", "deletado");
-                        Intent intent = new Intent(getBaseContext(), ProcurarCaronaActivity.class);
+                        Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
                         startActivity(intent);
                         finish();
                     }
