@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fundo_teste"
+    android:background="@color/colorFundoCardView"
     tools:context=".views.OferecerCaronaActivity">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -177,7 +177,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="@string/preciso_de_ajuda_r_2_00"
-                android:textColor="@color/colorBranco"
+                android:textColor="@color/colorLilasStart"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 

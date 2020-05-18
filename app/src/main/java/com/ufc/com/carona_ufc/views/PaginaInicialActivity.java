@@ -1,6 +1,8 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +21,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -111,6 +115,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         }
 
         //
+        checarPermissaoClient();
         getUser(FirebaseAuth.getInstance().getUid());
 
 
@@ -177,23 +182,24 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 });
     }
     public void selectDrawerItem(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.nav_pagInicial) {
+            menuItem.setChecked(true);
+        }
 
         Fragment fragment = null;
-        Class fragmentClass = Pg_Inicial_Fragment.class;
+        Class fragmentClass = ProcurarCaronaFragment.class;
         switch (menuItem.getItemId()) {
             case R.id.nav_pagInicial:
                 setTitle(menuItem.getTitle());
                 fragmentClass = Pg_Inicial_Fragment.class;
                 break;
             case R.id.nav_OferecerCarona:
-                setTitle(menuItem.getTitle());
+                //setTitle(menuItem.getTitle());
                 //fragmentClass = OferecerCaronaFragment.class;
                 Intent intent = new Intent(this, OferecerCaronaActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_procurarcarona:
-                //Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
-                //startActivity(intent1);
                 setTitle(menuItem.getTitle());
                 fragmentClass = ProcurarCaronaFragment.class;
                 break;
@@ -228,6 +234,34 @@ public class PaginaInicialActivity extends AppCompatActivity {
         menuItem.setChecked(true);
         // Fechar o navigation drawer
         drawer.closeDrawers();
+    }
+
+    //Faz a pergunta para o usuario da PERMISSAO
+    private void checarPermissaoClient() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        0);
+            }
+        }
+    }
+
+    //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Toast.makeText(this, "Sucess | Permissão concedida", Toast.LENGTH_SHORT).show();
+            } else {
+                //Toast.makeText(this, "Fail | Aceite a permissão para usar sua localização!", Toast.LENGTH_LONG).show();
+                // A permissão foi negada. Precisa ver o que deve ser desabilitado
+            }
+            return;
+        }
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

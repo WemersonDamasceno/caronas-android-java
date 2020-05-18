@@ -92,9 +92,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         bundleLatLng = new Bundle();
 
 
-        editarCarona();
-
-
+        //editarCarona();
 
         //autoComplete dos enderecos
         etLocalSaida.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
@@ -184,18 +182,9 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
 
     private void editarCarona() {
         //Editar a carona
-        /*
-        Intent intent = getIntent();
-        bundleLatLng = intent.getBundleExtra("bundle");
-        if(bundleLatLng != null){
-            carona = bundleLatLng.getParcelable("caronaEditar");
-            etLocalChegada.setText(carona.getEnderecoChegada());
-            etLocalSaida.setText(carona.getEnderecoSaida());
-            tvData.setText(carona.getData());
-            tvHora.setText(carona.getHora());
-            Log.i("teste", "funcionou");
-        }
-         */
+        //carona = bundleLatLng.getParcelable("caronaEditar");
+        //Log.i("car", "car: "+carona.getId());
+
     }
 
     //pegar a latlng dos endereços digitados

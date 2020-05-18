@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
@@ -24,6 +25,8 @@ import com.ufc.com.carona_ufc.models.Usuario;
 public class PerfilUsuarioFragment extends Fragment {
     ActionBar bar;
     private Usuario usuario;
+    RecyclerView rvCaronasOferecidasHorinzontal;
+    RecyclerView rvCaronasPegas;
 
     public PerfilUsuarioFragment(Usuario user, ActionBar bar) {
         this.usuario = user;
@@ -50,6 +53,10 @@ public class PerfilUsuarioFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        rvCaronasOferecidasHorinzontal = view.findViewById(R.id.rvCaronasOferecidasHorinzontal);
+        rvCaronasPegas = view.findViewById(R.id.rvCaronasPegasHorizontal);
+
 
         bar.setTitle("Perfil");
         //relacionar os dados com o xml

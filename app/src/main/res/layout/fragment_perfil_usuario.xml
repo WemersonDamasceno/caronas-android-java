@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorFundoCardView"
+        android:background="@drawable/fundodegrade"
         android:orientation="vertical">
 
         <ScrollView
@@ -131,7 +131,7 @@
                         android:textSize="15sp" />
                     <!--Isso tem q ser feito em um layout em outro XML e usar um recycler view-->
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewCaronasHorinzontal"
+                        android:id="@+id/rvCaronasOferecidasHorinzontal"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_gravity="center"
@@ -160,7 +160,7 @@
                         android:textSize="15sp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewCaronasPegas"
+                        android:id="@+id/rvCaronasPegasHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_gravity="center"

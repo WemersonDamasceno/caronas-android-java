@@ -3,6 +3,7 @@ package com.ufc.com.carona_ufc.fragments.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,42 +35,39 @@ import java.util.List;
  */
 public class CaronasGratisFragment extends Fragment {
 
+    private CaronaAdapter caronaAdapter;
+
     public CaronasGratisFragment() {
         // Required empty public constructor
+
     }
 
-    RecyclerView recyclerView;
-    CaronaAdapter caronaAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
+        View view = inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
 
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         TextView tvHorarioChegadaLista = view.findViewById(R.id.tvHorarioChegadaLista);
         Button btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
         LinearLayout layoutLost = view.findViewById(R.id.layoutLost);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         layoutManager.setReverseLayout(false);
 
 
         caronaAdapter = new CaronaAdapter();
-        caronaAdapter.getListCaronas().clear();
+        //caronaAdapter.getListCaronas().clear();
         recyclerView.setAdapter(caronaAdapter);
         recyclerView.setLayoutManager(layoutManager);
-        caronaAdapter.notifyDataSetChanged();
         buscarCaronas();
+        //caronaAdapter.notifyDataSetChanged();
 
+        Log.i("teste", "entrou");
 
-        if (caronaAdapter.getItemCount() == 0 || caronaAdapter == null) {
+        if (caronaAdapter.getItemCount() == 0 || caronaAdapter == null || caronaAdapter.getListCaronas().size() == 0) {
             layoutLost.setVisibility(View.INVISIBLE);
             btnCompartilhar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,8 +75,6 @@ public class CaronasGratisFragment extends Fragment {
                     Toast.makeText(v.getContext(), "Compartilhar", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }
 
 
@@ -93,18 +88,16 @@ public class CaronasGratisFragment extends Fragment {
                 startActivity(intent1);
             }
         });
-
-
+        return view;
     }
 
     private void buscarCaronas() {
-
-        caronaAdapter.getListCaronas().clear();
         FirebaseFirestore.getInstance().collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
+                            Log.i("teste", e.getMessage());
                             return;
                         }
                         List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
@@ -120,6 +113,5 @@ public class CaronasGratisFragment extends Fragment {
                     }
                 });
     }
-
 
 }
