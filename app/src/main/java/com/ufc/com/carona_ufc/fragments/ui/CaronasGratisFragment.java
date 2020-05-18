@@ -36,17 +36,18 @@ import java.util.List;
 public class CaronasGratisFragment extends Fragment {
 
     private CaronaAdapter caronaAdapter;
-
+    private View view;
     public CaronasGratisFragment() {
         // Required empty public constructor
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
+        view = inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
+
+        Log.i("teste", "onCreateView");
 
         TextView tvHorarioChegadaLista = view.findViewById(R.id.tvHorarioChegadaLista);
         Button btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
@@ -57,15 +58,11 @@ public class CaronasGratisFragment extends Fragment {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         layoutManager.setReverseLayout(false);
 
-
         caronaAdapter = new CaronaAdapter();
-        //caronaAdapter.getListCaronas().clear();
         recyclerView.setAdapter(caronaAdapter);
         recyclerView.setLayoutManager(layoutManager);
         buscarCaronas();
-        //caronaAdapter.notifyDataSetChanged();
 
-        Log.i("teste", "entrou");
 
         if (caronaAdapter.getItemCount() == 0 || caronaAdapter == null || caronaAdapter.getListCaronas().size() == 0) {
             layoutLost.setVisibility(View.INVISIBLE);
@@ -91,6 +88,7 @@ public class CaronasGratisFragment extends Fragment {
         return view;
     }
 
+
     private void buscarCaronas() {
         FirebaseFirestore.getInstance().collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -113,5 +111,4 @@ public class CaronasGratisFragment extends Fragment {
                     }
                 });
     }
-
 }

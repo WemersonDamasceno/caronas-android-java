@@ -172,6 +172,8 @@ public class PaginaInicialActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        //setar o verdim na pagina inicial
+        navigationView.setCheckedItem(R.id.nav_pagInicial);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -182,11 +184,8 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 });
     }
     public void selectDrawerItem(MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.nav_pagInicial) {
-            menuItem.setChecked(true);
-        }
-
-        Fragment fragment = null;
+        Fragment fragment = new Pg_Inicial_Fragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         Class fragmentClass = ProcurarCaronaFragment.class;
         switch (menuItem.getItemId()) {
             case R.id.nav_pagInicial:
@@ -200,15 +199,22 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.nav_procurarcarona:
-                setTitle(menuItem.getTitle());
-                fragmentClass = ProcurarCaronaFragment.class;
+                /*fragmentClass = ProcurarCaronaFragment.class;
+                fragment = new ProcurarCaronaFragment();
+                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+                menuItem.setChecked(true);
+                // Fechar o navigation drawer
+                drawer.closeDrawers();
+                */
+                Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.nav_historicocarona:
                 setTitle(menuItem.getTitle());
                 fragmentClass = HistoricoCaronasFragment.class;
                 break;
             case R.id.nav_tools:
-                setTitle(menuItem.getTitle());
+                setTitle("Configurações");
                 fragmentClass = ToolsFragment.class;
                 break;
             case R.id.nav_share:
@@ -229,13 +235,12 @@ public class PaginaInicialActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         // Inserir o fragment no local dele na main activity
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
         menuItem.setChecked(true);
         // Fechar o navigation drawer
         drawer.closeDrawers();
     }
-
     //Faz a pergunta para o usuario da PERMISSAO
     private void checarPermissaoClient() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

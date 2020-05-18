@@ -22,18 +22,17 @@ public class ProcurarCaronaFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_procurar_carona, container, false);
-
+        view = inflater.inflate(R.layout.fragment_procurar_carona, container, false);
         ViewPager viewPager = view.findViewById(R.id.pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
 
-
         return view;
     }
+
 }

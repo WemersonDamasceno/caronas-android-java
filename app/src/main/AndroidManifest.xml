@@ -21,6 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".views.ProcurarCaronaActivity"
+            android:label="@string/procurar_carona">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.PaginaInicialActivity" />
+        </activity>
         <activity android:name=".views.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,24 +35,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.PegarCaronaActivity">
+        <activity
+            android:name=".views.PegarCaronaActivity"
+            android:label="Pegar Carona">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.ProcurarCaronaActivity" />
         </activity>
-        <activity android:name=".views.RecuperarSenhaUserActivity">
+        <activity
+            android:name=".views.RecuperarSenhaUserActivity"
+            android:label="Recuperar Senha">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.LoginActivity" />
         </activity>
         <activity
             android:name=".views.PaginaInicialActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <activity
             android:name=".views.ConfirmarCaronaActivity"
             android:label="@string/title_activity_maps">
