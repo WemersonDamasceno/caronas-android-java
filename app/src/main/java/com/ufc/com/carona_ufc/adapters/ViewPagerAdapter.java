@@ -39,14 +39,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         String str = null;
         switch (position) {
             case 0:
-                str = "Caronas Gratis";
+                //str = "Caronas Gratis";
                 break;
             case 1:
-                str = "Caronas Pagas";
+                //str = "Caronas Pagas";
                 break;
         }
         return str;
     }
+
 
     @Override
     public int getCount() {

@@ -47,7 +47,6 @@ public class CaronasGratisFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
 
-        Log.i("teste", "onCreateView");
 
         TextView tvHorarioChegadaLista = view.findViewById(R.id.tvHorarioChegadaLista);
         Button btnCompartilhar = view.findViewById(R.id.btnCompartilhar);

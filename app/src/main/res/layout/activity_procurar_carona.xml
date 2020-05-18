@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,19 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorLilasStart"
+            app:tabIconTint="@color/colorBranco"
+            app:tabIndicatorColor="@color/colorBranco"
+            app:tabIndicatorHeight="3dp"
             app:tabTextColor="@color/colorBranco">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/principal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Caronas Grátis" />
+                android:id="@+id/tabcaronasgratis"
+                android:icon="@drawable/ic_money_off" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/suas_musicas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Caronas Pagas" />
+                android:id="@+id/tabcaronaspagas"
+                android:icon="@drawable/ic_money_on" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -39,4 +38,4 @@
     </androidx.viewpager.widget.ViewPager>
 
 
-</LinearLayout>
+</RelativeLayout>

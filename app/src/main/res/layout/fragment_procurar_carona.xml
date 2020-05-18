@@ -27,13 +27,13 @@
                 app:tabTextColor="@color/colorBranco">
 
                 <com.google.android.material.tabs.TabItem
-                    android:id="@+id/principal"
+                    android:id="@+id/tabcaronasgratis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Caronas Grátis" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:id="@+id/suas_musicas"
+                    android:id="@+id/tabcaronaspagas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Caronas Pagas" />
