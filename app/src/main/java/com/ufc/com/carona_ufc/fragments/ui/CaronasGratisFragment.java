@@ -34,9 +34,17 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class CaronasGratisFragment extends Fragment {
-
     private CaronaAdapter caronaAdapter;
     private View view;
+
+    public CaronaAdapter getCaronaAdapter() {
+        return caronaAdapter;
+    }
+
+    public void setCaronaAdapter(CaronaAdapter caronaAdapter) {
+        this.caronaAdapter = caronaAdapter;
+    }
+
     public CaronasGratisFragment() {
         // Required empty public constructor
     }
@@ -63,8 +71,8 @@ public class CaronasGratisFragment extends Fragment {
         buscarCaronas();
 
 
-        if (caronaAdapter.getItemCount() == 0 || caronaAdapter == null || caronaAdapter.getListCaronas().size() == 0) {
-            layoutLost.setVisibility(View.INVISIBLE);
+        if (caronaAdapter == null) {
+            layoutLost.setVisibility(View.VISIBLE);
             btnCompartilhar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -104,10 +112,10 @@ public class CaronasGratisFragment extends Fragment {
                                 caronaAdapter.add(car);
                                 caronaAdapter.notifyDataSetChanged();
                             }
-
                         }
-
                     }
                 });
     }
+
+
 }

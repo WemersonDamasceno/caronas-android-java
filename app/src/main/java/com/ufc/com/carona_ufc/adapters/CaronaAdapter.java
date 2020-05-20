@@ -74,6 +74,11 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void filterList(ArrayList<Carona> filteredList) {
+        listCaronas = filteredList;
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolderCaronas extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvNomeMotorista;
@@ -145,7 +150,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                         }
                     });
         }
-
 
 
     }
