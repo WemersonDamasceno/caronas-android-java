@@ -4,6 +4,8 @@ package com.ufc.com.carona_ufc.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,15 +26,41 @@ import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.models.Usuario;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolderCaronas> {
+public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolderCaronas> implements Filterable {
     private ArrayList<Carona> listCaronas;
+    private ArrayList<Carona> listCaronasAll;
     private static ItemClickListener itemClickListener;
+    Filter filter = new Filter() {
+        //run on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<Carona> filteredList = new ArrayList<>();
+            if (constraint.toString().isEmpty()) {
+                filteredList.addAll(listCaronasAll);
+            } else {
+                for (Carona carona : listCaronasAll) {
+                    if (carona.getEnderecoChegada().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredList.add(carona);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
 
-    public CaronaAdapter() {
-        this.listCaronas = new ArrayList<>();
-    }
+            return filterResults;
+        }
+
+        //run on a ui thread
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            listCaronas.clear();
+            listCaronas.addAll((Collection<? extends Carona>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public void setOnItemClickListener(ItemClickListener itemClickListener) {
         CaronaAdapter.itemClickListener = itemClickListener;
@@ -77,6 +105,16 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
     public void filterList(ArrayList<Carona> filteredList) {
         listCaronas = filteredList;
         notifyDataSetChanged();
+    }
+
+    public CaronaAdapter() {
+        this.listCaronas = new ArrayList<>();
+        this.listCaronasAll = new ArrayList<>(listCaronas);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
 

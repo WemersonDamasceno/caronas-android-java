@@ -30,8 +30,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.location.LocationListener;
@@ -69,6 +67,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     //Tranferir as LatLng para a proxima tela
     Bundle bundleLatLng;
     Carona carona;
+    //progress dialog
 
 
     @Override
@@ -109,17 +108,18 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         || etVagas.getText().toString().equals("")) {
                     Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 } else {
-
                     final ProgressButton progressButton = new ProgressButton(OferecerCaronaActivity.this);
                     progressButton.buttonAtivo();
+
                     pegarLatLngSaidaChegada();
+
                     Handler thread = new Handler();
                     thread.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             progressButton.buttonDesativo();
                         }
-                    }, 2000);
+                    }, 2200);
 
 
                     carona.setEnderecoSaida(etLocalSaida.getText().toString());
@@ -127,10 +127,9 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     carona.setData(tvData.getText().toString());
                     carona.setHora(tvHora.getText().toString());
                     carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
-                    carona.setQtdVagas(1);
+                    carona.setQtdVagas(Integer.valueOf(etVagas.getText().toString()));
                     carona.setCheckBoxHelp(checkBoxHelp.isChecked());
                     carona.setId(UUID.randomUUID().toString());
-
 
                     //abrir nova activity
                     Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
@@ -146,7 +145,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                checarPermissaoClient();
                 //pegar a localização da pessoa
                 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 //chegar permissão da internet
@@ -186,7 +184,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         //Log.i("car", "car: "+carona.getId());
 
     }
-
     //pegar a latlng dos endereços digitados
     private void pegarLatLngSaidaChegada() {
         Geocoder geocoder = new Geocoder(OferecerCaronaActivity.this, Locale.getDefault());
@@ -241,32 +238,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         bundleLatLng.putParcelable("dados", carona);
         tvData.setText(dia + "/" + mes + "/" + year);
     }
-    //Faz a pergunta para o usuario da PERMISSAO
-    private void checarPermissaoClient() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        0);
-            }
-        }
-    }
-    //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Sucess | Permissão concedida", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Fail | Aceite a permissão para usar sua localização!", Toast.LENGTH_LONG).show();
-                // A permissão foi negada. Precisa ver o que deve ser desabilitado
-            }
-            return;
-        }
-    }
+
     @Override
     public void onLocationChanged(Location location) {
         carona.setLatOrigem(location.getLatitude());
@@ -300,6 +272,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         return endereco;
     }
 
+
     public class ProgressButton {
         private CardView cardView;
 
@@ -318,8 +291,5 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
 
     }
-
-
-
 
 }

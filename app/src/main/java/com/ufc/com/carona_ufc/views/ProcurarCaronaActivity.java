@@ -3,7 +3,7 @@ package com.ufc.com.carona_ufc.views;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -15,9 +15,19 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.ViewPagerAdapter;
-import com.ufc.com.carona_ufc.fragments.ui.CaronasGratisFragment;
+import com.ufc.com.carona_ufc.models.Carona;
+
+import java.util.ArrayList;
 
 public class ProcurarCaronaActivity extends AppCompatActivity {
+    static ArrayList<Carona> caronaArrayList;
+
+    public static ArrayList<Carona> getListCaronas() {
+        ArrayList<Carona> caronas = caronaArrayList;
+        Log.i("teste", "Tam: " + caronas.size());
+        return caronas;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +46,34 @@ public class ProcurarCaronaActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_money_on);
 
 
-
+        if (getIntent() != null) {
+            caronaArrayList = getIntent().getParcelableArrayListExtra("caronas");
+        } else {
+            //num sei
+        }
     }
 
-
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Teste para acessar o adapter da carona.
-        CaronasGratisFragment caronasGratisFragment = new CaronasGratisFragment();
-
         getMenuInflater().inflate(R.menu.menu_procurar, menu);
         MenuItem item = menu.findItem(R.id.ic_procurar);
+
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //caronaAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

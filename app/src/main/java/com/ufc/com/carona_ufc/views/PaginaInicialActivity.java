@@ -193,19 +193,10 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 fragmentClass = Pg_Inicial_Fragment.class;
                 break;
             case R.id.nav_OferecerCarona:
-                //setTitle(menuItem.getTitle());
-                //fragmentClass = OferecerCaronaFragment.class;
-                Intent intent = new Intent(this, OferecerCaronaActivity.class);
+                final Intent intent = new Intent(this, OferecerCaronaActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_procurarcarona:
-                /*fragmentClass = ProcurarCaronaFragment.class;
-                fragment = new ProcurarCaronaFragment();
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-                menuItem.setChecked(true);
-                // Fechar o navigation drawer
-                drawer.closeDrawers();
-                */
                 Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
                 startActivity(intent1);
                 break;
@@ -254,7 +245,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
             }
         }
     }
-
     //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

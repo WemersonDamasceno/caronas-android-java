@@ -3,15 +3,19 @@ package com.ufc.com.carona_ufc.fragments.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,7 +39,7 @@ import java.util.List;
  */
 public class CaronasGratisFragment extends Fragment {
     private CaronaAdapter caronaAdapter;
-    private View view;
+    private FirebaseFirestore db;
 
     public CaronaAdapter getCaronaAdapter() {
         return caronaAdapter;
@@ -53,12 +57,14 @@ public class CaronasGratisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
+        View view = inflater.inflate(R.layout.fragment_caronas_gratis, container, false);
 
 
         TextView tvHorarioChegadaLista = view.findViewById(R.id.tvHorarioChegadaLista);
         Button btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
         LinearLayout layoutLost = view.findViewById(R.id.layoutLost);
+
+        db = FirebaseFirestore.getInstance();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -68,10 +74,12 @@ public class CaronasGratisFragment extends Fragment {
         caronaAdapter = new CaronaAdapter();
         recyclerView.setAdapter(caronaAdapter);
         recyclerView.setLayoutManager(layoutManager);
+
         buscarCaronas();
 
 
-        if (caronaAdapter == null) {
+        //Ajeitar isso quando eu conseguir retornar uma lista do firebase
+        /*if (caronaAdapter.getListCaronas().size() == 0) {
             layoutLost.setVisibility(View.VISIBLE);
             btnCompartilhar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,7 +87,7 @@ public class CaronasGratisFragment extends Fragment {
                     Toast.makeText(v.getContext(), "Compartilhar", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
+        }*/
 
 
         caronaAdapter.setOnItemClickListener(new ItemClickListener() {
@@ -96,15 +104,34 @@ public class CaronasGratisFragment extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_procurar, menu);
+        MenuItem item = menu.findItem(R.id.ic_procurar);
+
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                caronaAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     private void buscarCaronas() {
-        FirebaseFirestore.getInstance().collection("/caronas")
+        db.collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.i("teste", e.getMessage());
-                            return;
-                        }
+                    public void onEvent(@Nullable final QuerySnapshot queryDocumentSnapshots, @Nullable final FirebaseFirestoreException e) {
                         List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot doc : docs) {
                             Carona car = doc.toObject(Carona.class);

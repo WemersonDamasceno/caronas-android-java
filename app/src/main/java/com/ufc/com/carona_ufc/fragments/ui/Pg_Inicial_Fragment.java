@@ -37,21 +37,11 @@ public class Pg_Inicial_Fragment extends Fragment {
         btnProcurarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Fragment fragment = new ProcurarCaronaFragment();
-                // Inserir o fragment no local dele na main activity
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();*/
-                Intent intent1 = new Intent(v.getContext(), ProcurarCaronaActivity.class);
+                Intent intent1 = new Intent(getContext(), ProcurarCaronaActivity.class);
                 startActivity(intent1);
             }
         });
 
-
         return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 }
