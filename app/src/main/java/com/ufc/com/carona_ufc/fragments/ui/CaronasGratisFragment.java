@@ -71,7 +71,7 @@ public class CaronasGratisFragment extends Fragment {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         layoutManager.setReverseLayout(false);
 
-        caronaAdapter = new CaronaAdapter();
+        caronaAdapter = new CaronaAdapter(getContext());
         recyclerView.setAdapter(caronaAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -100,6 +100,8 @@ public class CaronasGratisFragment extends Fragment {
                 startActivity(intent1);
             }
         });
+
+
         return view;
     }
 

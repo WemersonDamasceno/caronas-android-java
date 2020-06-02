@@ -1,12 +1,9 @@
 package com.ufc.com.carona_ufc.views;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -91,7 +86,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
-        caronaAdapter = new CaronaAdapter();
+        caronaAdapter = new CaronaAdapter(getBaseContext());
 
 
         esconderbotoes = findViewById(R.id.esconderBotoes);
@@ -117,13 +112,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvQtdVagasCarona.setText(String.valueOf(carona.getQtdVagas()));
 
         setarDadosUser(carona);
-
-        if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
-            btnPegarCarona.setVisibility(View.INVISIBLE);
-            mostrarBotoes();
-        }
-
-
 
 
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +142,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
             }
         });
-        checarPermissaoClient();
         //abrir whatsapp com numero e uma mensagem pré pronta
         btnWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,8 +155,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
     private void mostrarBotoes() {
         Toast.makeText(this, "Você está oferecendo essa carona", Toast.LENGTH_SHORT).show();
-        esconderbotoes.setVisibility(View.VISIBLE);
-
+        //esconderbotoes.setVisibility(View.VISIBLE);
 
         btnExcluirCarona.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,10 +202,8 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
     private void editarCarona(DocumentSnapshot doc) {
         Intent intent = new Intent(getBaseContext(), OferecerCaronaActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("caronaEditar", carona);
-        bundle.putParcelable("doc", (Parcelable) doc);
-        intent.putExtra("bundle", bundle);
+        Carona carona = doc.toObject(Carona.class);
+        intent.putExtra("editar", carona);
         startActivity(intent);
     }
 
@@ -261,33 +245,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                 });
     }
 
-    //Faz a pergunta para o usuario da PERMISSAO
-    private void checarPermissaoClient() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        0);
-            }
-        }
-    }
 
-    //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Sucess | Permissão concedida", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Fail | Aceite a permissão para usar sua localização!", Toast.LENGTH_LONG).show();
-                // A permissão foi negada. Precisa ver o que deve ser desabilitado
-            }
-            return;
-        }
-    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.getUiSettings().setZoomControlsEnabled(true);

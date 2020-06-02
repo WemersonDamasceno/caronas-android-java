@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +36,14 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.PlaceAutoSuggestAdapter;
 import com.ufc.com.carona_ufc.fragments.DatePickerFragment;
@@ -67,7 +77,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     //Tranferir as LatLng para a proxima tela
     Bundle bundleLatLng;
     Carona carona;
-    //progress dialog
+
+    double latOri, latDest, lngOri, lngDest;
 
 
     @Override
@@ -91,54 +102,11 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         bundleLatLng = new Bundle();
 
 
-        //editarCarona();
 
         //autoComplete dos enderecos
         etLocalSaida.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
         etLocalChegada.setAdapter(new PlaceAutoSuggestAdapter(OferecerCaronaActivity.this, android.R.layout.simple_list_item_1));
 
-        //Criar carona e pegar a latlng para mostrar no mapa
-        btnCriarCarona.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (etLocalSaida.getText().toString().equals("")
-                        || etLocalChegada.getText().toString().equals("")
-                        || tvHora.getText().toString().equals("")
-                        || tvData.getText().toString().equals("")
-                        || etVagas.getText().toString().equals("")) {
-                    Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-                } else {
-                    final ProgressButton progressButton = new ProgressButton(OferecerCaronaActivity.this);
-                    progressButton.buttonAtivo();
-
-                    pegarLatLngSaidaChegada();
-
-                    Handler thread = new Handler();
-                    thread.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressButton.buttonDesativo();
-                        }
-                    }, 2200);
-
-
-                    carona.setEnderecoSaida(etLocalSaida.getText().toString());
-                    carona.setEnderecoChegada(etLocalChegada.getText().toString());
-                    carona.setData(tvData.getText().toString());
-                    carona.setHora(tvHora.getText().toString());
-                    carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
-                    carona.setQtdVagas(Integer.valueOf(etVagas.getText().toString()));
-                    carona.setCheckBoxHelp(checkBoxHelp.isChecked());
-                    carona.setId(UUID.randomUUID().toString());
-
-                    //abrir nova activity
-                    Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
-                    bundleLatLng.putParcelable("carona", carona);
-                    intent.putExtra("bundle", bundleLatLng);
-                    startActivity(intent);
-                }
-            }
-        });
 
         //pegar a localização da pessoa;
         ivUseMyLocation.setOnClickListener(new View.OnClickListener() {
@@ -175,37 +143,145 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             }
         });
 
+        //Criar carona e pegar a latlng para mostrar no mapa
+        btnCriarCarona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (etLocalSaida.getText().toString().equals("")
+                        || etLocalChegada.getText().toString().equals("")
+                        || tvHora.getText().toString().equals("")
+                        || tvData.getText().toString().equals("")
+                        || etVagas.getText().toString().equals("")) {
+                    Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                }
+
+                if (btnCriarCarona.getText().toString().equals("Confirmar Edição")) {
+                    final Carona carona1 = getIntent().getExtras().getParcelable("editar");
+                    editarCarona(carona1);
+                    startActivity(new Intent(v.getContext(), ProcurarCaronaActivity.class));
+                }
+
+
+                if (btnCriarCarona.getText().toString().equals("Criar Carona")) {
+                    final ProgressButton progressButton = new ProgressButton(OferecerCaronaActivity.this);
+                    progressButton.buttonAtivo();
+
+                    pegarLatLngSaidaChegada(etLocalSaida.getText().toString(), etLocalChegada.getText().toString());
+
+                    Handler thread = new Handler();
+                    thread.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressButton.buttonDesativo();
+                        }
+                    }, 2200);
+
+
+                    carona.setEnderecoSaida(etLocalSaida.getText().toString());
+                    carona.setEnderecoChegada(etLocalChegada.getText().toString());
+                    carona.setData(tvData.getText().toString());
+                    carona.setHora(tvHora.getText().toString());
+                    carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
+                    carona.setQtdVagas(Integer.valueOf(etVagas.getText().toString()));
+                    carona.setCheckBoxHelp(checkBoxHelp.isChecked());
+                    carona.setId(UUID.randomUUID().toString());
+
+                    //abrir nova activity
+                    Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
+                    bundleLatLng.putParcelable("carona", carona);
+                    intent.putExtra("bundle", bundleLatLng);
+                    startActivity(intent);
+                }
+
+
+            }
+        });
+
+        if (getIntent().getParcelableExtra("editar") != null) {
+            final Carona carona1 = getIntent().getExtras().getParcelable("editar");
+            etLocalSaida.setText(carona1.getEnderecoSaida());
+            etLocalChegada.setText(carona1.getEnderecoChegada());
+            tvData.setText(carona1.getData());
+            tvHora.setText(carona1.getHora());
+            etVagas.setText(carona1.getQtdVagas() + "");
+            btnCriarCarona.setText("Confirmar Edição");
+        }
 
     }
 
-    private void editarCarona() {
+    //Editar a carona
+    private void editarCarona(final Carona carona1) {
         //Editar a carona
-        //carona = bundleLatLng.getParcelable("caronaEditar");
-        //Log.i("car", "car: "+carona.getId());
-
+        FirebaseFirestore.getInstance().collection("/caronas")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                            Carona c = doc.toObject(Carona.class);
+                            if (c.getId().equals(carona1.getId())) {
+                                updateInFirebase(doc);
+                            }
+                        }
+                    }
+                });
     }
+
+    private void updateInFirebase(DocumentSnapshot doc) {
+        String data, endChegada, endSaida, hora, horaProx, idMoto, qtdVagas;
+        boolean check;
+        data = tvData.getText().toString();
+        hora = tvHora.getText().toString();
+        endChegada = etLocalChegada.getText().toString();
+        endSaida = etLocalSaida.getText().toString();
+        qtdVagas = etVagas.getText().toString();
+        check = checkBoxHelp.isChecked();
+
+        pegarLatLngSaidaChegada(endSaida, endChegada);
+
+        FirebaseFirestore.getInstance().collection("/caronas")
+                .document(doc.getId())
+                .update("checkBoxHelp", check,
+                        "data", data,
+                        "enderecoChegada", endChegada,
+                        "enderecoSaida", endSaida,
+                        "qtdVagas", Integer.parseInt(qtdVagas),
+                        "latDestino", latDest,
+                        "lngDestino", lngDest,
+                        "latOrigem", latOri,
+                        "lngOrigem", lngOri,
+                        "horaChegadaprox", ""
+
+                ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
+                Log.i("teste", "Updated completed");
+            }
+        });
+    }
+
     //pegar a latlng dos endereços digitados
-    private void pegarLatLngSaidaChegada() {
+    private void pegarLatLngSaidaChegada(String localSaida, String localChegada) {
         Geocoder geocoder = new Geocoder(OferecerCaronaActivity.this, Locale.getDefault());
         try {
-            List addressList = geocoder.getFromLocationName(etLocalSaida.getText().toString(), 1);
+            List addressList = geocoder.getFromLocationName(localSaida, 1);
             if (addressList != null && addressList.size() > 0) {
                 Address address = (Address) addressList.get(0);
-                double latOrigem = address.getLatitude();
-                double lngOrigem = address.getLongitude();
+                latOri = address.getLatitude();
+                lngOri = address.getLongitude();
 
-                carona.setLatOrigem(latOrigem);
-                carona.setLngOrigem(lngOrigem);
+                carona.setLatOrigem(latOri);
+                carona.setLngOrigem(lngOri);
                 bundleLatLng.putParcelable("dados", carona);
             }
-            List addressList1 = geocoder.getFromLocationName(etLocalChegada.getText().toString(), 1);
+            List addressList1 = geocoder.getFromLocationName(localChegada, 1);
             if (addressList1 != null && addressList1.size() > 0) {
                 Address address1 = (Address) addressList1.get(0);
-                double latDestino = address1.getLatitude();
-                double lngDestino = address1.getLongitude();
+                latDest = address1.getLatitude();
+                lngDest = address1.getLongitude();
 
-                carona.setLatDestino(latDestino);
-                carona.setLngDestino(lngDestino);
+                carona.setLatDestino(latDest);
+                carona.setLngDestino(lngDest);
                 bundleLatLng.putParcelable("dados", carona);
             }
         } catch (IOException e) {

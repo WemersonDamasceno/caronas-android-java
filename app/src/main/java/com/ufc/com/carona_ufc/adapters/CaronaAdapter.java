@@ -1,6 +1,8 @@
 package com.ufc.com.carona_ufc.adapters;
 
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,6 +35,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolderCaronas> implements Filterable {
+    private static Context getContext;
     private ArrayList<Carona> listCaronas;
     private ArrayList<Carona> listCaronasAll;
     private static ItemClickListener itemClickListener;
@@ -107,9 +113,10 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public CaronaAdapter() {
+    public CaronaAdapter(Context context) {
         this.listCaronas = new ArrayList<>();
         this.listCaronasAll = new ArrayList<>(listCaronas);
+        getContext = context;
     }
 
     @Override
@@ -126,8 +133,10 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         TextView tvHora;
         TextView tvQtdVagas;
         ImageView imgPerfil;
-        ImageView btnNotify;
+        ImageView ic_notify;
         TextView tvHorarioChegadaLista;
+        ImageView ic_editar;
+        ImageView ic_excluir;
 
         ViewHolderCaronas(@NonNull View itemView) {
             super(itemView);
@@ -138,16 +147,60 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             tvQtdVagas = itemView.findViewById(R.id.tvQtdVagasLista);
             tvHora = itemView.findViewById(R.id.tvHorarioSaidaLista);
             imgPerfil = itemView.findViewById(R.id.imgPerfilLista);
-            btnNotify = itemView.findViewById(R.id.btnNotify);
+            ic_notify = itemView.findViewById(R.id.ic_notify);
             tvHorarioChegadaLista = itemView.findViewById(R.id.tvHorarioChegadaLista);
+            ic_editar = itemView.findViewById(R.id.ic_editar);
+            ic_excluir = itemView.findViewById(R.id.ic_excluir);
 
             itemView.setOnClickListener(this);
 
             //notificar o usuario quando faltar 5 min.
-            btnNotify.setOnClickListener(new View.OnClickListener() {
+            ic_notify.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(), "Notificar", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            //arrumar os botoes aqui
+            //tirar do pegar carona
+            ic_editar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Editar", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            //excluir carona do banco de dados
+            ic_excluir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Carona carona = listCaronas.get(getAdapterPosition());
+
+                    FirebaseFirestore.getInstance().collection("/caronas")
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                    List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                    for (DocumentSnapshot doc : docs) {
+                                        Carona car = doc.toObject(Carona.class);
+                                        if (car.getId().equals(carona.getId())) {
+                                            FirebaseFirestore.getInstance().collection("/caronas")
+                                                    .document(doc.getId())
+                                                    .delete()
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Toast.makeText(CaronaAdapter.getContext, "Carona removida!", Toast.LENGTH_SHORT).show();
+                                                            Log.i("teste", "Carona Deleted");
+
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                }
+                            });
                 }
             });
 
@@ -182,11 +235,16 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                     tvQtdVagas.setText(String.valueOf(carona.getQtdVagas()));
                                     tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
 
-
                                 }
                             }
                         }
                     });
+            if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
+                ic_notify.setVisibility(View.GONE);
+                ic_editar.setVisibility(View.VISIBLE);
+                ic_excluir.setVisibility(View.VISIBLE);
+            }
+
         }
 
 
