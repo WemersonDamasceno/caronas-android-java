@@ -237,11 +237,13 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         check = checkBoxHelp.isChecked();
 
         pegarLatLngSaidaChegada(endSaida, endChegada);
-
+        //Quando tento editar
+        //um arquivo mais de uma vez, ele entra em um loop infinito editando e retrocendendo
         FirebaseFirestore.getInstance().collection("/caronas")
                 .document(doc.getId())
                 .update("checkBoxHelp", check,
                         "data", data,
+                        "hora", hora,
                         "enderecoChegada", endChegada,
                         "enderecoSaida", endSaida,
                         "qtdVagas", Integer.parseInt(qtdVagas),
@@ -249,13 +251,13 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         "lngDestino", lngDest,
                         "latOrigem", latOri,
                         "lngOrigem", lngOri,
-                        "horaChegadaprox", ""
+                        "horaChegadaprox", "N/A"
 
                 ).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
                 Log.i("teste", "Updated completed");
+                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
             }
         });
     }

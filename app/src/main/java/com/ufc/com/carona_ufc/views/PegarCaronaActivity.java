@@ -28,10 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -153,78 +151,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
     }
 
-    private void mostrarBotoes() {
-        Toast.makeText(this, "Você está oferecendo essa carona", Toast.LENGTH_SHORT).show();
-        //esconderbotoes.setVisibility(View.VISIBLE);
 
-        btnExcluirCarona.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //excluir carona e voltar para a tela de buscar caronas
-                FirebaseFirestore.getInstance().collection("/caronas")
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                                for (DocumentSnapshot doc : docs) {
-                                    Carona car = doc.toObject(Carona.class);
-                                    if (car.getId().equals(carona.getId())) {
-                                        deletarCarona(doc);
-                                    }
-                                }
-                            }
-                        });
-            }
-        });
-
-        //Fazer isso amanha blz bonitão ;)
-        btnEditarCarona.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //pegar a carona e voltar para a tela de oferecer carona
-                FirebaseFirestore.getInstance().collection("/caronas")
-                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                                for (DocumentSnapshot doc : docs) {
-                                    Carona car = doc.toObject(Carona.class);
-                                    if (car.getId().equals(carona.getId())) {
-                                        editarCarona(doc);
-                                    }
-                                }
-                            }
-                        });
-            }
-        });
-
-    }
-
-    private void editarCarona(DocumentSnapshot doc) {
-        Intent intent = new Intent(getBaseContext(), OferecerCaronaActivity.class);
-        Carona carona = doc.toObject(Carona.class);
-        intent.putExtra("editar", carona);
-        startActivity(intent);
-    }
-
-    private void deletarCarona(DocumentSnapshot doc) {
-        FirebaseFirestore.getInstance().collection("/caronas")
-                .document(doc.getId()).delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.i("deletar", "deletado");
-                        Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("erro", "Erro ao excluir carona: " + e.getMessage());
-            }
-        });
-    }
 
     private void setarDadosUser(final Carona carona) {
         FirebaseFirestore.getInstance().collection("/users")

@@ -80,7 +80,7 @@
                     android:id="@+id/ic_notify"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="70dp"
                     android:layout_toEndOf="@+id/tvEndSaidaLista"
                     android:src="@drawable/ic_notify_none" />
 
@@ -88,7 +88,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="1dp"
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@+id/tvEndSaidaLista"
                     android:orientation="horizontal">
@@ -104,7 +104,7 @@
                         android:id="@+id/ic_excluir"
                         android:layout_width="30dp"
                         android:layout_height="20dp"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="30dp"
                         android:src="@drawable/ic_excluir"
                         android:visibility="gone" />
                 </LinearLayout>

@@ -3,6 +3,8 @@ package com.ufc.com.carona_ufc.fragments.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +23,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
@@ -32,6 +37,7 @@ import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +84,27 @@ public class CaronasGratisFragment extends Fragment {
         buscarCaronas();
 
 
+        final ArrayList<Carona> caronaArrayList = new ArrayList<>();
+        Handler handler = new Handler();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("caronas")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Carona c = doc.toObject(Carona.class);
+                            caronaArrayList.add(c);
+                        }
+                    }
+                });
+            }
+        });
+        Log.i("teste", "Tamanho: " + caronaArrayList.size());
+
+
         //Ajeitar isso quando eu conseguir retornar uma lista do firebase
         /*if (caronaAdapter.getListCaronas().size() == 0) {
             layoutLost.setVisibility(View.VISIBLE);
@@ -100,7 +127,6 @@ public class CaronasGratisFragment extends Fragment {
                 startActivity(intent1);
             }
         });
-
 
         return view;
     }

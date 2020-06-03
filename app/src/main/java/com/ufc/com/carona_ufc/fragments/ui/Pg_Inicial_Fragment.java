@@ -42,6 +42,20 @@ public class Pg_Inicial_Fragment extends Fragment {
             }
         });
 
+
+        //teste do shared preferences
+        /*
+        SharedPreferences prefs = getActivity().getSharedPreferences("preferencias",Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putString("nome", "Wemerson");
+        ed.putString("email", "wemerson@gmail.com");
+        ed.apply();
+        SharedPreferences pref = getActivity().getSharedPreferences("preferencias",Context.MODE_PRIVATE);
+        String nome = pref.getString("nome","Deu ruim nome");
+        String email = pref.getString("email","Deu ruim email");
+       */
+
+
         return root;
     }
 }

@@ -2,6 +2,7 @@ package com.ufc.com.carona_ufc.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,8 @@ import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.views.OferecerCaronaActivity;
+import com.ufc.com.carona_ufc.views.ProcurarCaronaActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -167,7 +170,24 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             ic_editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Editar", Toast.LENGTH_SHORT).show();
+                    final Carona carona = listCaronas.get(getAdapterPosition());
+                    //pegar a carona e voltar para a tela de oferecer carona
+                    FirebaseFirestore.getInstance().collection("/caronas")
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                    List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                    for (DocumentSnapshot doc : docs) {
+                                        Carona car = doc.toObject(Carona.class);
+                                        if (car.getId().equals(carona.getId())) {
+                                            Intent intent = new Intent(getContext, OferecerCaronaActivity.class);
+                                            Carona carona = doc.toObject(Carona.class);
+                                            intent.putExtra("editar", carona);
+                                            getContext.startActivity(intent);
+                                        }
+                                    }
+                                }
+                            });
                 }
             });
 
@@ -194,7 +214,8 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             Toast.makeText(CaronaAdapter.getContext, "Carona removida!", Toast.LENGTH_SHORT).show();
                                                             Log.i("teste", "Carona Deleted");
-
+                                                            Intent intent = new Intent(getContext, ProcurarCaronaActivity.class);
+                                                            getContext.startActivity(intent);
                                                         }
                                                     });
                                         }
@@ -225,7 +246,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                 if (carona.getIdMotorista().equals(user.getIdUser())) {
                                     String[] firstName = user.getNomeUser().split(" ");
                                     tvNomeMotorista.setText(firstName[0]);
-
                                     Picasso.get().load(user.getUrlFotoUser()).into(imgPerfil);
 
                                     tvEndSaida.setText(carona.getEnderecoSaida());
@@ -234,7 +254,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                     tvHora.setText(carona.getHora());
                                     tvQtdVagas.setText(String.valueOf(carona.getQtdVagas()));
                                     tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
-
                                 }
                             }
                         }
