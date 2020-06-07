@@ -81,7 +81,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_conta);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
 
         imgEscolherFotoPerfil = findViewById(R.id.imgEscolherFoto);
         edNomeNovo = findViewById(R.id.edNomeNovo);

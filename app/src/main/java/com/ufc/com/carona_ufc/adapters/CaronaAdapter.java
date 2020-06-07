@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -221,7 +223,9 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     Intent intent = new Intent(getContext, ProcurarCaronaActivity.class);
-                                                    getContext.startActivity(intent);
+                                                    //Utilizando animação
+                                                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getContext, R.anim.fade_in, R.anim.fade_out);
+                                                    ActivityCompat.startActivity(getContext, intent, activityOptionsCompat.toBundle());
                                                 }
                                             });
                                         }

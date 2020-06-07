@@ -32,7 +32,7 @@ public class ProcurarCaronaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_procurar_carona);
 
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
         ViewPager viewPager = findViewById(R.id.pager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());

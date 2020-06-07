@@ -16,7 +16,7 @@ public class RecuperarSenhaUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recuperar_senha_user);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
 
 
     }

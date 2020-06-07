@@ -76,7 +76,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oferecer_carona);
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
 
         checkBoxHelp = findViewById(R.id.cbPaga);
         etLocalSaida = findViewById(R.id.localSaida);
@@ -143,12 +143,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         || etVagas.getText().toString().equals("")) {
                     Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 }
-
-                /*if (btnCriarCarona.getText().toString().equals("Confirmar Edição")) {
-                    final Carona carona1 = getIntent().getExtras().getParcelable("editar");
-                    //editarCarona(carona1);
-                    startActivity(new Intent(v.getContext(), ProcurarCaronaActivity.class));
-                }*/
 
 
                 if (btnCriarCarona.getText().toString().equals("Criar Carona") || btnCriarCarona.getText().toString().equalsIgnoreCase("Confirmar Edição")) {

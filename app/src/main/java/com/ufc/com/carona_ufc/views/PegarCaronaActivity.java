@@ -77,7 +77,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
 
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#8E00CF")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
         caronaAdapter = new CaronaAdapter(getBaseContext());

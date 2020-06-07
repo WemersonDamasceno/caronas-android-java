@@ -3,9 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorLilasStart">#921ACA</color>
-    <color name="colorLilasCenter">#9043B4</color>
-    <color name="colorLilasEnd">#8455B1</color>
+    <color name="colorLilasStart">#7F1FAC</color>
+    <color name="colorLilasCenter">#8F37C4</color>
+    <color name="colorLilasEnd">#8C53CA</color>
     <color name="colorBranco">#FFFFFF</color>
     <color name="colorFundo">#F0EEEE</color>
     <color name="colorPreto">#000000</color>
