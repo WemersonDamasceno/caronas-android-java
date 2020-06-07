@@ -27,8 +27,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,14 +34,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.PlaceAutoSuggestAdapter;
 import com.ufc.com.carona_ufc.fragments.DatePickerFragment;
@@ -53,7 +44,6 @@ import com.ufc.com.carona_ufc.models.Carona;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, LocationListener {
@@ -100,7 +90,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         ivUseMyLocation = findViewById(R.id.ivUseMyLocation);
         carona = new Carona();
         bundleLatLng = new Bundle();
-
 
 
         //autoComplete dos enderecos
@@ -155,14 +144,14 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     Toast.makeText(OferecerCaronaActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 }
 
-                if (btnCriarCarona.getText().toString().equals("Confirmar Edição")) {
+                /*if (btnCriarCarona.getText().toString().equals("Confirmar Edição")) {
                     final Carona carona1 = getIntent().getExtras().getParcelable("editar");
-                    editarCarona(carona1);
+                    //editarCarona(carona1);
                     startActivity(new Intent(v.getContext(), ProcurarCaronaActivity.class));
-                }
+                }*/
 
 
-                if (btnCriarCarona.getText().toString().equals("Criar Carona")) {
+                if (btnCriarCarona.getText().toString().equals("Criar Carona") || btnCriarCarona.getText().toString().equalsIgnoreCase("Confirmar Edição")) {
                     final ProgressButton progressButton = new ProgressButton(OferecerCaronaActivity.this);
                     progressButton.buttonAtivo();
 
@@ -176,7 +165,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         }
                     }, 2200);
 
-
                     carona.setEnderecoSaida(etLocalSaida.getText().toString());
                     carona.setEnderecoChegada(etLocalChegada.getText().toString());
                     carona.setData(tvData.getText().toString());
@@ -184,7 +172,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
                     carona.setQtdVagas(Integer.valueOf(etVagas.getText().toString()));
                     carona.setCheckBoxHelp(checkBoxHelp.isChecked());
-                    carona.setId(UUID.randomUUID().toString());
+                    //carona.setId(UUID.randomUUID().toString());
 
                     //abrir nova activity
                     Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
@@ -203,14 +191,15 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             etLocalChegada.setText(carona1.getEnderecoChegada());
             tvData.setText(carona1.getData());
             tvHora.setText(carona1.getHora());
-            etVagas.setText(carona1.getQtdVagas() + "");
+            etVagas.setText(String.valueOf(carona1.getQtdVagas()));
             btnCriarCarona.setText("Confirmar Edição");
+            Log.i("teste", "Oferecer carona activity ok!");
+            carona = carona1;
         }
-
     }
 
     //Editar a carona
-    private void editarCarona(final Carona carona1) {
+    /*private void editarCarona(final Carona carona1) {
         //Editar a carona
         FirebaseFirestore.getInstance().collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -253,14 +242,16 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                         "lngOrigem", lngOri,
                         "horaChegadaprox", "N/A"
 
+
                 ).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Log.i("teste", "Updated completed");
                 startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
+                finish();
             }
         });
-    }
+    }*/
 
     //pegar a latlng dos endereços digitados
     private void pegarLatLngSaidaChegada(String localSaida, String localChegada) {
@@ -291,6 +282,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
         Toast.makeText(this, "Pocessamento completado com sucesso!", Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String minuto = minute + "";
@@ -301,6 +293,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         bundleLatLng.putParcelable("dados", carona);
         tvHora.setText(hourOfDay + ":" + minuto);
     }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         month++;
@@ -328,6 +321,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         carona.setEnderecoSaida(etLocalSaida.getText().toString());
         bundleLatLng.putParcelable("dados", carona);
     }
+
     //CONVERTER LATLNG EM UM ENDEREÇO
     private String getEnderecoWithLatLng(double latitude, double longitude) {
         String endereco = "Falha";

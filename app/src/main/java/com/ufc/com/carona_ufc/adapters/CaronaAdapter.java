@@ -206,7 +206,8 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                     for (DocumentSnapshot doc : docs) {
                                         Carona car = doc.toObject(Carona.class);
                                         if (car.getId().equals(carona.getId())) {
-                                            FirebaseFirestore.getInstance().collection("/caronas")
+                                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                            db.collection("/caronas")
                                                     .document(doc.getId())
                                                     .delete()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -214,10 +215,15 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             Toast.makeText(CaronaAdapter.getContext, "Carona removida!", Toast.LENGTH_SHORT).show();
                                                             Log.i("teste", "Carona Deleted");
-                                                            Intent intent = new Intent(getContext, ProcurarCaronaActivity.class);
-                                                            getContext.startActivity(intent);
                                                         }
                                                     });
+                                            db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    Intent intent = new Intent(getContext, ProcurarCaronaActivity.class);
+                                                    getContext.startActivity(intent);
+                                                }
+                                            });
                                         }
                                     }
                                 }

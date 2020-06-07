@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -28,16 +29,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -84,31 +92,97 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         bundle = intent.getBundleExtra("bundle");
         carona = bundle.getParcelable("carona");
 
-        Log.i("teste", "carona end Chegada: " + carona.getEnderecoChegada());
-        Log.i("teste", "end saida: " + carona.getEnderecoSaida());
-        Log.i("teste", "lat origem:" + carona.getLatOrigem());
-        Log.i("teste", "lat destino:" + carona.getLngDestino());
-        Log.i("teste", "hora e data:" + carona.getData() + " " + carona.getHora());
-        Log.i("teste", "vagas: " + carona.getQtdVagas());
-        Log.i("teste", "id: " + carona.getId());
-        Log.i("teste", "motorista: " + carona.getIdMotorista());
-
-
 
 
         //Enviar dados para confirmar
         btnCaronaConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //salvar no banco e seguir para a tela principal
-                salvarCarona(carona);
-                Toast.makeText(ConfirmarCaronaActivity.this, "Carona criada com sucesso", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(v.getContext(), PaginaInicialActivity.class);
-                startActivity(intent);
+                //Se o ID for nulo é pq a carona esta sendo criada
+                if (carona.getId() == null) {
+                    Log.i("teste", "Essa carona será salva: " + carona.getId());
+                    carona.setId(UUID.randomUUID().toString());
+                    //salvar no banco e seguir para a tela principal
+                    salvarCarona(carona);
+                    Toast.makeText(ConfirmarCaronaActivity.this, "Carona criada com sucesso", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                //Se não for é pq esta sendo editada
+                else {
+                    Log.i("teste", "Essa carona será editada: " + carona.getId());
+                    editarCarona(carona);
+                    //finish();
+                }
             }
         });
 
     }
+
+    private void editarCarona(final Carona carona1) {
+        //Editar a carona
+        FirebaseFirestore.getInstance().collection("/caronas")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                            Carona c = doc.toObject(Carona.class);
+                            if (c.getId().equals(carona1.getId())) {
+                                updateInFirebase(doc);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void updateInFirebase(DocumentSnapshot doc) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("/caronas")
+                .document(doc.getId()).set(carona).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.i("teste", "Updated completed");
+                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
+                //finish();
+            }
+        });
+        db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
+            }
+        });
+
+       /* FirebaseFirestore.getInstance().collection("/caronas")
+                .document(doc.getId())
+                .update("checkBoxHelp", carona.isCheckBoxHelp(),
+                        "data", carona.getData(),
+                        "hora", carona.getHora(),
+                        "enderecoChegada", carona.getEnderecoChegada(),
+                        "enderecoSaida", carona.getEnderecoSaida(),
+                        "qtdVagas",  carona.getQtdVagas(),
+                        "latDestino", carona.getLatDestino(),
+                        "lngDestino", carona.getLngDestino(),
+                        "latOrigem", carona.getLatOrigem(),
+                        "lngOrigem", carona.getLngOrigem(),
+                        "horaChegadaprox", carona.getHoraChegadaprox()
+                ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.i("teste", "Updated completed");
+                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
+                finish();
+            }
+        });*/
+    }
+
+
 
     public void salvarCarona(Carona carona) {
         FirebaseFirestore.getInstance().collection("caronas")
@@ -121,7 +195,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.i("teste", "Falha ao add a carona no banco");
+                Log.i("teste", "Falha ao add a carona no banco: " + e.getMessage());
             }
         });
     }

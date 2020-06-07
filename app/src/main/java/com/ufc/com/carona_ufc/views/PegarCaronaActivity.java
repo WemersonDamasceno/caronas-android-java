@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,12 +62,9 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     Button btnPegarCarona;
     ImageView btnWhatsApp;
     ImageView fotoMotorista;
-    LinearLayout esconderbotoes;
 
     Carona carona;
     private List<Polyline> polylines;
-    Button btnEditarCarona;
-    Button btnExcluirCarona;
     CaronaAdapter caronaAdapter;
 
     @Override
@@ -87,7 +83,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         caronaAdapter = new CaronaAdapter(getBaseContext());
 
 
-        esconderbotoes = findViewById(R.id.esconderBotoes);
         fotoMotorista = findViewById(R.id.fotoMotoristaCarona);
         tvnomeMotoristaCarona = findViewById(R.id.tvNomeMotoristaCarona);
         tvTelefone = findViewById(R.id.tvTelefone);
@@ -100,8 +95,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvCheckBoxHelpCarona = findViewById(R.id.tvCheckBoxHelpCarona);
         btnPegarCarona = findViewById(R.id.btnPegarCarona);
         btnWhatsApp = findViewById(R.id.btnWhatsApp);
-        btnEditarCarona = findViewById(R.id.btnEditarCarona);
-        btnExcluirCarona = findViewById(R.id.btnExcluirCarona);
 
         carona = getIntent().getExtras().getParcelable("carona");
         tvnomeMotoristaCarona.setText(carona.getIdMotorista());
@@ -121,14 +114,14 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Log.i("teste", "carona pega");
+                                Log.i("teste", "Carona pega");
                                 //fazer uptade da carona
                                 Toast.makeText(PegarCaronaActivity.this, "Pronto, você garantiu sua vaga!", Toast.LENGTH_SHORT).show();
                                 carona.setQtdVagas(carona.getQtdVagas() - 1);
                                 caronaAdapter.notifyDataSetChanged();
                                 Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
                                 startActivity(intent);
-
+                                finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -164,6 +157,9 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                             if (user.getIdUser().equals(carona.getIdMotorista())) {
                                 Picasso.get().load(user.getUrlFotoUser()).into(fotoMotorista);
                                 tvnomeMotoristaCarona.setText(user.getNomeUser());
+                                if (user.getTelefoneUser().equals("")) {
+                                    user.setTelefoneUser("Não Informado");
+                                }
                                 tvTelefone.setText(user.getTelefoneUser());
                                 //falta a avaliação e a quantidade de caronas que ele deu.
                             }

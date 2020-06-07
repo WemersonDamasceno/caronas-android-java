@@ -4,7 +4,6 @@ package com.ufc.com.carona_ufc.fragments.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,8 +101,6 @@ public class CaronasGratisFragment extends Fragment {
                 });
             }
         });
-        Log.i("teste", "Tamanho: " + caronaArrayList.size());
-
 
         //Ajeitar isso quando eu conseguir retornar uma lista do firebase
         /*if (caronaAdapter.getListCaronas().size() == 0) {

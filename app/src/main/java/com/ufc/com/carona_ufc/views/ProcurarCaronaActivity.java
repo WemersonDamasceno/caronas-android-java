@@ -3,7 +3,6 @@ package com.ufc.com.carona_ufc.views;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ public class ProcurarCaronaActivity extends AppCompatActivity {
 
     public static ArrayList<Carona> getListCaronas() {
         ArrayList<Carona> caronas = caronaArrayList;
-        Log.i("teste", "Tam: " + caronas.size());
         return caronas;
     }
 

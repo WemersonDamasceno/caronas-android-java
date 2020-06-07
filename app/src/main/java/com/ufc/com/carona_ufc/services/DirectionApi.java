@@ -57,7 +57,7 @@ public class DirectionApi implements RoutingListener {
     public void onRoutingFailure(RouteException e) {
         //The Routing request failed
         if (e != null) {
-            Log.i("error", e.getMessage());
+            Log.i("teste", e.getMessage());
         }
     }
 
