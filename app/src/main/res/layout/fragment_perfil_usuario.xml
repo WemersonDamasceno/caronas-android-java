@@ -29,7 +29,7 @@
                     android:src="@drawable/gamercapa" />
 
                 <ImageView
-                    android:id="@+id/btnTrocarFotoCapa"
+                    android:id="@+id/btnFotoCapa"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="80dp"
@@ -68,7 +68,7 @@
                     android:layout_below="@+id/imgCapa">
 
                     <TextView
-                        android:id="@+id/tvNomeUsuario"
+                        android:id="@+id/tvNomePerfil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -79,10 +79,10 @@
 
 
                     <TextView
-                        android:id="@+id/tvEnderecoUsuario"
+                        android:id="@+id/tvEnderecoPerfil"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvNomeUsuario"
+                        android:layout_below="@+id/tvNomePerfil"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="Endereço não informado"
@@ -90,10 +90,10 @@
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/tvAvaliacaoUsuario"
+                        android:id="@+id/tvAvaliacaoPerfil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvEnderecoUsuario"
+                        android:layout_below="@+id/tvEnderecoPerfil"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
                         android:text="Avaliação: 4,6"
@@ -101,10 +101,10 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/tvMiniBio"
+                        android:id="@+id/tvMiniBioPerfil"
                         android:layout_width="250dp"
                         android:layout_height="100dp"
-                        android:layout_below="@+id/tvAvaliacaoUsuario"
+                        android:layout_below="@+id/tvAvaliacaoPerfil"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="Sobre mim\nEu gosto de andar de moto e jogar e qlqr coisa ai "

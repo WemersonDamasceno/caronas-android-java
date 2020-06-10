@@ -3,32 +3,24 @@ package com.ufc.com.carona_ufc.fragments.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
@@ -36,7 +28,6 @@ import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +36,8 @@ import java.util.List;
 public class CaronasGratisFragment extends Fragment {
     private CaronaAdapter caronaAdapter;
     private FirebaseFirestore db;
-
+    private Button btnCompartilhar;
+    private LinearLayout layoutLost;
     public CaronaAdapter getCaronaAdapter() {
         return caronaAdapter;
     }
@@ -66,8 +58,8 @@ public class CaronasGratisFragment extends Fragment {
 
 
         TextView tvHorarioChegadaLista = view.findViewById(R.id.tvHorarioChegadaLista);
-        Button btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
-        LinearLayout layoutLost = view.findViewById(R.id.layoutLost);
+        btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
+        layoutLost = view.findViewById(R.id.layoutLost);
 
         db = FirebaseFirestore.getInstance();
 
@@ -81,38 +73,6 @@ public class CaronasGratisFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         buscarCaronas();
-
-
-        final ArrayList<Carona> caronaArrayList = new ArrayList<>();
-        Handler handler = new Handler();
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("caronas")
-                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot doc : task.getResult()) {
-                            Carona c = doc.toObject(Carona.class);
-                            caronaArrayList.add(c);
-                        }
-                    }
-                });
-            }
-        });
-
-        //Ajeitar isso quando eu conseguir retornar uma lista do firebase
-        /*if (caronaAdapter.getListCaronas().size() == 0) {
-            layoutLost.setVisibility(View.VISIBLE);
-            btnCompartilhar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Compartilhar", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }*/
-
 
         caronaAdapter.setOnItemClickListener(new ItemClickListener() {
             @Override
@@ -129,31 +89,8 @@ public class CaronasGratisFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_procurar, menu);
-        MenuItem item = menu.findItem(R.id.ic_procurar);
-
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                caronaAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
     private void buscarCaronas() {
-        db.collection("/caronas")
+        FirebaseFirestore.getInstance().collection("/caronas")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable final QuerySnapshot queryDocumentSnapshots, @Nullable final FirebaseFirestoreException e) {
@@ -164,6 +101,16 @@ public class CaronasGratisFragment extends Fragment {
                                 caronaAdapter.add(car);
                                 caronaAdapter.notifyDataSetChanged();
                             }
+                            Log.i("teste", "tamanho da lista: " + caronaAdapter.getListCaronas().size());
+                        }
+                        if (caronaAdapter.getListCaronas().size() == 0) {
+                            layoutLost.setVisibility(View.VISIBLE);
+                            btnCompartilhar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(v.getContext(), "Compartilhar", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 });

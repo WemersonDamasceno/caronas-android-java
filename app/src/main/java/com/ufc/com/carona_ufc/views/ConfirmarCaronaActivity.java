@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -41,6 +42,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.models.Usuario;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
 import java.util.ArrayList;
@@ -89,9 +91,12 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
 
         //pegando os dados da outra activity
         Intent intent = getIntent();
-        bundle = intent.getBundleExtra("bundle");
-        carona = bundle.getParcelable("carona");
-
+        try {
+            bundle = intent.getBundleExtra("bundle");
+            carona = bundle.getParcelable("carona");
+        } catch (RuntimeException e) {
+            Log.i("teste", "Error: " + e.getMessage());
+        }
 
 
         //Enviar dados para confirmar
@@ -159,27 +164,6 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
             }
         });
 
-       /* FirebaseFirestore.getInstance().collection("/caronas")
-                .document(doc.getId())
-                .update("checkBoxHelp", carona.isCheckBoxHelp(),
-                        "data", carona.getData(),
-                        "hora", carona.getHora(),
-                        "enderecoChegada", carona.getEnderecoChegada(),
-                        "enderecoSaida", carona.getEnderecoSaida(),
-                        "qtdVagas",  carona.getQtdVagas(),
-                        "latDestino", carona.getLatDestino(),
-                        "lngDestino", carona.getLngDestino(),
-                        "latOrigem", carona.getLatOrigem(),
-                        "lngOrigem", carona.getLngOrigem(),
-                        "horaChegadaprox", carona.getHoraChegadaprox()
-                ).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.i("teste", "Updated completed");
-                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
-                finish();
-            }
-        });*/
     }
 
 
@@ -191,6 +175,8 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.i("teste", "Sucesso ao add a carona no banco");
+                        //Aumentar uma carona em carona oferecida
+                        incrementarCaronaNoUser();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -198,6 +184,37 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                 Log.i("teste", "Falha ao add a carona no banco: " + e.getMessage());
             }
         });
+    }
+
+    private void incrementarCaronaNoUser() {
+        FirebaseFirestore.getInstance().collection("users")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                            final Usuario user = doc.toObject(Usuario.class);
+                            if (user.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
+                                //Fazer update na qtd de caronas oferecidas
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("users")
+                                        .document(doc.getId())
+                                        .update("qtdCaronasOferecidas", user.getQtdCaronasOferecidas() + 1)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Log.i("teste", "Incremento ok, qtd: " + user.getQtdCaronasOferecidas());
+                                            }
+                                        });
+                                db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -236,13 +253,13 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         // Add a marker in myPosition
         LatLng startPosition = new LatLng(latSaida, lngSaida);
         MarkerOptions marker_start = new MarkerOptions();
-        marker_start.position(startPosition).title("Minha posição");
+        marker_start.position(startPosition).title(origem);
         googleMap.addMarker(marker_start);
 
         // Add a maker in PositionDestino
         LatLng stopPosition = new LatLng(latChegada, lngChegada);
         MarkerOptions marker_stop = new MarkerOptions();
-        marker_stop.title("Posição Destino").position(stopPosition)
+        marker_stop.title(destino).position(stopPosition)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
         googleMap.addMarker(marker_stop);
 

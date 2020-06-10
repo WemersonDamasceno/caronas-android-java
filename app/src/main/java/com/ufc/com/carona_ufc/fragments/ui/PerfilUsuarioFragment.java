@@ -23,10 +23,10 @@ import com.ufc.com.carona_ufc.models.Usuario;
  * A simple {@link Fragment} subclass.
  */
 public class PerfilUsuarioFragment extends Fragment {
-    ActionBar bar;
+    private ActionBar bar;
     private Usuario usuario;
-    RecyclerView rvCaronasOferecidasHorinzontal;
-    RecyclerView rvCaronasPegas;
+    private RecyclerView rvCaronasOferecidasHorinzontal;
+    private RecyclerView rvCaronasPegas;
 
     public PerfilUsuarioFragment(Usuario user, ActionBar bar) {
         this.usuario = user;
@@ -61,17 +61,23 @@ public class PerfilUsuarioFragment extends Fragment {
         bar.setTitle("Perfil");
         //relacionar os dados com o xml
         ImageView imgPerfilUsuario = view.findViewById(R.id.imgPerfilUsuario);
-        TextView tvNomeUsuario = view.findViewById(R.id.tvNomeUsuario);
-        ImageView btnTrocarFoto = view.findViewById(R.id.btnTrocarFoto);
-        TextView tvEnderecoUsuario = view.findViewById(R.id.tvEnderecoUsuario);
+        TextView tvNomeUsuario = view.findViewById(R.id.tvNomePerfil);
+        ImageView btnTrocarFotoPerfil = view.findViewById(R.id.btnTrocarFoto);
+        TextView tvEnderecoUsuario = view.findViewById(R.id.tvEnderecoPerfil);
+        TextView tvAvaliacaoUsuario = view.findViewById(R.id.tvAvaliacaoPerfil);
+        TextView tvMiniBio = view.findViewById(R.id.tvMiniBioPerfil);
+        ImageView btnTrocarFotoCapa = view.findViewById(R.id.btnFotoCapa);
 
         //setar os dados
         Picasso.get().load(usuario.getUrlFotoUser()).into(imgPerfilUsuario);
         tvNomeUsuario.setText(usuario.getNomeUser());
         tvEnderecoUsuario.setText(usuario.getEnderecoUser());
+        String ava = "Avaliação: ";
+        tvAvaliacaoUsuario.setText(ava + usuario.getAvaliacao());
+        tvMiniBio.setText(usuario.getMiniBiografiaUser());
 
 
-        btnTrocarFoto.setOnClickListener(new View.OnClickListener() {
+        btnTrocarFotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Trocar de foto", Toast.LENGTH_SHORT).show();

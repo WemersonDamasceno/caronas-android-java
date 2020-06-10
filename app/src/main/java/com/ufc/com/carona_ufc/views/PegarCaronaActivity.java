@@ -1,6 +1,5 @@
 package com.ufc.com.carona_ufc.views;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,7 +39,7 @@ import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
 import com.ufc.com.carona_ufc.models.Carona;
-import com.ufc.com.carona_ufc.models.CaronasPegas;
+import com.ufc.com.carona_ufc.models.CaronaPega;
 import com.ufc.com.carona_ufc.models.Usuario;
 import com.ufc.com.carona_ufc.services.DirectionApi;
 
@@ -108,20 +107,14 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CaronasPegas caronasPegas = new CaronasPegas(carona.getIdMotorista(), carona.getId(), FirebaseAuth.getInstance().getUid());
+                //Adicionar no banco das caronas pegas
+                final CaronaPega caronaPega = new CaronaPega(carona.getIdMotorista(), carona.getId(), FirebaseAuth.getInstance().getUid());
                 FirebaseFirestore.getInstance().collection("/caronasPegas")
-                        .add(caronasPegas)
+                        .add(caronaPega)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.i("teste", "Carona pega");
-                                //fazer uptade da carona
-                                Toast.makeText(PegarCaronaActivity.this, "Pronto, você garantiu sua vaga!", Toast.LENGTH_SHORT).show();
-                                carona.setQtdVagas(carona.getQtdVagas() - 1);
-                                caronaAdapter.notifyDataSetChanged();
-                                Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
-                                startActivity(intent);
-                                finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -129,6 +122,8 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                         Log.i("teste", "Falha ao pegar a carona: " + e.getMessage());
                     }
                 });
+                //atualizar a qtd de vagas da carona pega.
+
 
 
             }

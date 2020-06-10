@@ -16,7 +16,7 @@ public class PlaceApi {
         ArrayList<String> arrayList = new ArrayList();
         HttpURLConnection connection = null;
         StringBuilder jsonResult = new StringBuilder();
-        String keyAPI = "AIzaSyDc4aPCYe_WQ2trzMKMxF0FvQKugjIwrBM";
+        String keyAPI = "AIzaSyDiCNaS8X8RLmhtg2lWm1TcpE2200MurWM";
         String linkAPI = "https://maps.googleapis.com/maps/api/place/autocomplete/json?";
 
         try {

@@ -76,15 +76,6 @@
                     android:textColor="@color/colorLilasStart"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/ic_notify"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="70dp"
-                    android:layout_toEndOf="@+id/tvEndSaidaLista"
-                    android:src="@drawable/ic_notify_none" />
-
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

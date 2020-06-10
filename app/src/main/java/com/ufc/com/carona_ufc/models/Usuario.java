@@ -4,7 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Usuario implements Parcelable {
-    //Metodos do Parcelable
+    private String idUser;
+    private String nomeUser;
+    private String emailUser;
+    private String senhaUser;
+    private String enderecoUser;
+    private String telefoneUser;
+    private String sexoUser;
+    private String miniBiografiaUser;
+    private String urlFotoUser;
     public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
         @Override
         public Usuario createFromParcel(Parcel in) {
@@ -16,18 +24,13 @@ public class Usuario implements Parcelable {
             return new Usuario[size];
         }
     };
-    private String idUser;
-    private String nomeUser;
-    private String emailUser;
-    private String senhaUser;
-    private String enderecoUser;
-    private String telefoneUser;
-    private String sexoUser;
-    private String miniBiografiaUser;
-    private String urlFotoUser;
+    private int avaliacao;
+    private int qtdCaronasOferecidas;
 
-    public Usuario(String idUser, String nomeUser, String emailUser, String senhaUser, String enderecoUser,
-                   String telefoneUser, String sexoUser, String miniBiografiaUser, String urlFotoUser) {
+    public Usuario() {
+    }
+
+    public Usuario(String idUser, String nomeUser, String emailUser, String senhaUser, String enderecoUser, String telefoneUser, String sexoUser, String miniBiografiaUser, String urlFotoUser, int avaliacao, int qtdCaronasOferecidas) {
         this.idUser = idUser;
         this.nomeUser = nomeUser;
         this.emailUser = emailUser;
@@ -37,9 +40,8 @@ public class Usuario implements Parcelable {
         this.sexoUser = sexoUser;
         this.miniBiografiaUser = miniBiografiaUser;
         this.urlFotoUser = urlFotoUser;
-    }
-
-    public Usuario() {
+        this.avaliacao = avaliacao;
+        this.qtdCaronasOferecidas = qtdCaronasOferecidas;
     }
 
     protected Usuario(Parcel in) {
@@ -52,10 +54,8 @@ public class Usuario implements Parcelable {
         sexoUser = in.readString();
         miniBiografiaUser = in.readString();
         urlFotoUser = in.readString();
-    }
-
-    public static Creator<Usuario> getCREATOR() {
-        return CREATOR;
+        avaliacao = in.readInt();
+        qtdCaronasOferecidas = in.readInt();
     }
 
     public String getIdUser() {
@@ -130,6 +130,23 @@ public class Usuario implements Parcelable {
         this.urlFotoUser = urlFotoUser;
     }
 
+    public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public int getQtdCaronasOferecidas() {
+        return qtdCaronasOferecidas;
+    }
+
+    public void setQtdCaronasOferecidas(int qtdCaronasOferecidas) {
+        this.qtdCaronasOferecidas = qtdCaronasOferecidas;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -146,5 +163,7 @@ public class Usuario implements Parcelable {
         dest.writeString(sexoUser);
         dest.writeString(miniBiografiaUser);
         dest.writeString(urlFotoUser);
+        dest.writeInt(avaliacao);
+        dest.writeInt(qtdCaronasOferecidas);
     }
 }

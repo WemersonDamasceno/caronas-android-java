@@ -138,7 +138,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         TextView tvHora;
         TextView tvQtdVagas;
         ImageView imgPerfil;
-        ImageView ic_notify;
         TextView tvHorarioChegadaLista;
         ImageView ic_editar;
         ImageView ic_excluir;
@@ -152,20 +151,11 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             tvQtdVagas = itemView.findViewById(R.id.tvQtdVagasLista);
             tvHora = itemView.findViewById(R.id.tvHorarioSaidaLista);
             imgPerfil = itemView.findViewById(R.id.imgPerfilLista);
-            ic_notify = itemView.findViewById(R.id.ic_notify);
             tvHorarioChegadaLista = itemView.findViewById(R.id.tvHorarioChegadaLista);
             ic_editar = itemView.findViewById(R.id.ic_editar);
             ic_excluir = itemView.findViewById(R.id.ic_excluir);
 
             itemView.setOnClickListener(this);
-
-            //notificar o usuario quando faltar 5 min.
-            ic_notify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Notificar", Toast.LENGTH_SHORT).show();
-                }
-            });
 
             //arrumar os botoes aqui
             //tirar do pegar carona
@@ -269,7 +259,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                         }
                     });
             if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
-                ic_notify.setVisibility(View.GONE);
                 ic_editar.setVisibility(View.VISIBLE);
                 ic_excluir.setVisibility(View.VISIBLE);
             }

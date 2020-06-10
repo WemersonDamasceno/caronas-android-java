@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.services;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class DirectionApi implements RoutingListener {
     }
 
     public void drawRoute(LatLng startPosition, LatLng stopPostion) {
-        String keyApi = "AIzaSyDc4aPCYe_WQ2trzMKMxF0FvQKugjIwrBM";
+        String keyApi = "AIzaSyDiCNaS8X8RLmhtg2lWm1TcpE2200MurWM";
 
         Routing routing = new Routing.Builder()
                 .travelMode(AbstractRouting.TravelMode.DRIVING)
@@ -91,8 +92,8 @@ public class DirectionApi implements RoutingListener {
             horaStart = Integer.parseInt(carona.getHora().substring(0, 2));
             minutoStart = Integer.parseInt(carona.getHora().substring(3, 5));
 
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
             Time time = new Time(horaStart, minutoStart, 0);
             calendar.setTimeInMillis(time.getTime());
 

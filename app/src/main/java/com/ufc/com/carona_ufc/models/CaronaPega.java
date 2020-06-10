@@ -1,11 +1,11 @@
 package com.ufc.com.carona_ufc.models;
 
-public class CaronasPegas {
+public class CaronaPega {
     private String idMotorista;
     private String idCarona;
     private String idUser;
 
-    public CaronasPegas(String idMotorista, String idCarona, String idUser) {
+    public CaronaPega(String idMotorista, String idCarona, String idUser) {
         this.idMotorista = idMotorista;
         this.idCarona = idCarona;
         this.idUser = idUser;

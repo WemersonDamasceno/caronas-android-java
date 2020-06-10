@@ -318,7 +318,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
 
     //CONVERTER LATLNG EM UM ENDEREÇO
     private String getEnderecoWithLatLng(double latitude, double longitude) {
-        String endereco = "Falha";
+        String endereco = "Falha em obter endereço";
         Geocoder geocoder = new Geocoder(OferecerCaronaActivity.this, Locale.getDefault());
         try {
             List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
