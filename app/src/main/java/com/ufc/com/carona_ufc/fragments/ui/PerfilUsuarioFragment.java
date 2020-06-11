@@ -72,15 +72,20 @@ public class PerfilUsuarioFragment extends Fragment {
         Picasso.get().load(usuario.getUrlFotoUser()).into(imgPerfilUsuario);
         tvNomeUsuario.setText(usuario.getNomeUser());
         tvEnderecoUsuario.setText(usuario.getEnderecoUser());
-        String ava = "Avaliação: ";
-        tvAvaliacaoUsuario.setText(ava + usuario.getAvaliacao());
+        tvAvaliacaoUsuario.setText("Avaliação do motorista: " + usuario.getAvaliacao());
         tvMiniBio.setText(usuario.getMiniBiografiaUser());
 
 
         btnTrocarFotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Trocar de foto", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Trocar de foto do perfil", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnTrocarFotoCapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Trocar foto da capa", Toast.LENGTH_SHORT).show();
             }
         });
 

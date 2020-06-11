@@ -191,26 +191,40 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                        for (final DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                             final Usuario user = doc.toObject(Usuario.class);
                             if (user.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
                                 //Fazer update na qtd de caronas oferecidas
-                                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                db.collection("users")
-                                        .document(doc.getId())
-                                        .update("qtdCaronasOferecidas", user.getQtdCaronasOferecidas() + 1)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("caronas")
+                                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                Log.i("teste", "Incremento ok, qtd: " + user.getQtdCaronasOferecidas());
+                                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                                int qtd = 0;
+                                                for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                                    Carona carona = doc.toObject(Carona.class);
+                                                    if (carona.getIdMotorista().equals(user.getIdUser())) {
+                                                        qtd++;
+                                                    }
+                                                }
+                                                final int finalQtd = qtd;
+                                                db.collection("users")
+                                                        .document(doc.getId())
+                                                        .update("qtdCaronasOferecidas", qtd)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Log.i("teste", "Incremento ok, qtd: " + finalQtd);
+                                                            }
+                                                        });
+                                                db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                                    }
+                                                });
                                             }
                                         });
-                                db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-
-                                    }
-                                });
                             }
                         }
                     }

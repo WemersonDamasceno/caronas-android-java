@@ -141,6 +141,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         TextView tvHorarioChegadaLista;
         ImageView ic_editar;
         ImageView ic_excluir;
+        TextView tvAvaliacao;
 
         ViewHolderCaronas(@NonNull View itemView) {
             super(itemView);
@@ -154,6 +155,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             tvHorarioChegadaLista = itemView.findViewById(R.id.tvHorarioChegadaLista);
             ic_editar = itemView.findViewById(R.id.ic_editar);
             ic_excluir = itemView.findViewById(R.id.ic_excluir);
+            tvAvaliacao = itemView.findViewById(R.id.avaliacaolista);
 
             itemView.setOnClickListener(this);
 
@@ -183,13 +185,12 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                 }
             });
 
-
             //excluir carona do banco de dados
             ic_excluir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final Carona carona = listCaronas.get(getAdapterPosition());
-
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     FirebaseFirestore.getInstance().collection("/caronas")
                             .addSnapshotListener(new EventListener<QuerySnapshot>() {
                                 @Override
@@ -209,15 +210,11 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                                             Log.i("teste", "Carona Deleted");
                                                         }
                                                     });
-                                            db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Intent intent = new Intent(getContext, ProcurarCaronaActivity.class);
-                                                    //Utilizando animação
-                                                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getContext, R.anim.fade_in, R.anim.fade_out);
-                                                    ActivityCompat.startActivity(getContext, intent, activityOptionsCompat.toBundle());
-                                                }
-                                            });
+                                            findUserForUpdate();
+                                            Intent intent = new Intent(getContext, ProcurarCaronaActivity.class);
+                                            //Utilizando animação
+                                            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getContext, R.anim.fade_in, R.anim.fade_out);
+                                            ActivityCompat.startActivity(getContext, intent, activityOptionsCompat.toBundle());
                                         }
                                     }
                                 }
@@ -226,6 +223,50 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             });
 
 
+        }
+
+        void findUserForUpdate() {
+            FirebaseFirestore.getInstance().collection("users")
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                Usuario usuario = doc.toObject(Usuario.class);
+                                if (usuario.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
+                                    //Achei o user para att os dados
+                                    updateCaronas(doc);
+                                }
+                            }
+                        }
+                    });
+        }
+
+        private void updateCaronas(final DocumentSnapshot doc) {
+            final Usuario user = doc.toObject(Usuario.class);
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("caronas")
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            int qtd = 0;
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                Carona carona = doc.toObject(Carona.class);
+                                if (carona.getIdMotorista().equals(user.getIdUser())) {
+                                    qtd++;
+                                }
+                            }
+                            final int finalQtd = qtd;
+                            db.collection("users")
+                                    .document(doc.getId())
+                                    .update("qtdCaronasOferecidas", qtd)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.i("teste", "Incremento ok, qtd: " + finalQtd);
+                                        }
+                                    });
+                        }
+                    });
         }
 
         @Override
@@ -254,6 +295,9 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                                     tvHora.setText(carona.getHora());
                                     tvQtdVagas.setText(String.valueOf(carona.getQtdVagas()));
                                     tvHorarioChegadaLista.setText(carona.getHoraChegadaprox());
+                                    float d = user.getAvaliacao();
+                                    tvAvaliacao.setText(String.valueOf(d));
+                                    Log.i("teste", "valor: " + user.getAvaliacao());
                                 }
                             }
                         }

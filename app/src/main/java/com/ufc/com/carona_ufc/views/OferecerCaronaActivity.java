@@ -192,60 +192,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         }
     }
 
-    //Editar a carona
-    /*private void editarCarona(final Carona carona1) {
-        //Editar a carona
-        FirebaseFirestore.getInstance().collection("/caronas")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                            Carona c = doc.toObject(Carona.class);
-                            if (c.getId().equals(carona1.getId())) {
-                                updateInFirebase(doc);
-                            }
-                        }
-                    }
-                });
-    }
 
-    private void updateInFirebase(DocumentSnapshot doc) {
-        String data, endChegada, endSaida, hora, horaProx, idMoto, qtdVagas;
-        boolean check;
-        data = tvData.getText().toString();
-        hora = tvHora.getText().toString();
-        endChegada = etLocalChegada.getText().toString();
-        endSaida = etLocalSaida.getText().toString();
-        qtdVagas = etVagas.getText().toString();
-        check = checkBoxHelp.isChecked();
-
-        pegarLatLngSaidaChegada(endSaida, endChegada);
-        //Quando tento editar
-        //um arquivo mais de uma vez, ele entra em um loop infinito editando e retrocendendo
-        FirebaseFirestore.getInstance().collection("/caronas")
-                .document(doc.getId())
-                .update("checkBoxHelp", check,
-                        "data", data,
-                        "hora", hora,
-                        "enderecoChegada", endChegada,
-                        "enderecoSaida", endSaida,
-                        "qtdVagas", Integer.parseInt(qtdVagas),
-                        "latDestino", latDest,
-                        "lngDestino", lngDest,
-                        "latOrigem", latOri,
-                        "lngOrigem", lngOri,
-                        "horaChegadaprox", "N/A"
-
-
-                ).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.i("teste", "Updated completed");
-                startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
-                finish();
-            }
-        });
-    }*/
 
     //pegar a latlng dos endereços digitados
     private void pegarLatLngSaidaChegada(String localSaida, String localChegada) {
@@ -283,9 +230,13 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         if (minute < 10) {
             minuto = "0" + minute;
         }
-        carona.setHora(hourOfDay + ":" + minuto);
+        String hora = hourOfDay + "";
+        if (hourOfDay < 10) {
+            hora = "0" + hourOfDay;
+        }
+        carona.setHora(hora + ":" + minuto);
         bundleLatLng.putParcelable("dados", carona);
-        tvHora.setText(hourOfDay + ":" + minuto);
+        tvHora.setText(hora + ":" + minuto);
     }
 
     @Override
