@@ -56,6 +56,10 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="ainda_n_o_foi_oferecida_nenhuma_carona_ncompartilhe_e_indique_o_app_para_seus_amigos">Ainda não foi oferecida nenhuma carona. Compartilhe e indique o app para seus amigos</string>
     <string name="telefone">Telefone</string>
+    <string name="textoSobreOQueFazer">Não se esqueça que você garantiu uma vaga na carona. Fique sempre atento as notificações do App Caronas Você pode desistir da sua vaga ou compartilhar com um amigo.</string>
+    <string name="pesquisar_carona">Pesquisar Carona</string>
+    <string name="minhas_caronas">Minhas Caronas</string>
+    <string name="entre_em_contato">Entre em contato</string>
 
 
 </resources>

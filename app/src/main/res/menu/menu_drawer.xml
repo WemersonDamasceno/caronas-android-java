@@ -9,13 +9,13 @@
             android:icon="@drawable/ic_pg_inicial"
             android:title="@string/title_activity_pagina_inicial" />
         <item
-            android:id="@+id/nav_OferecerCarona"
+            android:id="@+id/nav_MinhasCaronas"
             android:icon="@drawable/ic_car"
-            android:title="@string/oferecer_carona" />
+            android:title="@string/minhas_caronas" />
         <item
-            android:id="@+id/nav_procurarcarona"
+            android:id="@+id/nav_PesquisarCarona"
             android:icon="@drawable/ic_lupa"
-            android:title="@string/procurar_carona" />
+            android:title="@string/pesquisar_carona" />
         <item
             android:id="@+id/nav_historicocarona"
             android:icon="@drawable/ic_historico"
@@ -26,7 +26,7 @@
             android:title="@string/action_settings" />
     </group>
 
-    <item android:title="Entre em contato">
+    <item android:title="@string/entre_em_contato">
         <menu>
             <item
                 android:id="@+id/nav_share"

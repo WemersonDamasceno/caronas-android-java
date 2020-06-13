@@ -7,24 +7,23 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:layout_height="150dp"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_marginLeft="7dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="3dp"
         cardview_view:cardCornerRadius="20dp"
         cardview_view:cardBackgroundColor="@color/colorBranco">
 
         <LinearLayout
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginRight="5dp"
-            android:padding="2dp">
-
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:padding="5dp"
                 android:id="@+id/llend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -107,7 +106,6 @@
                 android:id="@+id/llfoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -175,7 +173,7 @@
                     android:id="@+id/ic_carro"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/tvDataSaidaLista"
                     android:src="@drawable/ic_car_lilas" />
@@ -185,7 +183,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_below="@id/ic_data"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="25dp"
                     android:layout_toEndOf="@+id/tvDataSaidaLista"
                     android:text="4"
                     android:textColor="@color/colorPreto"

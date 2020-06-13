@@ -3,7 +3,6 @@ package com.ufc.com.carona_ufc.fragments.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ import java.util.List;
  */
 public class CaronasGratisFragment extends Fragment {
     private CaronaAdapter caronaAdapter;
-    private FirebaseFirestore db;
     private Button btnCompartilhar;
     private LinearLayout layoutLost;
     public CaronaAdapter getCaronaAdapter() {
@@ -64,7 +62,7 @@ public class CaronasGratisFragment extends Fragment {
         btnCompartilhar = view.findViewById(R.id.btnCompartilhar);
         layoutLost = view.findViewById(R.id.layoutLost);
 
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -108,11 +106,10 @@ public class CaronasGratisFragment extends Fragment {
                         List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot doc : docs) {
                             Carona car = doc.toObject(Carona.class);
-                            if (!car.isCheckBoxHelp()) {
+                            if (!car.isCheckBoxHelp() && car.getQtdVagas() > 0) {
                                 caronaAdapter.add(car);
                                 caronaAdapter.notifyDataSetChanged();
                             }
-                            Log.i("teste", "tamanho da lista: " + caronaAdapter.getListCaronas().size());
                         }
                         if (caronaAdapter.getListCaronas().size() == 0) {
                             layoutLost.setVisibility(View.VISIBLE);

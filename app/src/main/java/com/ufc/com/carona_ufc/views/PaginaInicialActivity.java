@@ -45,7 +45,6 @@ import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.fragments.ui.HistoricoCaronasFragment;
 import com.ufc.com.carona_ufc.fragments.ui.PerfilUsuarioFragment;
 import com.ufc.com.carona_ufc.fragments.ui.Pg_Inicial_Fragment;
-import com.ufc.com.carona_ufc.fragments.ui.ProcurarCaronaFragment;
 import com.ufc.com.carona_ufc.fragments.ui.ToolsFragment;
 import com.ufc.com.carona_ufc.models.Usuario;
 
@@ -180,19 +179,19 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 });
     }
     public void selectDrawerItem(MenuItem menuItem) {
-        Fragment fragment = new Pg_Inicial_Fragment();
+        Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Class fragmentClass = ProcurarCaronaFragment.class;
+        Class fragmentClass = Pg_Inicial_Fragment.class;
         switch (menuItem.getItemId()) {
             case R.id.nav_pagInicial:
                 setTitle(menuItem.getTitle());
                 fragmentClass = Pg_Inicial_Fragment.class;
                 break;
-            case R.id.nav_OferecerCarona:
-                final Intent intent = new Intent(this, OferecerCaronaActivity.class);
+            case R.id.nav_MinhasCaronas:
+                final Intent intent = new Intent(this, CaronaQuePegareiActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.nav_procurarcarona:
+            case R.id.nav_PesquisarCarona:
                 Intent intent1 = new Intent(this, ProcurarCaronaActivity.class);
                 startActivity(intent1);
                 break;

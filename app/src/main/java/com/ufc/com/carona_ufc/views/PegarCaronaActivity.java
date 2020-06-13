@@ -140,7 +140,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                                     }
                                 });
                                 //Voltar para a tela inicial
-                                startActivity(new Intent(getBaseContext(), PaginaInicialActivity.class));
+                                startActivity(new Intent(getBaseContext(), CaronaQuePegareiActivity.class));
                                 finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {

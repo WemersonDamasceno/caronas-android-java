@@ -1,6 +1,9 @@
 package com.ufc.com.carona_ufc.models;
 
-public class CaronaPega {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class CaronaPega implements Parcelable {
     private String idMotorista;
     private String idCarona;
     private String idUser;
@@ -11,6 +14,28 @@ public class CaronaPega {
         this.idUser = idUser;
 
     }
+
+    public static final Creator<CaronaPega> CREATOR = new Creator<CaronaPega>() {
+        @Override
+        public CaronaPega createFromParcel(Parcel in) {
+            return new CaronaPega(in);
+        }
+
+        @Override
+        public CaronaPega[] newArray(int size) {
+            return new CaronaPega[size];
+        }
+    };
+
+    public CaronaPega() {
+    }
+
+    protected CaronaPega(Parcel in) {
+        idMotorista = in.readString();
+        idCarona = in.readString();
+        idUser = in.readString();
+    }
+
 
     public String getIdUser() {
         return idUser;
@@ -34,5 +59,17 @@ public class CaronaPega {
 
     public void setIdCarona(String idCarona) {
         this.idCarona = idCarona;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idMotorista);
+        dest.writeString(idCarona);
+        dest.writeString(idUser);
     }
 }

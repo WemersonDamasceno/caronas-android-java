@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/fundodegrade"
         android:orientation="vertical">
 
         <ScrollView
@@ -65,7 +64,8 @@
                     android:id="@+id/rlDados"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/imgCapa">
+                    android:layout_below="@+id/imgCapa"
+                    android:background="@color/colorBranco">
 
                     <TextView
                         android:id="@+id/tvNomePerfil"
@@ -86,7 +86,7 @@
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="Endereço não informado"
-                        android:textColor="@color/colorLilasStart"
+                        android:textColor="@color/colorPreto"
                         android:textSize="15sp" />
 
                     <TextView
@@ -116,16 +116,17 @@
                 <LinearLayout
                     android:id="@+id/llcaronasOferecidas"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_below="@+id/rlDados"
-                    android:layout_marginTop="5dp"
                     android:background="@color/colorBranco"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/inputQtdOferecidas"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
                         android:text="Carona Oferecidas"
                         android:textColor="@color/colorLilasStart"
                         android:textSize="15sp" />
@@ -133,28 +134,23 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCaronasOferecidasHorinzontal"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
-                        android:padding="5dp"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="180dp"
+                        android:layout_gravity="center"></androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_below="@+id/llcaronasOferecidas"
-                    android:layout_marginTop="5dp"
                     android:background="@color/colorBranco"
                     android:orientation="vertical">
 
-
                     <TextView
-                        android:id="@+id/txtCaronasPegas"
+                        android:id="@+id/inputQtdPegas"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="5dp"
                         android:text="Carona Pegas"
                         android:textColor="@color/colorLilasStart"
                         android:textSize="15sp" />
@@ -162,10 +158,8 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCaronasPegasHorizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
-                        android:padding="5dp"></androidx.recyclerview.widget.RecyclerView>
+                        android:layout_height="170dp"
+                        android:layout_gravity="center"></androidx.recyclerview.widget.RecyclerView>
 
 
                 </LinearLayout>
