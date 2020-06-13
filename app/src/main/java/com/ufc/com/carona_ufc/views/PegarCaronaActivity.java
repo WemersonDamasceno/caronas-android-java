@@ -133,8 +133,15 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                                                 }
                                             }
                                         });
+                                FirebaseFirestore.getInstance().terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
                                 //Voltar para a tela inicial
                                 startActivity(new Intent(getBaseContext(), PaginaInicialActivity.class));
+                                finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -164,6 +171,12 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                         Log.i("teste", "Ok!");
                     }
                 });
+        FirebaseFirestore.getInstance().terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        });
     }
 
     private void setarDadosUser(final Carona carona) {

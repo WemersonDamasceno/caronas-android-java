@@ -12,11 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -82,7 +85,14 @@ public class CaronasGratisFragment extends Fragment {
                 Toast.makeText(getContext(), "Verifique o endereço", Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getContext(), PegarCaronaActivity.class);
                 intent1.putExtra("carona", carona);
+                FirebaseFirestore.getInstance().terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
                 startActivity(intent1);
+
             }
         });
 
