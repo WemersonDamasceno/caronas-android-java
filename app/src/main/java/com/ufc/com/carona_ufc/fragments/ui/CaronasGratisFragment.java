@@ -73,6 +73,7 @@ public class CaronasGratisFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         buscarCaronas();
+        caronaAdapter.getListCaronas().clear();
 
         caronaAdapter.setOnItemClickListener(new ItemClickListener() {
             @Override

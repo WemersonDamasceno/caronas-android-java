@@ -169,7 +169,8 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
 
 
     public void salvarCarona(Carona carona) {
-        FirebaseFirestore.getInstance().collection("caronas")
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("caronas")
                 .add(carona)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -182,6 +183,12 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i("teste", "Falha ao add a carona no banco: " + e.getMessage());
+            }
+        });
+        db.terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
             }
         });
     }

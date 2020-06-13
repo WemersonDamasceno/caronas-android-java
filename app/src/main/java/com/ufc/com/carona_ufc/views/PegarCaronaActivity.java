@@ -1,5 +1,6 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,8 +27,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -61,7 +64,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     Button btnPegarCarona;
     ImageView btnWhatsApp;
     ImageView fotoMotorista;
-
+    TextView tvAvaliacao;
     Carona carona;
     private List<Polyline> polylines;
     CaronaAdapter caronaAdapter;
@@ -94,6 +97,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvCheckBoxHelpCarona = findViewById(R.id.tvCheckBoxHelpCarona);
         btnPegarCarona = findViewById(R.id.btnPegarCarona);
         btnWhatsApp = findViewById(R.id.btnWhatsApp);
+        tvAvaliacao = findViewById(R.id.tvAvaliacao2);
 
         carona = getIntent().getExtras().getParcelable("carona");
         tvnomeMotoristaCarona.setText(carona.getIdMotorista());
@@ -104,10 +108,10 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         setarDadosUser(carona);
 
 
+        //Adicionar no banco das caronas pegas e diminuir uma vaga
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Adicionar no banco das caronas pegas
                 final CaronaPega caronaPega = new CaronaPega(carona.getIdMotorista(), carona.getId(), FirebaseAuth.getInstance().getUid());
                 FirebaseFirestore.getInstance().collection("/caronasPegas")
                         .add(caronaPega)
@@ -115,6 +119,22 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.i("teste", "Carona pega");
+                                Toast.makeText(PegarCaronaActivity.this, "Você garantiu sua vaga!", Toast.LENGTH_SHORT).show();
+                                FirebaseFirestore.getInstance().collection("caronas")
+                                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                                for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                                    Carona c = doc.toObject(Carona.class);
+                                                    if (c.getId().equals(caronaPega.getIdCarona())) {
+                                                        int qtd = c.getQtdVagas() - 1;
+                                                        attQtdVagas(doc, qtd);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                //Voltar para a tela inicial
+                                startActivity(new Intent(getBaseContext(), PaginaInicialActivity.class));
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -122,12 +142,9 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                         Log.i("teste", "Falha ao pegar a carona: " + e.getMessage());
                     }
                 });
-                //atualizar a qtd de vagas da carona pega.
-
-
-
             }
         });
+
         //abrir whatsapp com numero e uma mensagem pré pronta
         btnWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,11 +152,19 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                 Toast.makeText(PegarCaronaActivity.this, "WhatsApp!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
-
+    private void attQtdVagas(DocumentSnapshot doc, int qtd) {
+        FirebaseFirestore.getInstance().collection("caronas")
+                .document(doc.getId())
+                .update("qtdVagas", qtd)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.i("teste", "Ok!");
+                    }
+                });
+    }
 
     private void setarDadosUser(final Carona carona) {
         FirebaseFirestore.getInstance().collection("/users")
@@ -156,7 +181,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                                     user.setTelefoneUser("Não Informado");
                                 }
                                 tvTelefone.setText(user.getTelefoneUser());
-                                //falta a avaliação e a quantidade de caronas que ele deu.
+                                tvAvaliacao.setText(String.valueOf(user.getAvaliacao()));
                             }
                         }
                     }

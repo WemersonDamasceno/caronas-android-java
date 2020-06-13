@@ -58,7 +58,7 @@
 
 
             <TextView
-                android:id="@+id/tvAvaliacao"
+                android:id="@+id/tvAvaliacao1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvNomeMotoristaCarona"
@@ -70,9 +70,10 @@
                 android:textSize="17sp" />
 
             <TextView
+                android:id="@+id/tvAvaliacao2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/tvAvaliacao"
+                android:layout_toEndOf="@+id/tvAvaliacao1"
                 android:layout_below="@+id/tvNomeMotoristaCarona"
                 android:layout_marginTop="11dp"
                 android:text="4,9"
@@ -83,7 +84,7 @@
                 android:id="@+id/txtWpp"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvAvaliacao"
+                android:layout_below="@+id/tvAvaliacao1"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/fotoMotoristaCarona"
@@ -95,7 +96,7 @@
                 android:id="@+id/tvTelefone"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvAvaliacao"
+                android:layout_below="@+id/tvAvaliacao1"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/txtWpp"
                 android:text="(88) 99709-1133"

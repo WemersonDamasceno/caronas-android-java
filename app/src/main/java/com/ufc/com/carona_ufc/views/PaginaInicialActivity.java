@@ -113,8 +113,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
-        //
         checarPermissaoClient();
         getUser(FirebaseAuth.getInstance().getUid());
 
@@ -148,7 +146,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
 
     }
 
-
     private void getUser(final String uid) {
         FirebaseFirestore.getInstance().collection("/users")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -170,7 +167,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
                     }
                 });
     }
-
     private void setupDrawerContent(NavigationView navigationView) {
         //setar o verdim na pagina inicial
         navigationView.setCheckedItem(R.id.nav_pagInicial);
