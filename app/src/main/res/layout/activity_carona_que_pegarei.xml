@@ -9,31 +9,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBranco"
+        android:background="@color/colorFundoCardView"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="170dp"
+            android:background="@color/colorBranco"
             android:scaleType="centerCrop"
             android:src="@drawable/fundo_car_carona" />
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:fontFamily="serif-monospace"
-            android:padding="10dp"
+            android:background="@color/colorBranco"
+            android:padding="2dp"
             android:text="@string/textoSobreOQueFazer"
             android:textAlignment="center"
-            android:textColor="@color/colorPreto"
+            android:textColor="@color/colorLilasStart"
             android:textSize="16sp"
             android:textStyle="normal" />
 
-        <!--Povoar o recycler view comparando as datas-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCaronasQuePegarei"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorFundoCardView">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_height="wrap_content"
+                android:id="@+id/rvCaronasQuePegarei"
+                android:layout_width="match_parent"
+                android:background="@color/colorFundoCardView"></androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
 
 
     </LinearLayout>

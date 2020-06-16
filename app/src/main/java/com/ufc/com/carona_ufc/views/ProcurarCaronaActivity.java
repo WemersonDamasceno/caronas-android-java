@@ -1,8 +1,10 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -51,33 +53,21 @@ public class ProcurarCaronaActivity extends AppCompatActivity {
         }
     }
 
-  /*  @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_procurar, menu);
-        MenuItem item = menu.findItem(R.id.ic_procurar);
-
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //caronaAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
+    //fazer o search view
+    //Para o menu do SearchView
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.ic_procurar) {
-            Toast.makeText(this, "Ainda não foi implementado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Funcionou", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, PesquisarCaronaActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_procurar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 }

@@ -5,6 +5,5 @@
         android:id="@+id/ic_procurar"
         android:icon="@drawable/ic_procurar_item"
         android:title="@string/procurar_carona"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+        app:showAsAction="always" />
 </menu>

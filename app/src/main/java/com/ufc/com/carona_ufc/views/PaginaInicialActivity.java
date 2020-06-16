@@ -116,6 +116,8 @@ public class PaginaInicialActivity extends AppCompatActivity {
         getUser(FirebaseAuth.getInstance().getUid());
 
 
+        //compararDatas();
+
         //abrir o perfil do usuario
         llMenuFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +190,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 fragmentClass = Pg_Inicial_Fragment.class;
                 break;
             case R.id.nav_MinhasCaronas:
-                final Intent intent = new Intent(this, CaronaQuePegareiActivity.class);
+                final Intent intent = new Intent(getBaseContext(), CaronaQuePegareiActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_PesquisarCarona:
@@ -253,13 +255,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
             return;
         }
     }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainer);
@@ -283,4 +279,5 @@ public class PaginaInicialActivity extends AppCompatActivity {
         // and will not render the hamburger icon without it.
         return new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
+
 }
