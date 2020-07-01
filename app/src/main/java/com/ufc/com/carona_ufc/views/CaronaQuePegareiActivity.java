@@ -3,6 +3,12 @@ package com.ufc.com.carona_ufc.views;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -18,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
+import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.models.CaronaPega;
 
@@ -27,6 +34,10 @@ import java.util.GregorianCalendar;
 public class CaronaQuePegareiActivity extends AppCompatActivity {
     private RecyclerView rvCaronasPegarei;
     private CaronaAdapter caronaAdapter;
+    Button btnDesistirVaga, btnCompartilharCarona;
+    ImageView btnClose;
+    LinearLayout llLostCaronas;
+    private RelativeLayout rlDesistirOuCompartilhar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +47,10 @@ public class CaronaQuePegareiActivity extends AppCompatActivity {
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
         bar.setTitle("Minhas Caronas");
 
-
+        btnClose = findViewById(R.id.btnClose);
+        btnCompartilharCarona = findViewById(R.id.btnCompartilharCarona);
+        btnDesistirVaga = findViewById(R.id.btnDesistirVaga);
+        rlDesistirOuCompartilhar = findViewById(R.id.rlDesistirOuCompartilhar);
         rvCaronasPegarei = findViewById(R.id.rvCaronasQuePegarei);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -44,9 +58,45 @@ public class CaronaQuePegareiActivity extends AppCompatActivity {
         caronaAdapter = new CaronaAdapter(getBaseContext());
         rvCaronasPegarei.setAdapter(caronaAdapter);
         rvCaronasPegarei.setLayoutManager(layoutManager);
+        llLostCaronas = findViewById(R.id.layoutLostMinhasCaronas);
 
         buscarCaronasQuePegarei(FirebaseAuth.getInstance().getUid());
+        /*if(caronaAdapter.getListCaronas().size() == 0){
+            llLostCaronas.setVisibility(View.VISIBLE);
+        }*/
 
+        caronaAdapter.setOnItemClickListener(new ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                final Carona carona = caronaAdapter.getListCaronas().get(position);
+                //Abrir um view para compartilhar ou remover sua vaga
+                rlDesistirOuCompartilhar.setVisibility(View.VISIBLE);
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rlDesistirOuCompartilhar.setVisibility(View.GONE);
+                        rvCaronasPegarei.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                btnCompartilharCarona.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(CaronaQuePegareiActivity.this, "Compartilhar", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                btnDesistirVaga.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(CaronaQuePegareiActivity.this, "Desistir da vaga", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
 
     }
 
@@ -68,7 +118,9 @@ public class CaronaQuePegareiActivity extends AppCompatActivity {
                                                     if (carona.getId().equals(caronaPega.getIdCarona())) {
                                                         compararDatasEAddLista(carona);
                                                     }
+
                                                 }
+
                                             }
                                         });
                             }
@@ -93,5 +145,6 @@ public class CaronaQuePegareiActivity extends AppCompatActivity {
             caronaAdapter.add(carona);
             caronaAdapter.notifyDataSetChanged();
         }
+
     }
 }

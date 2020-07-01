@@ -21,7 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".views.PesquisarCaronaActivity"></activity>
+        <activity
+            android:name=".views.PesquisarCaronaActivity"
+            android:label="@string/procurar_carona">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.PaginaInicialActivity" />
+        </activity>
         <activity
             android:name=".views.CaronaQuePegareiActivity"
             android:label="@string/minhas_caronas">

@@ -116,7 +116,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
         getUser(FirebaseAuth.getInstance().getUid());
 
 
-        //compararDatas();
 
         //abrir o perfil do usuario
         llMenuFoto.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +197,8 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 startActivity(intent1);
                 break;
             case R.id.nav_historicocarona:
-                setTitle(menuItem.getTitle());
+                ActionBar bar = getSupportActionBar();
+                bar.setTitle("Historico de Caronas");
                 fragmentClass = HistoricoCaronasFragment.class;
                 break;
             case R.id.nav_tools:

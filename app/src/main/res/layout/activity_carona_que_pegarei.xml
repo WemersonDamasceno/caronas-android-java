@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBranco"
     tools:context=".views.CaronaQuePegareiActivity">
 
 
@@ -14,9 +16,9 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:background="@color/colorBranco"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@drawable/fundo_car_carona" />
 
         <TextView
@@ -31,6 +33,101 @@
             android:textColor="@color/colorLilasStart"
             android:textSize="16sp"
             android:textStyle="normal" />
+
+        <LinearLayout
+            android:id="@+id/layoutLostMinhasCaronas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgLost"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/lost_online" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="Voce ainda não possui nenhuma carona, vá em Procurar Carona"
+                android:textColor="@color/colorLilasStart"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnProcurarCaronaMinhasCarona"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/button_redondo"
+                android:ems="13"
+                android:text="@string/procurar_carona"
+                android:textColor="@color/colorBranco" />
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlDesistirOuCompartilhar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/homem_rua"
+            android:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <ImageView
+                    android:id="@+id/btnClose"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorBranco"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnDesistirVaga"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/button_redondo"
+                    android:text="@string/desistir_da_vaga"
+                    android:textColor="@color/colorBranco"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.148" />
+
+                <Button
+                    android:id="@+id/btnCompartilharCarona"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_redondo"
+                    android:text="@string/menu_share"
+                    android:textColor="@color/colorBranco"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.148" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

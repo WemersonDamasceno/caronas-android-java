@@ -36,16 +36,16 @@ public class PesquisarCaronaActivity extends AppCompatActivity {
 
         final ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
-        bar.setTitle("Pesquisar Carona");
 
-        adapter = new CaronaAdapter(getBaseContext());
-        LinearLayoutManager manager = new LinearLayoutManager(getBaseContext());
-        manager.setReverseLayout(false);
-        manager.setOrientation(RecyclerView.VERTICAL);
         rvCaronasPesquisas = findViewById(R.id.rvCaronasPesquisa);
         edTextPesquisa = findViewById(R.id.edTextPesquisa);
-        rvCaronasPesquisas.setLayoutManager(manager);
+        LinearLayoutManager manager = new LinearLayoutManager(getBaseContext());
+        adapter = new CaronaAdapter(getBaseContext());
+        manager.setReverseLayout(false);
+        manager.setOrientation(RecyclerView.VERTICAL);
+
         rvCaronasPesquisas.setAdapter(adapter);
+        rvCaronasPesquisas.setLayoutManager(manager);
 
         buscarCaronasComAData();
 
@@ -57,12 +57,13 @@ public class PesquisarCaronaActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(s.toString());
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                filter(s.toString());
+                adapter.getListCaronas().clear();
             }
         });
 
@@ -76,7 +77,9 @@ public class PesquisarCaronaActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                             Carona c = documentSnapshot.toObject(Carona.class);
-                            adapter.add(c);
+                            if (c.getQtdVagas() > 0) {
+                                adapter.add(c);
+                            }
                         }
                     }
                 });
@@ -95,13 +98,13 @@ public class PesquisarCaronaActivity extends AppCompatActivity {
 
                         for (Carona c : adapter.getListCaronas()) {
                             if (c.getEnderecoChegada().toLowerCase().contains(text.toLowerCase())) {
-                                filteredList.add(c);
+                                if (c.getQtdVagas() > 0) {
+                                    filteredList.add(c);
+                                }
                             }
                         }
-
                         adapter.filterList(filteredList);
-
-
+                        adapter.notifyDataSetChanged();
                     }
                 });
 

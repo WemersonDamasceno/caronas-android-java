@@ -1,14 +1,13 @@
 package com.ufc.com.carona_ufc.adapters;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,42 +35,14 @@ import com.ufc.com.carona_ufc.views.OferecerCaronaActivity;
 import com.ufc.com.carona_ufc.views.ProcurarCaronaActivity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolderCaronas> implements Filterable {
+public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolderCaronas> {
+    @SuppressLint("StaticFieldLeak")
     private static Context getContext;
     private ArrayList<Carona> listCaronas;
-    private ArrayList<Carona> listCaronasAll;
+    private int getItem;
     private static ItemClickListener itemClickListener;
-    Filter filter = new Filter() {
-        //run on background thread
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            ArrayList<Carona> filteredList = new ArrayList<>();
-            if (constraint.toString().isEmpty()) {
-                filteredList.addAll(listCaronasAll);
-            } else {
-                for (Carona carona : listCaronasAll) {
-                    if (carona.getEnderecoChegada().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filteredList.add(carona);
-                    }
-                }
-            }
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
-
-            return filterResults;
-        }
-
-        //run on a ui thread
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            listCaronas.clear();
-            listCaronas.addAll((Collection<? extends Carona>) results.values);
-            notifyDataSetChanged();
-        }
-    };
 
     public void setOnItemClickListener(ItemClickListener itemClickListener) {
         CaronaAdapter.itemClickListener = itemClickListener;
@@ -88,7 +59,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolderCaronas onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.carona_list, null, false);
         return new ViewHolderCaronas(view);
     }
@@ -120,13 +91,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
 
     public CaronaAdapter(Context context) {
         this.listCaronas = new ArrayList<>();
-        this.listCaronasAll = new ArrayList<>(listCaronas);
         getContext = context;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
     }
 
 
@@ -142,6 +107,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         ImageView ic_editar;
         ImageView ic_excluir;
         TextView tvAvaliacao;
+
 
         ViewHolderCaronas(@NonNull View itemView) {
             super(itemView);
@@ -273,8 +239,10 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         public void onClick(View v) {
             if (itemClickListener != null) {
                 itemClickListener.onItemClick(getAdapterPosition());
+                getAdapterPosition();
             }
         }
+
 
         void setDados(final Carona carona) {
             FirebaseFirestore.getInstance().collection("/users")

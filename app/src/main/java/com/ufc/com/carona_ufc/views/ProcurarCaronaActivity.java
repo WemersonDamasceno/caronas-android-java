@@ -6,11 +6,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -58,8 +59,11 @@ public class ProcurarCaronaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.ic_procurar) {
-            Toast.makeText(this, "Funcionou", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, PesquisarCaronaActivity.class));
+            Intent intent = new Intent(this, PesquisarCaronaActivity.class);
+            //Utilizando animação
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.fade_in, R.anim.fade_out);
+            ActivityCompat.startActivity(this, intent, activityOptionsCompat.toBundle());
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
