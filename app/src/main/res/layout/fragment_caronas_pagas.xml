@@ -6,19 +6,54 @@
     tools:context=".fragments.ui.CaronasPagasFragment">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recyclerViewPagas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
 
-        </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:id="@+id/layoutLostPagas"
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgLostPagas"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/lost_online" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="@string/ainda_n_o_foi_oferecida_nenhuma_carona_ncompartilhe_e_indique_o_app_para_seus_amigos"
+                android:textColor="@color/colorLilasStart"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnCompartilharPagas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/button_redondo"
+                android:ems="13"
+                android:text="@string/menu_share"
+                android:textColor="@color/colorBranco" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </FrameLayout>
