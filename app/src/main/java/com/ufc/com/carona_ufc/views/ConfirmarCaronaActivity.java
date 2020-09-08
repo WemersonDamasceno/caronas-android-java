@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.views;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -63,8 +64,9 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
     TextView tvDuracaoConfirm;
     Button btnCaronaConfirm;
 
-    Bundle bundle;
+    ProgressDialog progressLoading, progressSalvarCarona;
 
+    Bundle bundle;
     Carona carona;
 
     @Override
@@ -80,6 +82,13 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
 
         arrayPoints = new ArrayList<>();
         polylines = new ArrayList<>();
+        progressLoading = new ProgressDialog(this);
+        progressSalvarCarona = new ProgressDialog(this);
+
+        progressLoading.setTitle("Aguarde um momento...");
+        progressLoading.setMessage("Atualizando dados no mapa...");
+        progressLoading.show();
+
 
         tvDistanciaConfirm = findViewById(R.id.tvDistanciaConfirm);
         tvDuracaoConfirm = findViewById(R.id.tvDuracaoConfirm);
@@ -103,6 +112,9 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         btnCaronaConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressSalvarCarona.setTitle("Aguarde um pouco...");
+                progressSalvarCarona.setMessage("Adicionando sua carona na lista...");
+                progressSalvarCarona.show();
                 //Se o ID for nulo é pq a carona esta sendo criada
                 if (carona.getId() == null) {
                     Log.i("teste", "Essa carona será salva: " + carona.getId());
@@ -113,11 +125,13 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                     Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
                     startActivity(intent);
                     finish();
+                    progressSalvarCarona.dismiss();
                 }
                 //Se não for é pq esta sendo editada
                 else {
                     Log.i("teste", "Essa carona será editada: " + carona.getId());
                     editarCarona(carona);
+                    progressSalvarCarona.dismiss();
                     //finish();
                 }
             }
@@ -165,7 +179,6 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         });
 
     }
-
 
 
     public void salvarCarona(Carona carona) {
@@ -241,6 +254,9 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         googleMap.setMyLocationEnabled(true);
 
         double latSaida, lngSaida, latChegada, lngChegada;
@@ -316,7 +332,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         int padding = 90;
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         googleMap.animateCamera(cameraUpdate);
-
+        progressLoading.dismiss();
 
     }
 

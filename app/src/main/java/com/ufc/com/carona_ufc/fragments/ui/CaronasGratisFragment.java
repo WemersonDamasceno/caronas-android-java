@@ -30,6 +30,8 @@ import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -107,8 +109,21 @@ public class CaronasGratisFragment extends Fragment {
                         for (DocumentSnapshot doc : docs) {
                             Carona car = doc.toObject(Carona.class);
                             if (!car.isCheckBoxHelp() && car.getQtdVagas() > 0) {
-                                caronaAdapter.add(car);
-                                caronaAdapter.notifyDataSetChanged();
+                                //comparar datas
+                                Calendar dataHoje = Calendar.getInstance();
+                                Calendar dataCarona = new GregorianCalendar();
+                                String data = car.getData();
+                                String dia = data.substring(0, 2);
+                                String mes = data.substring(3, 5);
+                                String ano = data.substring(6, 10);
+                                dataCarona.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dia));
+                                dataCarona.set(Calendar.MONTH, Integer.parseInt(mes));
+                                dataCarona.set(Calendar.YEAR, Integer.parseInt(ano));
+                                //Pegar as caronas somente de hoje ou de dias seguintes
+                                if (dataCarona.after(dataHoje) || dataCarona.equals(dataHoje)) {
+                                    caronaAdapter.add(car);
+                                    caronaAdapter.notifyDataSetChanged();
+                                }
                             }
                         }
                         if (caronaAdapter.getListCaronas().size() == 0) {

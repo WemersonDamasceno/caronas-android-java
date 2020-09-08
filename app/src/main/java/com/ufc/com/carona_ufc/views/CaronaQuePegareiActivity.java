@@ -145,6 +145,9 @@ public class CaronaQuePegareiActivity extends AppCompatActivity {
             caronaAdapter.add(carona);
             caronaAdapter.notifyDataSetChanged();
         }
+        if (caronaAdapter.getListCaronas().size() == 0) {
+            llLostCaronas.setVisibility(View.VISIBLE);
+        }
 
     }
 }
