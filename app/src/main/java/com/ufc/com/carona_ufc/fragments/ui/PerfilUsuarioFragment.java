@@ -106,11 +106,13 @@ public class PerfilUsuarioFragment extends Fragment {
         //setar os dados
         Picasso.get().load(usuario.getUrlFotoUser()).into(imgPerfilUsuario);
         tvNomeUsuario.setText(usuario.getNomeUser());
-        if (usuario.getEnderecoUser().equals("")) {
+
+        if (usuario.getEnderecoUser() == null || usuario.getEnderecoUser().equals("")) {
             tvEnderecoUsuario.setText("Endereço não informado");
         } else {
             tvEnderecoUsuario.setText(usuario.getEnderecoUser());
         }
+
         tvAvaliacaoUsuario.setText("Avaliação do motorista: " + usuario.getAvaliacao());
         if (usuario.getMiniBiografiaUser() == null || usuario.getMiniBiografiaUser().equals("")) {
             tvMiniBio.setVisibility(View.GONE);

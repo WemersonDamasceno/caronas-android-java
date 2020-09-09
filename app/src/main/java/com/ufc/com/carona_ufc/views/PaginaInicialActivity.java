@@ -31,6 +31,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -68,6 +73,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
     StorageReference storageReference;
     LinearLayout llMenuFoto;
     //
+    GoogleSignInClient mGoogleSingInCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +121,13 @@ public class PaginaInicialActivity extends AppCompatActivity {
         checarPermissaoClient();
         getUser(FirebaseAuth.getInstance().getUid());
 
+
+        //configurar o login google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSingInCliente = GoogleSignIn.getClient(this, gso);
 
 
         //abrir o perfil do usuario
@@ -203,14 +216,24 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 fragmentClass = HistoricoCaronasFragment.class;
                 break;
             case R.id.nav_tools:
-                setTitle("Configurações");
+                ActionBar bar3 = getSupportActionBar();
+                bar3.setTitle("Configurações");
                 fragmentClass = ToolsFragment.class;
                 break;
             case R.id.nav_share:
                 Toast.makeText(this, "Compartilhar......", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_sair:
-                FirebaseAuth.getInstance().signOut();
+                if (FirebaseAuth.getInstance().getUid() != null) {
+                    FirebaseAuth.getInstance().signOut();
+                } else {
+                    mGoogleSingInCliente.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.i("teste", "Deslogado do google");
+                        }
+                    });
+                }
                 Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
                 break;
@@ -256,7 +279,6 @@ public class PaginaInicialActivity extends AppCompatActivity {
             return;
         }
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainer);

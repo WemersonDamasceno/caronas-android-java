@@ -131,7 +131,6 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //faz nada
                             }
                         });
                         alert.show();

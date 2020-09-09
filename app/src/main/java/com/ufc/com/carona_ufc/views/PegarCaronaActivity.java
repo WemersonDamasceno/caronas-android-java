@@ -69,6 +69,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     ImageView btnWhatsApp;
     ImageView fotoMotorista;
     TextView tvAvaliacao;
+    TextView tvValorCarona;
     Carona carona;
     private List<Polyline> polylines;
     CaronaAdapter caronaAdapter;
@@ -96,6 +97,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         progressLoad.show();
 
         fotoMotorista = findViewById(R.id.fotoMotoristaCarona);
+        tvValorCarona = findViewById(R.id.tvValorCarona);
         tvnomeMotoristaCarona = findViewById(R.id.tvNomeMotoristaCarona);
         tvTelefone = findViewById(R.id.tvTelefone);
         tvCaronasOferecidas = findViewById(R.id.tvCaronasOferecidas);
@@ -114,6 +116,8 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvDataCarona.setText(carona.getData());
         tvHoraCarona.setText(carona.getHora());
         tvQtdVagasCarona.setText(String.valueOf(carona.getQtdVagas()));
+        tvValorCarona.setText(carona.getValorCarona());
+
 
         setarDadosUser(carona);
 

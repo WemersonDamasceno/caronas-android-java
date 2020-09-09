@@ -1,7 +1,6 @@
 package com.ufc.com.carona_ufc.fragments.ui;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,9 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
 import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
-import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
-import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -77,23 +71,6 @@ public class CaronasGratisFragment extends Fragment {
 
         buscarCaronas();
         caronaAdapter.getListCaronas().clear();
-
-        caronaAdapter.setOnItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Carona carona = caronaAdapter.getListCaronas().get(position);
-                Intent intent1 = new Intent(getContext(), PegarCaronaActivity.class);
-                intent1.putExtra("carona", carona);
-                FirebaseFirestore.getInstance().terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                    }
-                });
-                startActivity(intent1);
-
-            }
-        });
 
         return view;
     }

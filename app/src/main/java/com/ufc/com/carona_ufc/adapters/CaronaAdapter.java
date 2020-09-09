@@ -32,6 +32,7 @@ import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
 import com.ufc.com.carona_ufc.models.Carona;
 import com.ufc.com.carona_ufc.models.Usuario;
 import com.ufc.com.carona_ufc.views.OferecerCaronaActivity;
+import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 import com.ufc.com.carona_ufc.views.ProcurarCaronaActivity;
 
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         TextView tvAvaliacao;
 
 
-        ViewHolderCaronas(@NonNull View itemView) {
+        ViewHolderCaronas(@NonNull final View itemView) {
             super(itemView);
             tvNomeMotorista = itemView.findViewById(R.id.tvNomeMotoristaLista);
             tvEndSaida = itemView.findViewById(R.id.tvEndSaidaLista);
@@ -123,9 +124,19 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
             ic_excluir = itemView.findViewById(R.id.ic_excluir);
             tvAvaliacao = itemView.findViewById(R.id.avaliacaolista);
 
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
+            //teste
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Carona carona = getListCaronas().get(getAdapterPosition());
+                    Intent intent1 = new Intent(getContext, PegarCaronaActivity.class);
+                    intent1.putExtra("carona", carona);
+                    getContext.startActivity(intent1);
+                }
+            });
 
-            //arrumar os botoes aqui
+
             //tirar do pegar carona
             ic_editar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -235,13 +246,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                     });
         }
 
-        @Override
-        public void onClick(View v) {
-            if (itemClickListener != null) {
-                itemClickListener.onItemClick(getAdapterPosition());
-            }
-        }
-
 
         void setDados(final Carona carona) {
             FirebaseFirestore.getInstance().collection("/users")
@@ -278,6 +282,12 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         }
 
 
+        @Override
+        public void onClick(View v) {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(getAdapterPosition());
+            }
+        }
     }
 
 

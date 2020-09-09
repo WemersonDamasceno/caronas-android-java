@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.models.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioFirebaseDAO {
@@ -42,20 +44,40 @@ public class UsuarioFirebaseDAO {
         return userRetornado;
     }
 
-    public void salvarUsuarioBanco(Usuario usuario) {
-        FirebaseFirestore.getInstance().collection("users")
-                .add(usuario)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    public void salvarUsuarioBanco(final Usuario usuario) {
+        FirebaseFirestore.getInstance().collection("/users")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.i("teste", "sucesso ao add o novo usuario" + documentReference.getId());
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        List<Usuario> users = new ArrayList<>();
+                        Usuario user = new Usuario();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                            Usuario usuario = doc.toObject(Usuario.class);
+                            users.add(usuario);
+                            if (usuario.getIdUser().equals(FirebaseAuth.getInstance().getUid())) {
+                                user = usuario;
+                            }
+                        }
+
+                        if (!users.contains(user)) {
+                            FirebaseFirestore.getInstance().collection("users")
+                                    .add(usuario)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.i("teste", "sucesso ao add o novo usuario" + documentReference.getId());
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.i("teste", "falha ao add o novo usuario: " + e.getMessage());
+                                }
+                            });
+                        }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("teste", "falha ao add o novo usuario: " + e.getMessage());
-            }
-        });
+                });
+
+
     }
 
 }
