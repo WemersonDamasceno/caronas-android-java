@@ -187,6 +187,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
                             Log.i("teste", "sucesso da autentificacao, idUser: " + FirebaseAuth.getInstance().getUid());
                             progressDialog.dismiss();
                             startActivity(intent);
+                            finish();
                         }
                     }
                 })

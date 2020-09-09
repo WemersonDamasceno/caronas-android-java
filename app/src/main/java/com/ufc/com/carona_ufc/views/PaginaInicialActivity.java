@@ -224,16 +224,16 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 Toast.makeText(this, "Compartilhar......", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_sair:
-                if (FirebaseAuth.getInstance().getUid() != null) {
+                //if (FirebaseAuth.getInstance().getUid() != null) {
                     FirebaseAuth.getInstance().signOut();
-                } else {
+                // } else {
                     mGoogleSingInCliente.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Log.i("teste", "Deslogado do google");
                         }
                     });
-                }
+                // }
                 Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
                 break;

@@ -25,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -80,9 +81,6 @@ public class LoginActivity extends AppCompatActivity {
         btnEntrarGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.setTitle("Aguarde um momento...");
-                progressDialog.setMessage("Conferindo seus dados...");
-                progressDialog.show();
                 fazerLoginGoogle();
             }
         });
@@ -122,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     senhaLogin.setError("O campo de senha é obrigatório!");
                 } else {
                     progressDialog.setTitle("Aguarde um momento...");
-                    progressDialog.setMessage("Estamos conferindo seus dados...");
+                    progressDialog.setMessage("Verificando seus dados...");
                     progressDialog.show();
                     fazerLogin(email1, senha1);
                 }
@@ -134,6 +132,9 @@ public class LoginActivity extends AppCompatActivity {
     private void fazerLoginGoogle() {
         Intent singInIntent = mGoogleSingInCliente.getSignInIntent();
         startActivityForResult(singInIntent, RC_SING_IN);
+        progressLoginGoogle.setTitle("Aguarde um momento...");
+        progressLoginGoogle.setMessage("Conferindo seus dados...");
+        progressLoginGoogle.show();
     }
     //resposta do metodo
 
@@ -170,7 +171,12 @@ public class LoginActivity extends AppCompatActivity {
                             criarNovoUser(user);
                         }
                     }
-                });
+                }).addOnCanceledListener(this, new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                progressLoginGoogle.dismiss();
+            }
+        });
     }
 
     private void criarNovoUser(FirebaseUser user) {
@@ -192,6 +198,8 @@ public class LoginActivity extends AppCompatActivity {
             usuarioFirebaseDAO.salvarUsuarioBanco(usuario);
             progressLoginGoogle.dismiss();
             startActivity(new Intent(this, PaginaInicialActivity.class));
+            //teste
+            finish();
         }
     }
 
@@ -206,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
                             progressDialog.dismiss();
                             startActivity(intent);
+                            finish();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
