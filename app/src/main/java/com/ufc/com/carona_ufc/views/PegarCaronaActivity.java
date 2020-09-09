@@ -203,7 +203,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                             if (user.getIdUser().equals(carona.getIdMotorista())) {
                                 Picasso.get().load(user.getUrlFotoUser()).into(fotoMotorista);
                                 tvnomeMotoristaCarona.setText(user.getNomeUser());
-                                if (user.getTelefoneUser().equals("")) {
+                                if (user.getTelefoneUser() == null || user.getTelefoneUser().equals("")) {
                                     user.setTelefoneUser("Não Informado");
                                 }
                                 tvTelefone.setText(user.getTelefoneUser());
