@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.views;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -251,6 +252,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                 });
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -279,12 +281,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         tvHoraConfirm.setText(carona.getHora());
         tvDataConfirm.setText(carona.getData());
         tvQtdVagasConfirm.setText(String.valueOf(carona.getQtdVagas()));
-        boolean checkBox = carona.isCheckBoxHelp();
-        if (checkBox) {
-            tvCheckBoxHelp.setText("Precisa de ajuda ( X ) Sim Não ( )");
-        } else {
-            tvCheckBoxHelp.setText("Precisa de ajuda ( ) Sim Não ( X )");
-        }
+        tvCheckBoxHelp.setText("Precisa de ajuda com: R$ " + carona.getValorCarona());
 
 
         // Add a marker in myPosition

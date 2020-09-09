@@ -41,7 +41,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
     @SuppressLint("StaticFieldLeak")
     private static Context getContext;
     private ArrayList<Carona> listCaronas;
-    private int getItem;
     private static ItemClickListener itemClickListener;
 
     public void setOnItemClickListener(ItemClickListener itemClickListener) {
@@ -51,6 +50,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
     public ArrayList<Carona> getListCaronas() {
         return listCaronas;
     }
+
 
     public void setListCaronas(ArrayList<Carona> listCaronas) {
         this.listCaronas = listCaronas;
@@ -239,7 +239,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
         public void onClick(View v) {
             if (itemClickListener != null) {
                 itemClickListener.onItemClick(getAdapterPosition());
-                getAdapterPosition();
             }
         }
 
@@ -272,6 +271,7 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                     });
             if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
                 ic_editar.setVisibility(View.VISIBLE);
+
                 ic_excluir.setVisibility(View.VISIBLE);
             }
 

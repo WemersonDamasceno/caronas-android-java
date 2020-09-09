@@ -17,11 +17,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +30,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.location.LocationListener;
@@ -50,7 +49,7 @@ import java.util.Locale;
 public class OferecerCaronaActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, LocationListener {
 
-    CheckBox checkBoxHelp;
+    EditText valorCarona;
     Button btnCriarCarona;
     //autoComplete dos endereços
     AutoCompleteTextView etLocalSaida;
@@ -72,6 +71,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
     ProgressDialog progressCriar;
     ProgressDialog progressCriar2;
 
+
     double latOri, latDest, lngOri, lngDest;
 
 
@@ -83,7 +83,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7F1FAC")));
 
-        checkBoxHelp = findViewById(R.id.cbPaga);
+        valorCarona = findViewById(R.id.cbPaga);
         etLocalSaida = findViewById(R.id.localSaida);
         etLocalChegada = findViewById(R.id.localDeChegada);
         btnCriarCarona = findViewById(R.id.btnCriarCarona);
@@ -123,6 +123,8 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                 onLocationChanged(location);
             }
         });
+        checarPermissaoClient();
+
         //Relógio
         ivRelogio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +148,9 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
         btnCriarCarona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressCriar2.setTitle("Aguarde um momento...");
+                progressCriar2.setMessage("Criando sua carona...");
+                progressCriar2.show();
                 if (etLocalSaida.getText().toString().equals("")
                         || etLocalChegada.getText().toString().equals("")
                         || tvHora.getText().toString().equals("")
@@ -158,10 +163,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     alert.show();
                 } else if (btnCriarCarona.getText().toString().equals("Criar Carona")
                         || btnCriarCarona.getText().toString().equalsIgnoreCase("Confirmar Edição")) {
-                    progressCriar2.setTitle("Aguarde um momento...");
-                    progressCriar2.setMessage("Criando sua carona...");
-                    progressCriar2.show();
-
 
                     pegarLatLngSaidaChegada(etLocalSaida.getText().toString(), etLocalChegada.getText().toString());
 
@@ -171,14 +172,14 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     carona.setHora(tvHora.getText().toString());
                     carona.setIdMotorista(FirebaseAuth.getInstance().getUid());
                     carona.setQtdVagas(Integer.parseInt(etVagas.getText().toString()));
-                    carona.setCheckBoxHelp(checkBoxHelp.isChecked());
-                    progressCriar.dismiss();
+                    carona.setValorCarona(valorCarona.getText().toString());
+
                     //abrir nova activity
                     Intent intent = new Intent(v.getContext(), ConfirmarCaronaActivity.class);
                     bundleLatLng.putParcelable("carona", carona);
                     intent.putExtra("bundle", bundleLatLng);
+                    progressCriar.dismiss();
                     startActivity(intent);
-                    finish();
                 }
 
 
@@ -189,15 +190,43 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             final Carona carona1 = getIntent().getExtras().getParcelable("editar");
             etLocalSaida.setText(carona1.getEnderecoSaida());
             etLocalChegada.setText(carona1.getEnderecoChegada());
+            valorCarona.setText(carona1.getValorCarona());
             tvData.setText(carona1.getData());
             tvHora.setText(carona1.getHora());
             etVagas.setText(String.valueOf(carona1.getQtdVagas()));
             btnCriarCarona.setText("Confirmar Edição");
-            Log.i("teste", "Oferecer carona activity ok!");
+
             carona = carona1;
         }
     }
 
+    //Faz a pergunta para o usuario da PERMISSAO
+    private void checarPermissaoClient() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        0);
+            }
+        }
+    }
+
+    //O código abaixo faz o tratamento da resposta do usuário sobre a PERMISSAO
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Toast.makeText(this, "Sucess | Permissão concedida", Toast.LENGTH_SHORT).show();
+            } else {
+                //Toast.makeText(this, "Fail | Aceite a permissão para usar sua localização!", Toast.LENGTH_LONG).show();
+                // A permissão foi negada. Precisa ver o que deve ser desabilitado
+            }
+            return;
+        }
+    }
 
 
     //pegar a latlng dos endereços digitados
@@ -295,26 +324,6 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return endereco;
-    }
-
-
-    public class ProgressButton {
-        private CardView cardView;
-
-        public ProgressButton(Context context) {
-            cardView = findViewById(R.id.cardView);
-        }
-
-        public void buttonAtivo() {
-            cardView.setVisibility(View.VISIBLE);
-            btnCriarCarona.setVisibility(View.INVISIBLE);
-        }
-
-        public void buttonDesativo() {
-            cardView.setVisibility(View.INVISIBLE);
-            btnCriarCarona.setVisibility(View.VISIBLE);
-        }
-
     }
 
 }

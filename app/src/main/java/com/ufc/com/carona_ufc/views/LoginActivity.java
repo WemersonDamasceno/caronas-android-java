@@ -1,5 +1,7 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnCriarConta;
     Button btnEntrar;
     FirebaseAuth mAuth;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         btnCriarConta = findViewById(R.id.btnCriarConta);
         btnEntrar = findViewById(R.id.btnEntrar);
         tvEsqueciSenha = findViewById(R.id.tvEsqueceuASenha);
+        progressDialog = new ProgressDialog(this);
 
 
         btnCriarConta.setOnClickListener(new View.OnClickListener() {
@@ -62,11 +66,24 @@ public class LoginActivity extends AppCompatActivity {
                 String senha1 = senhaLogin.getText().toString();
 
                 if (email1.equals("")) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                    alert.setTitle("Atenção!");
+                    alert.setMessage("O campo de email é obrigatório!");
+                    alert.setPositiveButton("Ok", null);
+                    alert.show();
                     emailLogin.setError("O campo de email é obrigatório!");
                 }
                 if (senha1.equals("")) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                    alert.setTitle("Atenção!");
+                    alert.setMessage("O campo de senha é obrigatório!");
+                    alert.setPositiveButton("Ok", null);
+                    alert.show();
                     senhaLogin.setError("O campo de senha é obrigatório!");
                 } else {
+                    progressDialog.setTitle("Aguarde um momento...");
+                    progressDialog.setMessage("Estamos conferindo seus dados...");
+                    progressDialog.show();
                     fazerLogin(email1, senha1);
                 }
             }
@@ -90,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.i("teste", "sucesso ao fazer login");
                             Intent intent = new Intent(getBaseContext(), PaginaInicialActivity.class);
+                            progressDialog.dismiss();
                             startActivity(intent);
                         }
                     }

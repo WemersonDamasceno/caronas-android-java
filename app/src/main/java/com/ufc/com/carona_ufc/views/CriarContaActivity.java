@@ -64,8 +64,8 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
     //Usuario
     Usuario user;
     ProgressDialog progressDialog;
-    String urlFoto = "https://firebasestorage.googleapis.com/v0/b/caronas-ufc.appspot.com/o/images%2Fimg_pessoa_perfil.png?" +
-            "alt=media&token=34e0be6f-b483-4ae2-a3c1-250d8041b016";
+    String urlFoto = "https://firebasestorage.googleapis.com/v0/b/caronas-ufc.appspot.com/o/" +
+            "images%2Fperson_location.png?alt=media&token=e698debb-213c-48f0-aa0d-6018a022fc6c";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,7 +10,7 @@ public class Carona implements Parcelable {
     private String data;
     private String hora;
     private int qtdVagas;
-    private boolean checkBoxHelp;
+    private String valorCarona;
     private String idMotorista;
     private double latOrigem;
     private double lngOrigem;
@@ -33,14 +33,14 @@ public class Carona implements Parcelable {
     public Carona() {
     }
 
-    public Carona(String id, String enderecoSaida, String enderecoChegada, String data, String hora, int qtdVagas, boolean checkBoxHelp, String idMotorista, double latOrigem, double lngOrigem, double latDestino, double lngDestino, String horaChegadaprox) {
+    public Carona(String id, String enderecoSaida, String enderecoChegada, String data, String hora, int qtdVagas, String valorCarona, String idMotorista, double latOrigem, double lngOrigem, double latDestino, double lngDestino, String horaChegadaprox) {
         this.id = id;
         this.enderecoSaida = enderecoSaida;
         this.enderecoChegada = enderecoChegada;
         this.data = data;
         this.hora = hora;
         this.qtdVagas = qtdVagas;
-        this.checkBoxHelp = checkBoxHelp;
+        this.valorCarona = valorCarona;
         this.idMotorista = idMotorista;
         this.latOrigem = latOrigem;
         this.lngOrigem = lngOrigem;
@@ -56,7 +56,7 @@ public class Carona implements Parcelable {
         data = in.readString();
         hora = in.readString();
         qtdVagas = in.readInt();
-        checkBoxHelp = in.readByte() != 0;
+        valorCarona = in.readString();
         idMotorista = in.readString();
         latOrigem = in.readDouble();
         lngOrigem = in.readDouble();
@@ -113,12 +113,12 @@ public class Carona implements Parcelable {
         this.qtdVagas = qtdVagas;
     }
 
-    public boolean isCheckBoxHelp() {
-        return checkBoxHelp;
+    public String getValorCarona() {
+        return valorCarona;
     }
 
-    public void setCheckBoxHelp(boolean checkBoxHelp) {
-        this.checkBoxHelp = checkBoxHelp;
+    public void setValorCarona(String valorCarona) {
+        this.valorCarona = valorCarona;
     }
 
     public String getIdMotorista() {
@@ -183,7 +183,7 @@ public class Carona implements Parcelable {
         dest.writeString(data);
         dest.writeString(hora);
         dest.writeInt(qtdVagas);
-        dest.writeByte((byte) (checkBoxHelp ? 1 : 0));
+        dest.writeString(valorCarona);
         dest.writeString(idMotorista);
         dest.writeDouble(latOrigem);
         dest.writeDouble(lngOrigem);

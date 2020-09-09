@@ -73,6 +73,7 @@
                 android:id="@+id/tvAvaliacao2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:layout_toEndOf="@+id/tvAvaliacao1"
                 android:layout_below="@+id/tvNomeMotoristaCarona"
                 android:layout_marginTop="11dp"
@@ -268,12 +269,35 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/txtValorCarona"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvQtdVagasCarona"
+                    android:layout_marginTop="20dp"
+                    android:text="Preciso de ajuda com: R$ "
+                    android:textColor="@color/colorLilasStart"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvValorCarona"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvQtdVagasCarona"
+                    android:layout_marginTop="20dp"
+                    android:layout_toEndOf="@+id/txtValorCarona"
+                    android:text="0"
+                    android:textColor="@color/colorLilasStart"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
 
                 <TextView
                     android:id="@+id/tvEntreEmContato"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvQtdVagasCarona"
+                    android:layout_below="@+id/txtValorCarona"
                     android:layout_marginTop="20dp"
                     android:text="Fale com o motorista: "
                     android:textColor="@color/colorLilasStart"
@@ -284,7 +308,7 @@
                     android:id="@+id/btnWhatsApp"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_below="@+id/tvQtdVagasCarona"
+                    android:layout_below="@+id/txtValorCarona"
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@id/tvEntreEmContato"
                     android:scaleType="fitXY"

@@ -185,7 +185,8 @@ public class PaginaInicialActivity extends AppCompatActivity {
         Class fragmentClass = Pg_Inicial_Fragment.class;
         switch (menuItem.getItemId()) {
             case R.id.nav_pagInicial:
-                setTitle(menuItem.getTitle());
+                ActionBar bar2 = getSupportActionBar();
+                bar2.setTitle("Pagina Inicial");
                 fragmentClass = Pg_Inicial_Fragment.class;
                 break;
             case R.id.nav_MinhasCaronas:

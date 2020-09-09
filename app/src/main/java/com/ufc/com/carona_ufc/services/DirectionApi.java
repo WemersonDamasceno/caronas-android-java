@@ -41,7 +41,7 @@ public class DirectionApi implements RoutingListener {
     }
 
     public void drawRoute(LatLng startPosition, LatLng stopPostion) {
-        String keyApi = "AIzaSyDiCNaS8X8RLmhtg2lWm1TcpE2200MurWM";
+        String keyApi = "AIzaSyDllDHAwx94Zj2viVKPWo4LQiMqh5WtBEE";
 
         Routing routing = new Routing.Builder()
                 .travelMode(AbstractRouting.TravelMode.DRIVING)

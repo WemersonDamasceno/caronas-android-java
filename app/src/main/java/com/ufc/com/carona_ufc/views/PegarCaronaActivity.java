@@ -1,6 +1,9 @@
 package com.ufc.com.carona_ufc.views;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,6 +72,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     Carona carona;
     private List<Polyline> polylines;
     CaronaAdapter caronaAdapter;
+    ProgressDialog progressLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +89,11 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         polylines = new ArrayList<>();
         caronaAdapter = new CaronaAdapter(getBaseContext());
 
+        //progressDialog
+        progressLoad = new ProgressDialog(this);
+        progressLoad.setTitle("Aguarde um momento...");
+        progressLoad.setMessage("Carregando o mapa...");
+        progressLoad.show();
 
         fotoMotorista = findViewById(R.id.fotoMotoristaCarona);
         tvnomeMotoristaCarona = findViewById(R.id.tvNomeMotoristaCarona);
@@ -141,7 +151,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                                 });
                                 //Voltar para a tela inicial
                                 startActivity(new Intent(getBaseContext(), CaronaQuePegareiActivity.class));
-                                finish();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -203,8 +212,11 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         googleMap.setMyLocationEnabled(true);
 
 
@@ -225,24 +237,42 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         googleMap.addCircle(new CircleOptions().center(startPosition).radius(50).strokeWidth(3f)
                 .strokeColor(Color.RED).fillColor(Color.argb(70, 150, 50, 50)));
 
+        //Verificar a permissão
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
+
         //Tracando a rota
         DirectionApi directionApi = new DirectionApi(polylines, googleMap, tvDistanciaCarona, tvDuracaoCarona, carona);
         directionApi.drawRoute(startPosition, stopPosition);
 
         //Regular o zoom nos dois ponto
-        ArrayList<MarkerOptions> markers = new ArrayList<>();
+        final ArrayList<MarkerOptions> markers = new ArrayList<>();
         markers.add(marker_start);
         markers.add(marker_stop);
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (MarkerOptions marker : markers) {
-            builder.include(marker.getPosition());
-        }
-        LatLngBounds bounds = builder.build();
-        //limitar que o usuario mova o mapa para fora da visao
-        googleMap.setLatLngBoundsForCameraTarget(bounds);
-        int padding = 90;
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cameraUpdate);
+
+
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (MarkerOptions marker : markers) {
+                    builder.include(marker.getPosition());
+                }
+                LatLngBounds bounds = builder.build();
+                //limitar que o usuario mova o mapa para fora da visao
+                googleMap.setLatLngBoundsForCameraTarget(bounds);
+                int padding = 75;
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                googleMap.animateCamera(cameraUpdate);
+                progressLoad.dismiss();
+            }
+        });
 
 
     }

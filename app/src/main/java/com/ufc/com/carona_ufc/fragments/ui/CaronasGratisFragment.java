@@ -82,7 +82,6 @@ public class CaronasGratisFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 Carona carona = caronaAdapter.getListCaronas().get(position);
-                Toast.makeText(getContext(), "Verifique o endereço", Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getContext(), PegarCaronaActivity.class);
                 intent1.putExtra("carona", carona);
                 FirebaseFirestore.getInstance().terminate().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -108,7 +107,7 @@ public class CaronasGratisFragment extends Fragment {
                         List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot doc : docs) {
                             Carona car = doc.toObject(Carona.class);
-                            if (!car.isCheckBoxHelp() && car.getQtdVagas() > 0) {
+                            if (car.getValorCarona().equals("0") && car.getQtdVagas() > 0) {
                                 //comparar datas
                                 Calendar dataHoje = Calendar.getInstance();
                                 Calendar dataCarona = new GregorianCalendar();
