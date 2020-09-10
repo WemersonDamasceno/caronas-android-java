@@ -2,7 +2,7 @@
 
 <h1>🚗 Carona UFC 🚗</h1>
 <h3>Esse aplicativo foi desenvolvido para um projeto final da disciplina de Dev. Mobile, ofertado pela UFC</h3>
-<h4>Descrição do projeto: <a href="https://moodle2.quixada.ufc.br/pluginfile.php/5841/mod_resource/content/1/ProjetoFinal.pdf">click aqui</a> </h4>
+<h4>Descrição do projeto: <a href="https://moodle2.quixada.ufc.br/pluginfile.php/5841/mod_resource/content/1/ProjetoFinal.pdf">clique aqui</a> </h4>
 
 <p>Optei por desenvolver um App de Caronas, pois o mesmo atendia basicamente todos os requisitos que foram requistados pelo professor</p>
 <p>Para esse App eu utilizei o banco de dados Firebase, pois iria facilitar muito o meu trabalho nas configurações.</p>
