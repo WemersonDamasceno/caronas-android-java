@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.services;
+package com.ufc.com.carona_ufc.controller.services;
 
 
 import android.annotation.SuppressLint;
@@ -15,7 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.model.Carona;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;

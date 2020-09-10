@@ -38,8 +38,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.santalu.maskedittext.MaskEditText;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.dao.UsuarioFirebaseDAO;
-import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.controller.dao.UsuarioFirebaseDAO;
+import com.ufc.com.carona_ufc.model.Usuario;
 
 import java.util.List;
 import java.util.Locale;

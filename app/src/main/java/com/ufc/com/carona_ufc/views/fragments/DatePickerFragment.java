@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.fragments;
+package com.ufc.com.carona_ufc.views.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

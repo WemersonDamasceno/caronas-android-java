@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.adapters;
+package com.ufc.com.carona_ufc.controller.adapters;
 
 
 import android.annotation.SuppressLint;
@@ -28,9 +28,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.interfaces.ItemClickListener;
-import com.ufc.com.carona_ufc.models.Carona;
-import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.controller.interfaces.ItemClickListener;
+import com.ufc.com.carona_ufc.model.Carona;
+import com.ufc.com.carona_ufc.model.Usuario;
 import com.ufc.com.carona_ufc.views.OferecerCaronaActivity;
 import com.ufc.com.carona_ufc.views.PegarCaronaActivity;
 import com.ufc.com.carona_ufc.views.ProcurarCaronaActivity;

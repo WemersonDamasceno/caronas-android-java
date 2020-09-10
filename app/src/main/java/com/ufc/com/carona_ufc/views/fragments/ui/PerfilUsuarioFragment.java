@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.fragments.ui;
+package com.ufc.com.carona_ufc.views.fragments.ui;
 
 
 import android.annotation.SuppressLint;
@@ -37,10 +37,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
-import com.ufc.com.carona_ufc.models.Carona;
-import com.ufc.com.carona_ufc.models.CaronaPega;
-import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.controller.adapters.CaronaAdapter;
+import com.ufc.com.carona_ufc.model.Carona;
+import com.ufc.com.carona_ufc.model.CaronaPega;
+import com.ufc.com.carona_ufc.model.Usuario;
 
 import java.util.UUID;
 

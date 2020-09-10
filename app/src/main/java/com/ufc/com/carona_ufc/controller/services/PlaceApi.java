@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.services;
+package com.ufc.com.carona_ufc.controller.services;
 
 import org.json.JSONArray;
 import org.json.JSONException;

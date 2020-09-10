@@ -16,8 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.adapters.ViewPagerAdapter;
-import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.controller.adapters.ViewPagerAdapter;
+import com.ufc.com.carona_ufc.model.Carona;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.adapters;
+package com.ufc.com.carona_ufc.controller.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.ufc.com.carona_ufc.fragments.ui.CaronasGratisFragment;
-import com.ufc.com.carona_ufc.fragments.ui.CaronasPagasFragment;
+import com.ufc.com.carona_ufc.views.fragments.ui.CaronasGratisFragment;
+import com.ufc.com.carona_ufc.views.fragments.ui.CaronasPagasFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

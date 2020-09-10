@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.fragments.ui;
+package com.ufc.com.carona_ufc.views.fragments.ui;
 
 
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.adapters.ViewPagerAdapter;
+import com.ufc.com.carona_ufc.controller.adapters.ViewPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

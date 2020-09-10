@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.dao;
+package com.ufc.com.carona_ufc.controller.dao;
 
 import android.util.Log;
 
@@ -14,7 +14,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

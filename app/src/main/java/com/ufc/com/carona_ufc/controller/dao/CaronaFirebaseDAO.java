@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.dao;
+package com.ufc.com.carona_ufc.controller.dao;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.model.Carona;
 
 public class CaronaFirebaseDAO {
 

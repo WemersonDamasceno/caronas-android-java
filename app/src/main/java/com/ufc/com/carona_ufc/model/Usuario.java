@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.models;
+package com.ufc.com.carona_ufc.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

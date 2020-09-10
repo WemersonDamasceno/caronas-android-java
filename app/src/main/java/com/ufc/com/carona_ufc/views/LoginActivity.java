@@ -35,8 +35,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.dao.UsuarioFirebaseDAO;
-import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.controller.dao.UsuarioFirebaseDAO;
+import com.ufc.com.carona_ufc.model.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
     EditText emailLogin;

@@ -47,11 +47,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.fragments.ui.HistoricoCaronasFragment;
-import com.ufc.com.carona_ufc.fragments.ui.PerfilUsuarioFragment;
-import com.ufc.com.carona_ufc.fragments.ui.Pg_Inicial_Fragment;
-import com.ufc.com.carona_ufc.fragments.ui.ToolsFragment;
-import com.ufc.com.carona_ufc.models.Usuario;
+import com.ufc.com.carona_ufc.model.Usuario;
+import com.ufc.com.carona_ufc.views.fragments.ui.HistoricoCaronasFragment;
+import com.ufc.com.carona_ufc.views.fragments.ui.PerfilUsuarioFragment;
+import com.ufc.com.carona_ufc.views.fragments.ui.Pg_Inicial_Fragment;
+import com.ufc.com.carona_ufc.views.fragments.ui.ToolsFragment;
 
 import java.util.List;
 

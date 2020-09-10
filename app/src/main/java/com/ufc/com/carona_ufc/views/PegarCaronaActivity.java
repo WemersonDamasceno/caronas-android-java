@@ -44,11 +44,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
-import com.ufc.com.carona_ufc.models.Carona;
-import com.ufc.com.carona_ufc.models.CaronaPega;
-import com.ufc.com.carona_ufc.models.Usuario;
-import com.ufc.com.carona_ufc.services.DirectionApi;
+import com.ufc.com.carona_ufc.controller.adapters.CaronaAdapter;
+import com.ufc.com.carona_ufc.controller.services.DirectionApi;
+import com.ufc.com.carona_ufc.model.Carona;
+import com.ufc.com.carona_ufc.model.CaronaPega;
+import com.ufc.com.carona_ufc.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

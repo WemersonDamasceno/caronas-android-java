@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.fragments.ui;
+package com.ufc.com.carona_ufc.views.fragments.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

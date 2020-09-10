@@ -19,8 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.adapters.CaronaAdapter;
-import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.controller.adapters.CaronaAdapter;
+import com.ufc.com.carona_ufc.model.Carona;
 
 import java.util.ArrayList;
 

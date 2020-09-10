@@ -1,4 +1,4 @@
-package com.ufc.com.carona_ufc.adapters;
+package com.ufc.com.carona_ufc.controller.adapters;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
@@ -8,7 +8,7 @@ import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.ufc.com.carona_ufc.services.PlaceApi;
+import com.ufc.com.carona_ufc.controller.services.PlaceApi;
 
 import java.util.ArrayList;
 

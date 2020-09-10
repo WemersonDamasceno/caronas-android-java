@@ -37,10 +37,10 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.gms.location.LocationListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ufc.com.carona_ufc.R;
-import com.ufc.com.carona_ufc.adapters.PlaceAutoSuggestAdapter;
-import com.ufc.com.carona_ufc.fragments.DatePickerFragment;
-import com.ufc.com.carona_ufc.fragments.TimePickerFragment;
-import com.ufc.com.carona_ufc.models.Carona;
+import com.ufc.com.carona_ufc.controller.adapters.PlaceAutoSuggestAdapter;
+import com.ufc.com.carona_ufc.model.Carona;
+import com.ufc.com.carona_ufc.views.fragments.DatePickerFragment;
+import com.ufc.com.carona_ufc.views.fragments.TimePickerFragment;
 
 import java.io.IOException;
 import java.util.List;
