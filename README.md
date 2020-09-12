@@ -2,7 +2,7 @@
 
 <h1>🚗 Carona UFC 🚗</h1>
 <h3>Esse aplicativo foi desenvolvido para um projeto final da disciplina de Dev. Mobile, ofertado pela UFC</h3>
-<h4>Descrição do projeto: <a href="https://moodle2.quixada.ufc.br/pluginfile.php/5841/mod_resource/content/1/ProjetoFinal.pdf">clique aqui</a> </h4>
+<h4>Descrição do tarefa: <a href="https://moodle2.quixada.ufc.br/pluginfile.php/5841/mod_resource/content/1/ProjetoFinal.pdf">clique aqui</a> </h4>
 
 <p>Optei por desenvolver um App de Caronas, pois o mesmo atendia basicamente todos os requisitos que foram requistados pelo professor</p>
 <p>Para esse App eu utilizei o banco de dados Firebase, pois iria facilitar muito o meu trabalho nas configurações.</p>
@@ -16,15 +16,15 @@
     <li><p>No campo de senha é verificado se ela contém no mínimo 6 digitos, se ela pertence a alguma conta, verificações básicas...</p></li>
     <li><p>Tentei deixar essa tela mais simples e harmonica possivel para trazer "calma" ao usuário</p></li>
 </ul>
-<img src="https://user-images.githubusercontent.com/37156004/92674040-e5d26600-f2f2-11ea-9114-ddd3eeddee78.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92674040-e5d26600-f2f2-11ea-9114-ddd3eeddee78.gif" height="350" width="250"/>
 
 <h3>Fazendo Login com Google</h3>
 <p>Essa foi um dos requisitos em que mais gostei de trabalhar pois me deu uma noção muito grande de como as coisas realmente funcionam...</p>
-<img src="https://user-images.githubusercontent.com/37156004/92674472-c25beb00-f2f3-11ea-9409-1efb819d0fea.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92674472-c25beb00-f2f3-11ea-9409-1efb819d0fea.gif" height="350" width="250"/>
 
 <h2>Tela de Criar um nova Conta</h2>
 <p>Essa tela é somente uma tela de criar conta normal</p>
-<img src="https://user-images.githubusercontent.com/37156004/92674836-8b3a0980-f2f4-11ea-822e-cc468c7928c5.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92674836-8b3a0980-f2f4-11ea-822e-cc468c7928c5.gif" height="350" width="250"/>
 
 <h2>Tela de criar Carona</h2>
 <ul>
@@ -36,13 +36,13 @@
     <li><p>A rota foi desenhada com uma api...</p></li>
     
 </ul>
-<img src="https://user-images.githubusercontent.com/37156004/92674738-50d06c80-f2f4-11ea-9656-ea95e6bef71c.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92674738-50d06c80-f2f4-11ea-9656-ea95e6bef71c.gif" height="350" width="250"/>
 
 <h2>Tela de Procurar Caronas</h2>
 <p>Nessa tela temos basicamente duas listas de caronas, caronas gratis e caronas pagas</p>
 <p>No SearchView foi implementado de forma que ele unisse as duas listas em uma só e mostrasse ao usuário...</p>
-<img src="https://user-images.githubusercontent.com/37156004/92721049-daeff380-f33b-11ea-846f-24d03450e80a.gif" height="300" width="250"/>
-<img src="https://user-images.githubusercontent.com/37156004/92721853-1b9c3c80-f33d-11ea-9d2f-97b5691f6074.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92721049-daeff380-f33b-11ea-846f-24d03450e80a.gif" height="350" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92721853-1b9c3c80-f33d-11ea-9d2f-97b5691f6074.gif" height="350" width="250"/>
 
 
 <h2>Tela de navegação com o Menu Drawer</h2>
@@ -58,18 +58,18 @@
     <li><p>Sair, faz logout do app.</p></li>
     
 </ul>
-<img src="https://user-images.githubusercontent.com/37156004/92721987-4be3db00-f33d-11ea-8f16-151045f4e06c.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92721987-4be3db00-f33d-11ea-8f16-151045f4e06c.gif" height="350" width="250"/>
 
 
 <h2>Trocando a foto do usuário</h2>
 <p>Quando o usuário cria uma nova conta, por padrão essa conta vem sem foto, para agilizar o processo de criação de conta</p>
 <p>Porém você pode adicionar/trocar de foto indo em seu perfil e fazendo upload de uma foto do seu celular...</p>
-<img src="https://user-images.githubusercontent.com/37156004/92722031-5bfbba80-f33d-11ea-8fc2-6180f8311d87.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92722031-5bfbba80-f33d-11ea-8fc2-6180f8311d87.gif" height="350" width="250"/>
 
 
 <h2>Fazendo logout no app</h2>
 <p>Basicamente é um logout simples utilizado o FirebaseAuth ou a conta do Google...</p>
-<img src="https://user-images.githubusercontent.com/37156004/92722046-61f19b80-f33d-11ea-8dda-cb69a7521fe8.gif" height="300" width="250"/>
+<img src="https://user-images.githubusercontent.com/37156004/92722046-61f19b80-f33d-11ea-8dda-cb69a7521fe8.gif" height="350" width="250"/>
 
 
 <h2>O que ainda falta fazer ?</h2>
