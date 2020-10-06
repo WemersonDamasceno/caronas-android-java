@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -221,24 +221,32 @@ public class PaginaInicialActivity extends AppCompatActivity {
                 fragmentClass = ToolsFragment.class;
                 break;
             case R.id.nav_share:
-                Toast.makeText(this, "Compartilhar......", Toast.LENGTH_SHORT).show();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "E ai, estou usando o App Caronas para pegar caronas grátis e/ou baratas, baixe também: " +
+                        "https://drive.google.com/drive/folders/1ZPKojnhW1kYc_CdTByaR-TmoGJGL_DhX?usp=sharing");
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
                 break;
             case R.id.nav_sair:
-                //if (FirebaseAuth.getInstance().getUid() != null) {
-                    FirebaseAuth.getInstance().signOut();
-                // } else {
-                    mGoogleSingInCliente.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Log.i("teste", "Deslogado do google");
-                        }
-                    });
-                // }
+                FirebaseAuth.getInstance().signOut();
+                mGoogleSingInCliente.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.i("teste", "Deslogado do google");
+                    }
+                });
                 Intent intent2 = new Intent(this, LoginActivity.class);
                 startActivity(intent2);
+                finish();
                 break;
             case R.id.nav_send:
-                Toast.makeText(this, "Enviar.......", Toast.LENGTH_SHORT).show();
+                String url = "https://api.whatsapp.com/send?phone=+55 88 99709-1133";
+                Intent intent3 = new Intent(Intent.ACTION_VIEW);
+                intent3.setData(Uri.parse(url));
+                startActivity(intent3);
                 break;
         }
         try {
@@ -249,7 +257,7 @@ public class PaginaInicialActivity extends AppCompatActivity {
         // Inserir o fragment no local dele na main activity
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
-        menuItem.setChecked(true);
+        //menuItem.setChecked(true);
         // Fechar o navigation drawer
         drawer.closeDrawers();
     }

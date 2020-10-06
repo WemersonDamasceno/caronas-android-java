@@ -176,6 +176,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 startActivity(new Intent(getBaseContext(), ProcurarCaronaActivity.class));
+                finish();
             }
         });
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -169,7 +170,18 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         btnWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PegarCaronaActivity.this, "WhatsApp!", Toast.LENGTH_SHORT).show();
+                if (tvTelefone.getText().toString() == null || tvTelefone.getText().toString().equals("")) {
+                    Toast.makeText(PegarCaronaActivity.this, "O telefone não foi informado!.", Toast.LENGTH_SHORT).show();
+                } else {
+                    String mensagem = "Olá " + tvnomeMotoristaCarona.getText().toString()
+                            + ", gostaria de mais informações sobre a vaga da carona do dia "
+                            + tvDataCarona.getText().toString() + "!";
+                    String url = "https://api.whatsapp.com/send?phone=" + tvTelefone.getText().toString()
+                            + "&text=" + mensagem;
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                }
             }
         });
     }

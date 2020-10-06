@@ -132,13 +132,8 @@ public class LoginActivity extends AppCompatActivity {
     private void fazerLoginGoogle() {
         Intent singInIntent = mGoogleSingInCliente.getSignInIntent();
         startActivityForResult(singInIntent, RC_SING_IN);
-        progressLoginGoogle.setTitle("Aguarde um momento...");
-        progressLoginGoogle.setMessage("Conferindo seus dados...");
-        progressLoginGoogle.show();
     }
     //resposta do metodo
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,6 +155,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void FirebaseGoogleAuth(GoogleSignInAccount account) {
+        progressLoginGoogle.setTitle("Aguarde um momento...");
+        progressLoginGoogle.setMessage("Conferindo seus dados...");
+        progressLoginGoogle.show();
         AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         FirebaseAuth.getInstance().signInWithCredential(authCredential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -196,9 +194,8 @@ public class LoginActivity extends AppCompatActivity {
 
             UsuarioFirebaseDAO usuarioFirebaseDAO = new UsuarioFirebaseDAO();
             usuarioFirebaseDAO.salvarUsuarioBanco(usuario);
-            progressLoginGoogle.dismiss();
             startActivity(new Intent(this, PaginaInicialActivity.class));
-            //teste
+            progressLoginGoogle.dismiss();
             finish();
         }
     }
