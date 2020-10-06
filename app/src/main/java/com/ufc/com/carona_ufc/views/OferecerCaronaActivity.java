@@ -180,6 +180,7 @@ public class OferecerCaronaActivity extends AppCompatActivity implements TimePic
                     intent.putExtra("bundle", bundleLatLng);
                     progressCriar.dismiss();
                     startActivity(intent);
+                    finish();
                 }
 
 
