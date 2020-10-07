@@ -1,6 +1,7 @@
 package com.ufc.com.carona_ufc.views.fragments.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,19 @@ public class CaronasPagasFragment extends Fragment {
         buscarCaronas();
         caronaAdapter2.getListCaronas().clear();
 
+        btnCompartilhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "E ai, estou usando o App Caronas para pegar caronas grátis e/ou baratas, baixe também: " +
+                        "https://drive.google.com/drive/folders/1ZPKojnhW1kYc_CdTByaR-TmoGJGL_DhX?usp=sharing");
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+        });
 
         return view;
     }

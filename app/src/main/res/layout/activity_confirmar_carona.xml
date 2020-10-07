@@ -144,15 +144,26 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/txtValorConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvQtdVagasConfirm"
+            android:layout_marginTop="20dp"
+            android:text="Precisa de ajuda com: "
+            android:textColor="@color/colorLilasStart"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvCheckBoxHelpConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvQtdVagasConfirm"
+            android:layout_toEndOf="@+id/txtValorConfirm"
             android:layout_marginTop="20dp"
-            android:text="Precisa de ajuda com: R$ 32,00"
-            android:textColor="@color/colorLilasStart"
+            android:text="R$ 32,00"
+            android:textColor="@color/colorPreto"
             android:textSize="17sp"
             android:textStyle="bold" />
 

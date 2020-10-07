@@ -38,7 +38,7 @@
         <EditText
             android:id="@+id/edEnderecoNovo"
             android:layout_width="wrap_content"
-            android:layout_height="26dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/edNomeNovo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
@@ -65,7 +65,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_below="@+id/edEnderecoNovo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp">
@@ -73,7 +73,7 @@
             <EditText
                 android:id="@+id/edEmail"
                 android:layout_width="wrap_content"
-                android:layout_height="26dp"
+                android:layout_height="30dp"
                 android:background="@drawable/text_redondo"
                 android:backgroundTint="#FFFFFF"
                 android:ems="13"
@@ -84,7 +84,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_til"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_below="@+id/email"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"

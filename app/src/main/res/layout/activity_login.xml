@@ -35,7 +35,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/emailLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         app:counterEnabled="true"
         app:passwordToggleEnabled="true">
 
@@ -58,23 +58,34 @@
         android:layout_height="40dp"
         android:layout_below="@+id/password_til"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button_redondo"
         android:ems="17"
         android:text="@string/entrar"
         android:textColor="@color/colorBranco"
         android:textStyle="bold" />
 
-    <com.google.android.gms.common.SignInButton
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/btnEntrar"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="27dp"
+        android:elevation="15dp"
+        android:src="@drawable/google" />
+
+    <Button
         android:id="@+id/btnEntrarGoogle"
         android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@+id/btnEntrar"
+        android:background="@drawable/button_redondo_branco"
+        android:text="Entrar com o Google"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
         android:ems="17">
 
-    </com.google.android.gms.common.SignInButton>
+    </Button>
 
 
     <TextView

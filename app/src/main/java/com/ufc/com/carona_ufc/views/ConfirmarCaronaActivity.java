@@ -61,7 +61,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
     TextView tvDataConfirm;
     TextView tvHoraConfirm;
     TextView tvQtdVagasConfirm;
-    TextView tvCheckBoxHelp;
+    TextView tvValor;
     TextView tvDuracaoConfirm;
     Button btnCaronaConfirm;
 
@@ -96,7 +96,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         tvDataConfirm = findViewById(R.id.tvDataConfirm);
         tvHoraConfirm = findViewById(R.id.tvHoraConfirm);
         tvQtdVagasConfirm = findViewById(R.id.tvQtdVagasConfirm);
-        tvCheckBoxHelp = findViewById(R.id.tvCheckBoxHelpConfirm);
+        tvValor = findViewById(R.id.tvCheckBoxHelpConfirm);
         btnCaronaConfirm = findViewById(R.id.btnCaronaConfirm);
 
         //pegando os dados da outra activity
@@ -122,6 +122,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
                     carona.setId(UUID.randomUUID().toString());
                     //salvar no banco e seguir para a tela principal
                     salvarCarona(carona);
+                    incrementarCaronaNoUser();
                     Toast.makeText(ConfirmarCaronaActivity.this, "Carona criada com sucesso", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(v.getContext(), ProcurarCaronaActivity.class);
                     startActivity(intent);
@@ -282,7 +283,7 @@ public class ConfirmarCaronaActivity extends AppCompatActivity implements OnMapR
         tvHoraConfirm.setText(carona.getHora());
         tvDataConfirm.setText(carona.getData());
         tvQtdVagasConfirm.setText(String.valueOf(carona.getQtdVagas()));
-        tvCheckBoxHelp.setText("Precisa de ajuda com: R$ " + carona.getValorCarona());
+        tvValor.setText(carona.getValorCarona());
 
 
         // Add a marker in myPosition

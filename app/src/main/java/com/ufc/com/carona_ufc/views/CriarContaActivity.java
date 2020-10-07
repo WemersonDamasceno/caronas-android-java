@@ -246,7 +246,7 @@ public class CriarContaActivity extends AppCompatActivity implements LocationLis
         //povoar o usuario
         user.setNomeUser(edNomeNovo.getText().toString());
         user.setEmailUser(edEmailNovo.getText().toString());
-        user.setSenhaUser(edSenhaNovo.getText().toString());
+        //sem salvar a senha '-'
         user.setIdUser(FirebaseAuth.getInstance().getUid());
         user.setUrlFotoUser(urlFoto);
 

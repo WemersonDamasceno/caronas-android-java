@@ -65,9 +65,9 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
     TextView tvDataCarona;
     TextView tvHoraCarona;
     TextView tvQtdVagasCarona;
-    TextView tvCheckBoxHelpCarona;
     Button btnPegarCarona;
     ImageView btnWhatsApp;
+    ImageView ic_compartilharCarona;
     ImageView fotoMotorista;
     TextView tvAvaliacao;
     TextView tvValorCarona;
@@ -93,7 +93,6 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
         //progressDialog
         progressLoad = new ProgressDialog(this);
-        progressLoad.setTitle("Aguarde um momento...");
         progressLoad.setMessage("Carregando o mapa...");
         progressLoad.show();
 
@@ -107,10 +106,10 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
         tvDataCarona = findViewById(R.id.tvDataCarona);
         tvHoraCarona = findViewById(R.id.tvHoraCarona);
         tvQtdVagasCarona = findViewById(R.id.tvQtdVagasCarona);
-        tvCheckBoxHelpCarona = findViewById(R.id.tvCheckBoxHelpCarona);
         btnPegarCarona = findViewById(R.id.btnPegarCarona);
         btnWhatsApp = findViewById(R.id.btnWhatsApp);
         tvAvaliacao = findViewById(R.id.tvAvaliacao2);
+        ic_compartilharCarona = findViewById(R.id.ic_compartilharCarona);
 
         carona = getIntent().getExtras().getParcelable("carona");
         tvnomeMotoristaCarona.setText(carona.getIdMotorista());
@@ -122,6 +121,13 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
 
         setarDadosUser(carona);
 
+        //Tentar tirar print da tela e compartilhar nas redes sociais
+        ic_compartilharCarona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tirarPrintECompartilhar(v);
+            }
+        });
 
         //Adicionar no banco das caronas pegas e diminuir uma vaga
         btnPegarCarona.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +182,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                     String mensagem = "Olá " + tvnomeMotoristaCarona.getText().toString()
                             + ", gostaria de mais informações sobre a vaga da carona do dia "
                             + tvDataCarona.getText().toString() + "!";
-                    String url = "https://api.whatsapp.com/send?phone=" + tvTelefone.getText().toString()
+                    String url = "https://api.whatsapp.com/send?phone=+55 " + tvTelefone.getText().toString()
                             + "&text=" + mensagem;
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
@@ -184,6 +190,10 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                 }
             }
         });
+    }
+
+    private void tirarPrintECompartilhar(View view) {
+        Toast.makeText(this, "Ainda não foi implementado!", Toast.LENGTH_SHORT).show();
     }
 
     private void attQtdVagas(DocumentSnapshot doc, int qtd) {
@@ -220,6 +230,7 @@ public class PegarCaronaActivity extends AppCompatActivity implements OnMapReady
                                 }
                                 tvTelefone.setText(user.getTelefoneUser());
                                 tvAvaliacao.setText(String.valueOf(user.getAvaliacao()));
+                                tvCaronasOferecidas.setText(String.valueOf(user.getQtdCaronasOferecidas()));
                             }
                         }
                     }

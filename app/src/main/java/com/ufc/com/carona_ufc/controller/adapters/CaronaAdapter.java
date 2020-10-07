@@ -275,7 +275,6 @@ public class CaronaAdapter extends RecyclerView.Adapter<CaronaAdapter.ViewHolder
                     });
             if (carona.getIdMotorista().equals(FirebaseAuth.getInstance().getUid())) {
                 ic_editar.setVisibility(View.VISIBLE);
-
                 ic_excluir.setVisibility(View.VISIBLE);
             }
 

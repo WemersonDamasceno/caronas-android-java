@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/colorFundo"
     android:layout_marginTop="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="5dp"
     tools:context=".views.PegarCaronaActivity">
 
     <ScrollView
@@ -23,6 +26,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fotoMotoristaCarona"
                 android:layout_width="100dp"
+                android:layout_marginTop="20dp"
                 android:layout_height="100dp"
                 android:src="@drawable/perfil" />
 
@@ -31,7 +35,6 @@
                 android:id="@+id/tvNomeMotoristaCarona"
                 android:layout_width="180dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/fotoMotoristaCarona"
                 android:text="Wemerson Monteiro"
@@ -95,7 +98,7 @@
 
             <TextView
                 android:id="@+id/tvTelefone"
-                android:layout_width="120dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvAvaliacao1"
                 android:layout_marginTop="10dp"
@@ -127,7 +130,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_toEndOf="@+id/txtCaronasOferecidas"
                 android:text="5"
-                android:textColor="@color/colorPreto"
+                android:textColor="@color/colorLilasStart"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
@@ -136,8 +139,8 @@
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fotoMotoristaCarona"
-                android:layout_marginTop="1dp"
+                android:layout_below="@+id/txtCaronasOferecidas"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
 
@@ -151,7 +154,7 @@
 
                 <TextView
                     android:id="@+id/tvDuracaoConfirm2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="115dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/mapCarona"
                     android:layout_marginTop="20dp"
@@ -168,15 +171,15 @@
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/tvDuracaoConfirm2"
                     android:textColor="@color/colorPreto"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvDistanciaConfirm2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/mapCarona"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/tvDuracaoCarona"
                     android:text="@string/distancia"
@@ -192,7 +195,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/tvDistanciaConfirm2"
                     android:textColor="@color/colorPreto"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
 
@@ -270,13 +273,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/txtValor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preciso de ajuda com: "
+                    android:layout_below="@+id/tvQtdVagasCarona"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorLilasStart"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/txtValorCarona"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvQtdVagasCarona"
                     android:layout_marginTop="20dp"
-                    android:text="Preciso de ajuda com: R$ "
-                    android:textColor="@color/colorLilasStart"
+                    android:layout_toEndOf="@+id/txtValor"
+                    android:text="R$ "
+                    android:textColor="@color/colorPreto"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -287,15 +302,14 @@
                     android:layout_below="@+id/tvQtdVagasCarona"
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@+id/txtValorCarona"
-                    android:text="0"
-                    android:textColor="@color/colorLilasStart"
+                    android:textColor="@color/colorPreto"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/tvEntreEmContato"
-                    android:layout_width="200dp"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtValorCarona"
                     android:layout_marginTop="20dp"
@@ -306,27 +320,13 @@
 
                 <ImageView
                     android:id="@+id/btnWhatsApp"
-                    android:layout_width="30dp"
+                    android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_below="@+id/txtValorCarona"
                     android:layout_marginTop="20dp"
                     android:layout_toEndOf="@id/tvEntreEmContato"
                     android:scaleType="fitXY"
                     android:src="@drawable/logo_whatsapp" />
-
-
-                <TextView
-                    android:id="@+id/tvCheckBoxHelpCarona"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvEntreEmContato"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:textColor="@color/colorPreto"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
 
             </RelativeLayout>
 

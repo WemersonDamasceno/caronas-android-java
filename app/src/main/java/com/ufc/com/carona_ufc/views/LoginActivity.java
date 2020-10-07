@@ -23,7 +23,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ProgressDialog progressLoginGoogle;
     //Login com o Google
-    SignInButton btnEntrarGoogle;
+    Button btnEntrarGoogle;
     GoogleSignInClient mGoogleSingInCliente;
     int RC_SING_IN = 1;
 
